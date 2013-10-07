@@ -1,4 +1,12 @@
-.. include:: ../README.md
+==============================
+Qarbon |version| documentation
+==============================
+
+Qarbon is a python library of Qt widgets.
+
+.. image:: /_static/gallery/gallery01.png
+    :alt: qarbon logo
+    :align: center
 
 An :ref:`qarbon-overview` guide will help you getting started with the basic
 qarbon concepts.
@@ -11,7 +19,7 @@ Documentation
 =============
 
 .. toctree::
-    :maxdepth: 2
+    :hidden:
    
     Overview <user/overview>
     FAQ <faq>
@@ -22,3 +30,21 @@ Documentation
     History of changes <revision>
     To do <todo>
 
+
+.. hlist::
+   :columns: 2
+   
+   * :ref:`qarbon-overview`
+   * :ref:`qarbon-faq`
+   * :ref:`qarbon-screenshots`
+   * :ref:`qarbon-examples`
+   
+
+.. hlist::
+   :columns: 1
+    
+    * :ref:`qarbon-api`
+
+
+.. _Qt: http://qt.digia.com/
+.. _PyQt: http://www.riverbankcomputing.co.uk/software/pyqt/

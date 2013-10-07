@@ -24,6 +24,12 @@
 ##
 ##############################################################################
 
-import release
+__docformat__ = "restructuredtext"
 
-__version__ = release.version
+"""Qarbon's main python package."""
+
+from release import version as __version__
+
+NAMESPACE = 'qarbon'
+
+__all__ = []
