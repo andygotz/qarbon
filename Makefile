@@ -25,7 +25,7 @@ clean:
 	$(SETUP) clean --all
 
 html:
-	@cd doc/source; make html
+	@cd doc; make html
 
 init:
 	pip install -r ./requirements.txt

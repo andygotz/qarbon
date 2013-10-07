@@ -103,20 +103,6 @@ def main():
     author = Release.authors[0]
     package_name = Release.name
 
-    package_dir = {package_name: abspath(package_name)}
-
-    packages = [package_name, ]
-
-    provides = [package_name, ]
-
-    requires = []
-
-    package_data = {}
-
-    scripts = []
-
-    data_files = []
-
     cmd_class = {}
     if sphinx:
         cmd_class['build_doc'] = build_doc
@@ -133,13 +119,13 @@ def main():
           author_email=author[2],
           maintainer=author[1],
           maintainer_email=author[2],
-          packages=packages,
-          package_dir=package_dir,
-          package_data=package_data,
-          data_files=data_files,
-          scripts=scripts,
-          provides=provides,
-          requires=requires,
+          packages=[package_name],
+          package_dir={package_name: abspath(package_name)},
+          package_data={},
+          data_files=[],
+          scripts=[],
+          provides=[package_name],
+          requires=[],
           cmdclass=cmd_class)
 
 if __name__ == "__main__":

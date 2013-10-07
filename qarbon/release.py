@@ -66,7 +66,7 @@ authors = [('Tiago', 'Tiago Coutinho', 'coutinho@esrf.fr')]
 
 url = 'http://packages.python.org/' + name
 
-download_url = 'http://pypi.python.org/packages/source/d/qarbon'
+download_url = 'http://pypi.python.org/packages/source/q/qarbon'
 
 keywords = ['Python', 'Qt', ]
 
