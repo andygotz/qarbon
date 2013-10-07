@@ -1,4 +1,4 @@
 qarbon
 ======
 
-a python library of Qt widgets
+qarbon is a python library of Qt widgets.
