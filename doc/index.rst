@@ -1,28 +1,21 @@
-.. qarbon documentation master file, created by
-   sphinx-quickstart on Mon Oct  7 12:42:25 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. include:: ../README.md
 
-Welcome to qarbon's documentation!
-==================================
+An :ref:`qarbon-overview` guide will help you getting started with the basic
+qarbon concepts.
+The :ref:`qarbon-faq` will answer many of your questions.
 
-Contents:
+
+Documentation
+=============
 
 .. toctree::
-   :maxdepth: 2
-
-   Overview <overview>
-   Screenshots <screenshots>
-   FAQ <faq>
-   Glossary <glossary>
-   To do <todo>
-   History of changes <revision>
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    :maxdepth: 2
+   
+    Overview <user/overview>
+    API <api/index>
+    FAQ <faq>
+    Screenshots <screenshots>
+    Glossary <glossary>
+    History of changes <revision>
+    To do <todo>
 
