@@ -1,7 +1,6 @@
 
 .. _qarbon-glossary:
 
-========
 Glossary
 ========
 

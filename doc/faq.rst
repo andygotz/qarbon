@@ -1,7 +1,6 @@
 
 .. _qarbon-faq:
 
-===
 FAQ
 ===
 

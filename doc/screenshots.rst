@@ -4,6 +4,5 @@
 
 .. _qarbon-screenshots:
 
-===========
 Screenshots
 ===========

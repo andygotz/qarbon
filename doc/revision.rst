@@ -1,4 +1,4 @@
-.. _revision:
+.. _qarbon-revision:
 
 Revision
 ========
@@ -7,7 +7,7 @@ Revision
 
 :Last Update: |today|
 
-.. _history-modifications:
+.. _qarbon-history-modifications:
 
 History of modifications
 ------------------------
