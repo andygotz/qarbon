@@ -71,6 +71,7 @@ needs_sphinx = '1.0'
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.autosummary',
               'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.pngmath',
@@ -321,3 +322,9 @@ graphviz_output_format = 'png'  # 'svg'
 todo_include_todos = True
 
 autodoc_member_order = "bysource"
+
+autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance']
+
+autoclass_content = "class"
+
+autosummary_generate = True

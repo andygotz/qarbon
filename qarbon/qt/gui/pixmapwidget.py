@@ -22,33 +22,59 @@
 # along with Framework.  If not, see <http://www.gnu.org/licenses/>.
 #------------------------------------------------------------------------------
 
-"""This module contains a pure Qt widget that displays an image"""
+"""widget that displays an image (pixmap).
+
+You can adjust properties like the aligment inside the widget space, aspect
+ratio and transformation mode (quality).
+
+Example usage::
+
+    import qarbon
+    from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.pixmapwidget import PixmapWidget
+
+    app = QtGui.QApplication([])
+    panel = QtGui.QWidget()
+    layout = QtGui.QGridLayout()
+    layout.setContentsMargins(2, 2, 2, 2)
+    layout.setSpacing(2)
+    panel.setLayout(layout)
+    img = PixmapWidget()
+    layout.addWidget(img)
+
+    img.setPixmap(QtGui.QPixmap(qarbon.NAMESPACE + ":/led/led_red_on.png")
+    img.show()
+    app.exec_()
+"""
 
 __all__ = ["PixmapWidget"]
 
 __docformat__ = 'restructuredtext'
 
-from Framework4.External import Qt
+from qarbon.external.qt import QtCore, QtGui
 
 
-class PixmapWidget(Qt.QWidget):
+class PixmapWidget(QtGui.QWidget):
     """This widget displays an image (pixmap). By default the pixmap is
     scaled to the widget size and the aspect ratio is kept.
     The default alignment of the pixmap inside the widget space is horizontal
     left, vertical center."""
 
-    DefaultAlignment = Qt.Qt.AlignLeft | Qt.Qt.AlignVCenter
-    DefaultAspectRatioMode = Qt.Qt.KeepAspectRatio
-    DefaultTransformationMode = Qt.Qt.SmoothTransformation
+    DefaultAlignment = QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
+    DefaultAspectRatioMode = QtCore.Qt.KeepAspectRatio
+    DefaultTransformationMode = QtCore.Qt.SmoothTransformation
 
-    def __init__(self, parent=None, designMode=False):
-        self._pixmap = Qt.QPixmap()
+    #: Signal emited when pixmap source changes
+    pixmapChanged = QtCore.Signal()
+
+    def __init__(self, parent=None):
+        self._pixmap = QtGui.QPixmap()
         self._pixmapDrawn = None
         self._alignment = self.DefaultAlignment
         self._pixmapAspectRatioMode = self.DefaultAspectRatioMode
         self._pixmapTransformationMode = self.DefaultTransformationMode
 
-        Qt.QWidget.__init__(self, parent)
+        QtGui.QWidget.__init__(self, parent)
 
     def _getPixmap(self):
         if self._pixmapDrawn is None:
@@ -70,27 +96,27 @@ class PixmapWidget(Qt.QWidget):
         pixmap = self._getPixmap()
 
         w, h = self.width(), self.height()
-        painter = Qt.QPainter(self)
-        painter.setRenderHint(Qt.QPainter.Antialiasing)
+        painter = QtGui.QPainter(self)
+        painter.setRenderHint(QtGui.QPainter.Antialiasing)
         pw, ph = pixmap.width(), pixmap.height()
         align = self._alignment
-        hAlign = align & Qt.Qt.AlignHorizontal_Mask
-        vAlign = align & Qt.Qt.AlignVertical_Mask
+        hAlign = align & QtCore.Qt.AlignHorizontal_Mask
+        vAlign = align & QtCore.Qt.AlignVertical_Mask
         x, y = 0, 0
-        if hAlign & Qt.Qt.AlignHCenter:
+        if hAlign & QtCore.Qt.AlignHCenter:
             x = (w - pw) / 2
-        elif hAlign & Qt.Qt.AlignRight:
+        elif hAlign & QtCore.Qt.AlignRight:
             x = w - pw
-        if vAlign & Qt.Qt.AlignVCenter:
+        if vAlign & QtCore.Qt.AlignVCenter:
             y = (h - ph) / 2
-        elif vAlign & Qt.Qt.AlignBottom:
+        elif vAlign & QtCore.Qt.AlignBottom:
             y = h - ph
         x, y = max(0, x), max(0, y)
         painter.drawPixmap(x, y, pixmap)
 
     def resizeEvent(self, event):
         self._setDirty()
-        return Qt.QWidget.resizeEvent(self, event)
+        return QtGui.QWidget.resizeEvent(self, event)
 
     def sizeHint(self):
         return self._pixmap.size()
@@ -101,35 +127,40 @@ class PixmapWidget(Qt.QWidget):
 
     def getPixmap(self):
         """Returns the pixmap.Returns None if no pixmap is set.
+
         :return: the current pixmap
-        :rtype: PyQt4.Qt.QPixmap"""
+        :rtype: QtGui.QPixmap"""
         return self._pixmap
 
     def setPixmap(self, pixmap):
         """Sets the pixmap for this widget. Setting it to None disables pixmap
+
         :param pixmap: the new pixmap
-        :type  pixmap: PyQt4.Qt.QPixmap"""
+        :type  pixmap: QtGui.QPixmap"""
         # make sure to make a copy because of bug in PyQt 4.4. This is actually
         # not copying the internal bitmap, just the qpixmap, so there is no
         # performance penalty here
-        self._pixmap = Qt.QPixmap(pixmap)
+        self._pixmap = QtGui.QPixmap(pixmap)
         self._setDirty()
         self.update()
+        self.pixmapChanged.emit()
 
     def resetPixmap(self):
         """Resets the pixmap for this widget."""
-        self.setPixmap(Qt.QPixmap())
+        self.setPixmap(QtGui.QPixmap())
 
     def getAspectRatioMode(self):
         """Returns the aspect ratio to apply when drawing the pixmap.
+
         :return: the current aspect ratio
-        :rtype: PyQt4.Qt.AspectRatioMode"""
+        :rtype: QtCore.AspectRatioMode"""
         return self._pixmapAspectRatioMode
 
     def setAspectRatioMode(self, aspect):
         """Sets the aspect ratio mode to apply when drawing the pixmap.
+
         :param pixmap: the new aspect ratio mode
-        :type  pixmap: PyQt4.Qt.AspectRatioMode"""
+        :type  pixmap: QtCore.AspectRatioMode"""
         self._pixmapAspectRatioMode = aspect
         self._setDirty()
         self.update()
@@ -140,14 +171,16 @@ class PixmapWidget(Qt.QWidget):
 
     def getTransformationMode(self):
         """Returns the transformation mode to apply when drawing the pixmap.
+
         :return: the current transformation mode
-        :rtype: PyQt4.Qt.TransformationMode"""
+        :rtype: QtCore.TransformationMode"""
         return self._pixmapTransformationMode
 
     def setTransformationMode(self, transformation):
         """Sets the transformation mode to apply when drawing the pixmap.
+
         :param pixmap: the new transformation mode
-        :type  pixmap: PyQt4.Qt.TransformationMode"""
+        :type  pixmap: QtCore.TransformationMode"""
         self._pixmapTransformationMode = transformation
         self._setDirty()
         self.update()
@@ -158,20 +191,22 @@ class PixmapWidget(Qt.QWidget):
 
     def getAlignment(self):
         """Returns the alignment to apply when drawing the pixmap.
+
         :return: the current alignment
-        :rtype: PyQt4.Qt.Alignment"""
+        :rtype: QtCore.Alignment"""
         return self._alignment
 
     def setAlignment(self, alignment):
         """Sets the alignment to apply when drawing the pixmap.
+
         :param pixmap: the new alignment
-        :type  pixmap: PyQt4.Qt.Alignment"""
+        :type  pixmap: QtCore.Alignment"""
         self._alignment = alignment
         self.update()
 
     def resetAlignment(self):
         """Resets the transformation mode to
-        Qt.Qt.AlignLeft | Qt.Qt.AlignVCenter"""
+        QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter"""
         self.setAlignment(self.DefaultAlignment)
 
     #: This property holds the widget's pixmap
@@ -180,8 +215,8 @@ class PixmapWidget(Qt.QWidget):
     #:
     #:     * :meth:`PixmapWidget.getPixmap`
     #:     * :meth:`PixmapWidget.setPixmap`
-    #:     * :meth:`PixmapWidget.resetLedStatus`
-    pixmap = Qt.pyqtProperty("QPixmap", getPixmap, setPixmap,
+    #:     * :meth:`PixmapWidget.resetPixmap`
+    pixmap = QtCore.Property("QPixmap", getPixmap, setPixmap,
                              resetPixmap, doc="the widget's pixmap")
 
     #: This property holds the widget's pixmap aspect ratio mode
@@ -191,7 +226,7 @@ class PixmapWidget(Qt.QWidget):
     #:     * :meth:`PixmapWidget.getAspectRatioMode`
     #:     * :meth:`PixmapWidget.setAspectRatioMode`
     #:     * :meth:`PixmapWidget.resetAspectRatioMode`
-    aspectRatioMode = Qt.pyqtProperty("Qt::AspectRatioMode",
+    aspectRatioMode = QtCore.Property("Qt::AspectRatioMode",
                                       getAspectRatioMode, setAspectRatioMode,
                                       resetAspectRatioMode,
                                       doc="the widget's pixmap aspect ratio "\
@@ -204,7 +239,7 @@ class PixmapWidget(Qt.QWidget):
     #:     * :meth:`PixmapWidget.getTransformationMode`
     #:     * :meth:`PixmapWidget.setTransformationMode`
     #:     * :meth:`PixmapWidget.resetTransformationMode`
-    transformationMode = Qt.pyqtProperty("Qt::TransformationMode",
+    transformationMode = QtCore.Property("Qt::TransformationMode",
                                          getTransformationMode,
                                          setTransformationMode,
                                          resetTransformationMode,
@@ -218,48 +253,46 @@ class PixmapWidget(Qt.QWidget):
     #:     * :meth:`PixmapWidget.getAlignment`
     #:     * :meth:`PixmapWidget.setAlignment`
     #:     * :meth:`PixmapWidget.resetAlignment`
-    alignment = Qt.pyqtProperty("Qt::Alignment", getAlignment, setAlignment,
+    alignment = QtCore.Property("Qt::Alignment", getAlignment, setAlignment,
                                 resetAlignment,
                                 doc="the widget's pixmap alignment")
 
 
-def demo():
+def main():
     import sys
-    from Framework4.Config import NAMESPACE
-    from Framework4.GUI.Qt.Application import initializeQApplication
+    import qarbon
 
-    owns_app = Qt.QApplication.instance() is None
-    app = initializeQApplication()
+    app = QtGui.QApplication([])
 
     M = 2
 
-    class QPixmapWidgetTestPanel(Qt.QWidget):
+    class QPixmapWidgetTestPanel(QtGui.QWidget):
 
         def __init__(self, parent=None):
-            Qt.QWidget.__init__(self, parent)
-            panel_l = Qt.QVBoxLayout()
+            QtGui.QWidget.__init__(self, parent)
+            panel_l = QtGui.QVBoxLayout()
             self.setLayout(panel_l)
             panel_l.setContentsMargins(M, M, M, M)
             panel_l.setSpacing(M)
 
             w = PixmapWidget()
-            display_panel = Qt.QGroupBox("Pixmap Widget Display")
-            display_l = Qt.QHBoxLayout()
+            display_panel = QtGui.QGroupBox("Pixmap Widget Display")
+            display_l = QtGui.QHBoxLayout()
             display_l.setContentsMargins(M, M, M, M)
             display_l.setSpacing(M)
             display_panel.setLayout(display_l)
             display_l.addWidget(w, 1)
 
-            control_panel = Qt.QGroupBox("Control Panel")
-            control_l = Qt.QFormLayout()
+            control_panel = QtGui.QGroupBox("Control Panel")
+            control_l = QtGui.QFormLayout()
             control_l.setContentsMargins(M, M, M, M)
             control_l.setSpacing(M)
             control_panel.setLayout(control_l)
-            pixmap_widget = Qt.QLineEdit()
-            ratio_widget = Qt.QComboBox()
-            transformation_widget = Qt.QComboBox()
-            halign_widget = Qt.QComboBox()
-            valign_widget = Qt.QComboBox()
+            pixmap_widget = QtGui.QLineEdit()
+            ratio_widget = QtGui.QComboBox()
+            transformation_widget = QtGui.QComboBox()
+            halign_widget = QtGui.QComboBox()
+            valign_widget = QtGui.QComboBox()
             control_l.addRow("pixmap:", pixmap_widget)
             control_l.addRow("Aspect ratio mode:", ratio_widget)
             control_l.addRow("Transformation mode:", transformation_widget)
@@ -271,12 +304,12 @@ def demo():
 
             ratio_widget.addItems(["Ignore", "Keep", "Keep by expanding"])
             transformation_widget.addItems(["Fast", "Smooth"])
-            halign_widget.addItem("Left", Qt.Qt.AlignLeft)
-            halign_widget.addItem("Center", Qt.Qt.AlignHCenter)
-            halign_widget.addItem("Right", Qt.Qt.AlignRight)
-            valign_widget.addItem("Top", Qt.Qt.AlignTop)
-            valign_widget.addItem("Center", Qt.Qt.AlignVCenter)
-            valign_widget.addItem("Bottom", Qt.Qt.AlignBottom)
+            halign_widget.addItem("Left", QtCore.Qt.AlignLeft)
+            halign_widget.addItem("Center", QtCore.Qt.AlignHCenter)
+            halign_widget.addItem("Right", QtCore.Qt.AlignRight)
+            valign_widget.addItem("Top", QtCore.Qt.AlignTop)
+            valign_widget.addItem("Center", QtCore.Qt.AlignVCenter)
+            valign_widget.addItem("Bottom", QtCore.Qt.AlignBottom)
 
             pixmap_widget.textChanged.connect(self.changePixmap)
             ratio_widget.currentIndexChanged.connect(self.changeAspectRatio)
@@ -290,27 +323,27 @@ def demo():
             self.w_halign = halign_widget
             self.w_valign = valign_widget
 
-            pixmap_widget.setText(NAMESPACE + ":/Led/led_red_on.png")
+            pixmap_widget.setText(qarbon.NAMESPACE + ":/led/led_red_on.png")
             ratio_widget.setCurrentIndex(1)
             transformation_widget.setCurrentIndex(1)
             halign_widget.setCurrentIndex(0)
             valign_widget.setCurrentIndex(1)
 
         def changePixmap(self, name):
-            self.w.pixmap = Qt.QPixmap(name)
+            self.w.pixmap = QtGui.QPixmap(name)
 
         def changeAspectRatio(self, i):
-            v = Qt.Qt.IgnoreAspectRatio
+            v = QtCore.Qt.IgnoreAspectRatio
             if i == 1:
-                v = Qt.Qt.KeepAspectRatio
+                v = QtCore.Qt.KeepAspectRatio
             elif i == 2:
-                v = Qt.Qt.KeepAspectRatioByExpanding
+                v = QtCore.Qt.KeepAspectRatioByExpanding
             self.w.setAspectRatioMode(v)
 
         def changeTransformationMode(self, i):
-            v = Qt.Qt.FastTransformation
+            v = QtCore.Qt.FastTransformation
             if i == 1:
-                v = Qt.Qt.SmoothTransformation
+                v = QtCore.Qt.SmoothTransformation
             self.w.setTransformationMode(v)
 
         def changeAlignment(self, i):
@@ -318,22 +351,16 @@ def demo():
             valign = self.w_valign.itemData(self.w_valign.currentIndex())
             self.w.alignment = halign | valign
 
-    panel = Qt.QWidget()
-    layout = Qt.QGridLayout()
+    panel = QtGui.QWidget()
+    layout = QtGui.QGridLayout()
     panel.setLayout(layout)
     layout.setContentsMargins(M, M, M, M)
     layout.setSpacing(M)
     p1 = QPixmapWidgetTestPanel()
     layout.addWidget(p1, 0, 0)
     panel.show()
-    if owns_app:
-        sys.exit(app.exec_())
-    else:
-        return panel
+    sys.exit(app.exec_())
 
-
-def main():
-    return demo()
 
 if __name__ == "__main__":
     main()

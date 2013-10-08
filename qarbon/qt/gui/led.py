@@ -24,10 +24,52 @@
 ##
 ##############################################################################
 
+"""A led (light-emitting diode) widget.
+
+This widget represents a led. The led has a color, an status (On/Off) and
+blink (No, Slow, Medium Fast).
+
+Here is an example showing how to display all possible combinations of color,
+status and blinking::
+
+    from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.led import Led, LedStatus, LedColor, Blink
+
+    app = QtGui.QApplication([])
+    panel = QtGui.QWidget()
+    layout = QtGui.QGridLayout()
+    layout.setContentsMargins(2, 2, 2, 2)
+    layout.setSpacing(2)
+    panel.setLayout(layout)
+    for i, color in enumerate(LedColor):
+        led = Led()
+        led.ledColor = color
+        led.ledStatus = LedStatus.Off
+        layout.addWidget(led, i, 0)
+        led = Led()
+        led.ledColor = color
+        led.ledStatus = LedStatus.On
+        layout.addWidget(led, i, 1)
+        led = Led()
+        led.ledColor = color
+        led.blink = Blink.Slow
+        layout.addWidget(led, i, 2)
+        led = Led()
+        led.ledColor = color
+        led.blink = Blink.Medium
+        layout.addWidget(led, i, 3)
+        led = Led()
+        led.ledColor = color
+        led.blink = Blink.Fast
+        layout.addWidget(led, i, 4)
+    panel.show()
+
+    app.exec_()
+"""
+
+__all__ = ["LedColor", "LedStatus", "Blink", "Led"]
+
 __docformat__ = "restructuredtext"
-
-"""A Qt led widget"""
-
 
 from qarbon import NAMESPACE
 from qarbon.external.enum import Enum
@@ -52,9 +94,9 @@ class Blink(Enum):
 
 
 class Led(PixmapWidget):
-    """A Led"""
+    """A Led like widget"""
 
-    DefaultLedPattern = NAMESPACE + ":/Led/led_{color}_{status}.png"
+    DefaultLedPattern = NAMESPACE + ":/led/led_{color}_{status}.png"
     DefaultLedColor = LedColor.Green
     DefaultLedStatus = LedStatus.On
     DefaultLedInverted = False
@@ -62,7 +104,7 @@ class Led(PixmapWidget):
 
     BlinkTimer = {}
 
-    def __init__(self, parent=None, designMode=False):
+    def __init__(self, parent=None):
         self._ledStatus = self.DefaultLedStatus
         self._ledColor = self.DefaultLedColor
         self._ledPatternName = self.DefaultLedPattern
@@ -78,9 +120,10 @@ class Led(PixmapWidget):
         return PixmapWidget.sizeHint(self)
 
     def minimumSizeHint(self):
-        """Overwrite the default minimum size hint (0,0) to be (16,16)
-        :return: the minimum size hint 16,16
-        :rtype: PyQt4.Qt.QSize"""
+        """Overwrite the default minimum size hint (0,0) to be (8, 8)
+
+        :return: the minimum size hint 8, 8
+        :rtype: QSize"""
         return QtCore.QSize(8, 8)
 
     def toLedName(self, status=None, color=None, inverted=None):
@@ -107,6 +150,7 @@ class Led(PixmapWidget):
 
     def isLedColorValid(self, name):
         """Determines if the given color name is valid.
+
         :param color: the color
         :type  color: str
         :return: True is the given color name is valid or False otherwise
@@ -335,4 +379,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-__all__ = ["LedColor", "LedStatus", "Led"]

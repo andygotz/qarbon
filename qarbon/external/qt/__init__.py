@@ -73,7 +73,7 @@ def __initialize_logging():
 def __initialize_resources():
     import qarbon
     qarbon_dir = os.path.dirname(os.path.abspath(qarbon.__file__))
-    resource = os.path.join(qarbon_dir, 'resource')
+    resource = os.path.join(qarbon_dir, 'resource', 'icons')
 
     from qarbon.external.qt import QtCore
     if os.path.isdir(resource):
