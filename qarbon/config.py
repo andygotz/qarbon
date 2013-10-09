@@ -23,9 +23,4 @@
 ##
 ##############################################################################
 
-"""This module exposes PyQt4/PyQt5/PySide QtUiTools module"""
-
-from qarbon.external.qt import backend as __backend
-
-if __backend == 'PySide':
-    from PySide.QtUiTools import *
+NAMESPACE = "qarbon"

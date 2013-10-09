@@ -23,9 +23,33 @@
 ##
 ##############################################################################
 
-"""This module exposes PyQt4/PyQt5/PySide QtUiTools module"""
+"""helper functions to colors from state"""
 
-from qarbon.external.qt import backend as __backend
+__all__ = ["getQColorFromState",
+           "getBgQColorFromState", "getFgQColorFromState"]
 
-if __backend == 'PySide':
-    from PySide.QtUiTools import *
+from qarbon.external.qt import QtGui
+from qarbon.color import getStateColorMap
+
+__QSTATE_COLOR_MAP = None
+
+
+def __getQstateColorMap():
+    global __QSTATE_COLOR_MAP
+    if __QSTATE_COLOR_MAP is None:
+        __QSTATE_COLOR_MAP = {}
+        for k, (bg, fg) in getStateColorMap().items():
+            __QSTATE_COLOR_MAP[k] = QtGui.QColor(*bg), QtGui.QColor(*fg)
+    return __QSTATE_COLOR_MAP
+
+
+def getQColorFromState(state):
+    return __getQstateColorMap()[state]
+
+
+def getBgQColorFromState(state):
+    return getQColorFromState()[0]
+
+
+def getFgQColorFromState(state):
+    return getQColorFromState()[1]

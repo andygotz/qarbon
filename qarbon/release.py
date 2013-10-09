@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 ##############################################################################
@@ -24,8 +23,6 @@
 ##
 ##############################################################################
 
-__docformat__ = "restructuredtext"
-
 """
 Release data for the qarbon project. It contains the following members:
 
@@ -39,6 +36,8 @@ Release data for the qarbon project. It contains the following members:
     - keywords : list<str> list of keywords
     - classifiers : list<str> list of applicable classifiers
 """
+
+__docformat__ = "restructuredtext"
 
 #: Name of the package for release purposes.  This is the name which labels
 #: the tarballs and RPMs made by distutils, so it's best to lowercase it.

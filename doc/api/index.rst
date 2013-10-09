@@ -11,7 +11,9 @@ GUI
 
 .. autosummary::
     :toctree:
-
+    
+    icon
+    color
     pixmapwidget
     led
 

@@ -23,9 +23,39 @@
 ##
 ##############################################################################
 
-"""This module exposes PyQt4/PyQt5/PySide QtUiTools module"""
+"""helper functions"""
 
-from qarbon.external.qt import backend as __backend
+__all__ = ['isString', 'isSequence']
 
-if __backend == 'PySide':
-    from PySide.QtUiTools import *
+import collections
+
+__str_klasses = [str]
+__seq_klasses = [collections.Sequence, bytearray]
+
+# some versions of python don't have unicode (python [3.0, 3.3])
+try:
+    unicode
+    __str_klasses.append(unicode)
+except:
+    pass
+
+# some versions of python don't have basestring (python [3.0, inf[)
+try:
+    basestring
+    __str_klasses.insert(0, basestring)
+except:
+    pass
+
+__str_klasses = tuple(__str_klasses)
+__seq_klasses = tuple(__seq_klasses)
+
+
+def isString(obj):
+    return isinstance(obj, __str_klasses)
+
+
+def isSequence(obj, inc_string=False):
+    if inc_string:
+        return isinstance(obj, __seq_klasses)
+    else:
+        return isinstance(obj, __seq_klasses) and not isString(obj)

@@ -1,28 +1,29 @@
-#------------------------------------------------------------------------------
-# This file is part of Framework4, a graphical toolkit to build beamline
-# applications
-#
-# http://forge.epn-campus.eu/projects/framework4
-#
-# Copyright 2013
-#           European Synchrotron Radiation Facility,
-#           BP 220, Grenoble 38043, FRANCE
-#
-# Framework4 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Framework is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with Framework.  If not, see <http://www.gnu.org/licenses/>.
-#------------------------------------------------------------------------------
+# -*- coding: utf-8 -*-
 
-"""widget that displays an image (pixmap).
+##############################################################################
+##
+## This file is part of qarbon
+##
+## http://www.qarbon.org/
+##
+## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
+##
+## qarbon is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Lesser General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## qarbon is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public License
+## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
+##
+##############################################################################
+
+"""a widget that displays an image (pixmap).
 
 You can adjust properties like the aligment inside the widget space, aspect
 ratio and transformation mode (quality).
@@ -260,7 +261,7 @@ class PixmapWidget(QtGui.QWidget):
 
 def main():
     import sys
-    import qarbon
+    import qarbon.config
 
     app = QtGui.QApplication([])
 
@@ -323,7 +324,8 @@ def main():
             self.w_halign = halign_widget
             self.w_valign = valign_widget
 
-            pixmap_widget.setText(qarbon.NAMESPACE + ":/led/led_red_on.png")
+            pixmap_widget.setText(qarbon.config.NAMESPACE + \
+                                  ":/led/led_red_on.png")
             ratio_widget.setCurrentIndex(1)
             transformation_widget.setCurrentIndex(1)
             halign_widget.setCurrentIndex(0)

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 ##############################################################################
@@ -24,7 +23,7 @@
 ##
 ##############################################################################
 
-"""A led (light-emitting diode) widget.
+"""a led (light-emitting diode) widget.
 
 This widget represents a led. The led has a color, an status (On/Off) and
 blink (No, Slow, Medium Fast).
@@ -71,7 +70,7 @@ __all__ = ["LedColor", "LedStatus", "Blink", "Led"]
 
 __docformat__ = "restructuredtext"
 
-from qarbon import NAMESPACE
+from qarbon.config import NAMESPACE
 from qarbon.external.enum import Enum
 from qarbon.external.qt import QtCore, QtGui
 from qarbon.qt.gui.pixmapwidget import PixmapWidget
@@ -378,4 +377,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 ##############################################################################
@@ -29,7 +28,5 @@ __docformat__ = "restructuredtext"
 """Qarbon's main python package."""
 
 from release import version as __version__
-
-NAMESPACE = 'qarbon'
 
 __all__ = []

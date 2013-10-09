@@ -1,26 +1,33 @@
-#------------------------------------------------------------------------------
-# This file is part of Framework4, a graphical toolkit to build beamline
-# applications
-#
-# http://forge.epn-campus.eu/projects/framework4
-#
-# Copyright 2013
-#           European Synchrotron Radiation Facility,
-#           BP 220, Grenoble 38043, FRANCE
-#
-# Framework4 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Framework is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with Framework.  If not, see <http://www.gnu.org/licenses/>.
-#------------------------------------------------------------------------------
+# -*- coding: utf-8 -*-
+
+##############################################################################
+##
+## This file is part of qarbon
+##
+## http://www.qarbon.org/
+##
+## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
+##
+## qarbon is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Lesser General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## qarbon is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public License
+## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
+##
+##############################################################################
+
+"""helper functions to translate state to color"""
+
+__all__ = ["getStateColorMap", "getColorFromState",
+           "getCSSColorFromState",
+           "getBgColorFromState", "getFgColorFromState"]
 
 from qarbon.meta import State
 
@@ -76,26 +83,22 @@ __STATE_COLOR_MAP = {
 }
 
 
-def get_state_color_map():
+def getStateColorMap():
     return __STATE_COLOR_MAP
 
 
-def get_color_from_state(state):
-    return get_state_color_map()[state]
+def getColorFromState(state):
+    return getStateColorMap()[state]
 
 
-def get_css_color_from_state(state):
-    bg, fg = get_color_from_state(state)
+def getCSSColorFromState(state):
+    bg, fg = getColorFromState(state)
     return "background-color: rgba{0}; color: rgba{1};".format(bg, fg)
 
 
-def get_bg_color_from_state(state):
-    return get_color_from_state(state)[0]
+def getBgColorFromState(state):
+    return getColorFromState(state)[0]
 
 
-def get_fg_color_from_state(state):
-    return get_color_from_state(state)[1]
-
-__all__ = ["get_state_color_map", "get_color_from_state",
-           "get_css_color_from_state",
-           "get_bg_color_from_state", "get_fg_color_from_state"]
+def getFgColorFromState(state):
+    return getColorFromState(state)[1]

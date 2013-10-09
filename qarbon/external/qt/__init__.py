@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 ##############################################################################
@@ -71,15 +70,15 @@ def __initialize_logging():
 
 
 def __initialize_resources():
-    import qarbon
+    import qarbon.config
     qarbon_dir = os.path.dirname(os.path.abspath(qarbon.__file__))
     resource = os.path.join(qarbon_dir, 'resource', 'icons')
 
     from qarbon.external.qt import QtCore
     if os.path.isdir(resource):
-        search_path = QtCore.QDir.searchPaths(qarbon.NAMESPACE)
+        search_path = QtCore.QDir.searchPaths(qarbon.config.NAMESPACE)
         if resource not in search_path:
-            QtCore.QDir.addSearchPath(qarbon.NAMESPACE, resource)
+            QtCore.QDir.addSearchPath(qarbon.config.NAMESPACE, resource)
 
 
 #------------------------------------------------------------------------------
