@@ -37,5 +37,3 @@ except ImportError:
     import _ordereddict as __ordereddict
     from ._ordereddict import *
     del warnings
-
-__doc__ = __ordereddict.__doc__

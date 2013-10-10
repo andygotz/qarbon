@@ -23,7 +23,7 @@
 ##
 ##############################################################################
 
-"""a led (light-emitting diode) widget.
+"""A led (light-emitting diode) widget.
 
 This widget represents a led. The led has a color, an status (On/Off) and
 blink (No, Slow, Medium Fast).
@@ -342,8 +342,9 @@ class Led(PixmapWidget):
 
 def main():
     import sys
+    from qarbon.qt.gui.application import getApplication
 
-    app = QtGui.QApplication([])
+    app = getApplication()
     w = QtGui.QWidget()
     layout = QtGui.QGridLayout()
     layout.setContentsMargins(2, 2, 2, 2)

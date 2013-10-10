@@ -23,16 +23,24 @@
 ##
 ##############################################################################
 
-__docformat__ = "restructuredtext"
+from unittest import TestCase
 
-try:
-    # enum from python 3.4 or from enum34 installed package?
-    import enum as __enum
-    from enum import *
-except ImportError:
-    # enum from local import
-    import warnings
-    warnings.warn("enum not available. Using local enum", ImportWarning)
-    import _enum as __enum
-    from ._enum import *
-    del warnings
+from qarbon.external.qt import QtGui
+
+__Application = None
+
+
+def _getApplication():
+    global __Application
+    if __Application is None:
+        __Application = QtGui.QApplication([])
+    return __Application
+
+
+class QarbonBaseTest(TestCase):
+
+    def setUp(self):
+        self.app = _getApplication()
+
+    def tearDown(self):
+        pass

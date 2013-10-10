@@ -23,8 +23,9 @@
 ##
 ##############################################################################
 
-"""
-Release data for the qarbon project. It contains the following members:
+"""release data for the qarbon project.
+
+It contains the following members:
 
     - version : (str) version string
     - description : (str) brief description

@@ -23,8 +23,8 @@
 ##
 ##############################################################################
 
+"""meta information for qarbon 4"""
 
-"""Meta information for Framework 4"""
 from qarbon.external.enum import Enum
 
 

@@ -23,9 +23,9 @@
 ##
 ##############################################################################
 
-__docformat__ = "restructuredtext"
-
 """Qarbon's main python package."""
+
+__docformat__ = "restructuredtext"
 
 from release import version as __version__
 

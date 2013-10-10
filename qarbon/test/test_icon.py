@@ -23,16 +23,30 @@
 ##
 ##############################################################################
 
-__docformat__ = "restructuredtext"
+from qarbon.test.base import QarbonBaseTest
+from qarbon.external.qt import QtGui
+from qarbon.qt.gui.icon import getThemeIcon, getStandardIcon, getIcon
 
-try:
-    # enum from python 3.4 or from enum34 installed package?
-    import enum as __enum
-    from enum import *
-except ImportError:
-    # enum from local import
-    import warnings
-    warnings.warn("enum not available. Using local enum", ImportWarning)
-    import _enum as __enum
-    from ._enum import *
-    del warnings
+
+class TestIcon(QarbonBaseTest):
+
+    def test_getThemeIcon(self):
+        icon = getThemeIcon("folder-open")
+        self.assert_(not icon.isNull(), "Got a null icon!")
+
+        icon = getThemeIcon("non existing icon")
+        self.assert_(icon.isNull(), "Got a non null icon!")
+
+    def test_getStandardIcon(self):
+        icon = getStandardIcon(QtGui.QStyle.SP_MessageBoxWarning)
+        self.assert_(not icon.isNull(), "Got a null icon!")
+
+    def test_getIcon(self):
+        icon = getIcon("folder-open")
+        self.assert_(not icon.isNull(), "Got a null icon!")
+
+        icon = getIcon(":/controls/collapse.png")
+        self.assert_(not icon.isNull(), "Got a null icon!")
+
+        icon = getIcon(QtGui.QStyle.SP_MessageBoxWarning)
+        self.assert_(not icon.isNull(), "Got a null icon!")

@@ -23,4 +23,7 @@
 ##
 ##############################################################################
 
+"""global configuration constants"""
+
+#: qarbon namespace
 NAMESPACE = "qarbon"

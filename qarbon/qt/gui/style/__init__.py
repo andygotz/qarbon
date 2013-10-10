@@ -23,16 +23,14 @@
 ##
 ##############################################################################
 
-__docformat__ = "restructuredtext"
+"""Helper classes to manage Qt styles and stylesheets"""
 
-try:
-    # enum from python 3.4 or from enum34 installed package?
-    import enum as __enum
-    from enum import *
-except ImportError:
-    # enum from local import
-    import warnings
-    warnings.warn("enum not available. Using local enum", ImportWarning)
-    import _enum as __enum
-    from ._enum import *
-    del warnings
+from qarbon.qt.gui.application import getApplication
+
+
+def getStyle():
+    """Returns the current active application style
+
+    :return: the current active application style
+    :rtype: QtGui.QStyle"""
+    return getApplication().style()

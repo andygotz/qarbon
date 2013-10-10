@@ -23,7 +23,7 @@
 ##
 ##############################################################################
 
-"""helper functions to handle icons and pixmaps"""
+"""Helper functions to handle icons and pixmaps"""
 
 __all__ = ["getThemeIcon", "getThemePixmap",
            "getStandardIcon", "getStandardPixmap",
@@ -32,10 +32,16 @@ __all__ = ["getThemeIcon", "getThemePixmap",
 
 import os
 
+import qarbon
 from qarbon.config import NAMESPACE
 from qarbon.meta import State
 from qarbon.util import isString
 from qarbon.external.qt import QtGui
+from qarbon.qt.gui.style import getStyle
+
+__THEME_ICON_DIR = os.path.join(
+                       os.path.dirname(os.path.abspath(qarbon.__file__)),
+                       "resource", "icons", "theme")
 
 
 def getThemeIcon(icon_name):
@@ -60,8 +66,11 @@ def getThemeIcon(icon_name):
     """
     if QtGui.QIcon.hasThemeIcon(icon_name):
         return QtGui.QIcon.fromTheme(icon_name)
-    icon_name = NAMESPACE + ":/theme/" + icon_name + os.path.extsep + "png"
-    return QtGui.QIcon(icon_name)
+
+    icon_name = icon_name + os.path.extsep + "png"
+    if os.path.isfile(os.path.join(__THEME_ICON_DIR, icon_name)):
+        return QtGui.QIcon(NAMESPACE + ":/theme/" + icon_name)
+    return QtGui.QIcon()
 
 
 def getThemePixmap(pixmap_name, width, height=None, mode=QtGui.QIcon.Normal,
@@ -119,7 +128,7 @@ def getStandardIcon(icon_id):
              doesn't exist it returns a Null icon
     :rtype: QtGui.QIcon
     """
-    return QtGui.QApplication.instance().style().standardIcon(icon_id)
+    return getStyle().standardIcon(icon_id)
 
 
 def getStandardPixmap(pixmap_id, width, height=None, mode=QtGui.QIcon.Normal,
@@ -238,13 +247,17 @@ def getIcon(icon):
              doesn't exist it returns a Null icon
     :rtype: QtGui.QIcon
     """
-    if isinstance(icon, QtGui.QIcon):
+    if icon is None:
+        return QtGui.QIcon()
+    elif isinstance(icon, QtGui.QIcon):
         return icon
     elif isString(icon):
         if icon.startswith(":"):
             return getQarbonIcon(icon)
         elif ":" in icon:
             return QtGui.QIcon(icon)
+        # TODO: distinguish between theme icon and absolute path icon
+        # "folder-open" and "c:\logo.png" or "/tmp/logo.png"
         else:
             return getThemeIcon(icon)
     else:

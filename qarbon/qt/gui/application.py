@@ -23,16 +23,33 @@
 ##
 ##############################################################################
 
-__docformat__ = "restructuredtext"
+"""Helper functions to manage QApplication"""
 
-try:
-    # enum from python 3.4 or from enum34 installed package?
-    import enum as __enum
-    from enum import *
-except ImportError:
-    # enum from local import
-    import warnings
-    warnings.warn("enum not available. Using local enum", ImportWarning)
-    import _enum as __enum
-    from ._enum import *
-    del warnings
+__all__ = ["getApplication"]
+
+__docformat__ = 'restructuredtext'
+
+import logging
+
+from qarbon.external.qt import QtGui
+
+
+def getApplication(args=None):
+    """Returns a QApplication.
+    If the process has initialized before a
+    QApplication it returns this instance, otherwise it creates a new one
+
+    :param args: optional arguments to QApplication. If the QApplication is
+                 already initialized, args will have no effect
+    :return: the QApplication
+    :rtype: QtGui.QApplication"""
+
+    app = QtGui.QApplication.instance()
+    if app is None:
+        if args is None:
+            args = []
+        app = QtGui.QApplication(args)
+    elif args is not None:
+        logging.info("QApplication already initialized. args will have "
+                     "no effect")
+    return app

@@ -23,7 +23,7 @@
 ##
 ##############################################################################
 
-"""a widget that displays an image (pixmap).
+"""A widget that displays an image (pixmap).
 
 You can adjust properties like the aligment inside the widget space, aspect
 ratio and transformation mode (quality).

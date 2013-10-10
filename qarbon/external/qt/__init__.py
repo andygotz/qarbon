@@ -63,7 +63,13 @@ def __initialize_logging():
 
     def qarbonMsgHandler(msg_type, msg):
         fname = QT_LEVEL_MATCHER.get(msg_type)
-        f = getattr(__logger, fname)
+
+        if __logger.handlers:
+            logger = __logger
+        else:
+            import logging
+            logger = logging
+        f = getattr(logger, fname)
         return f(msg)
 
     QtCore.qInstallMsgHandler(qarbonMsgHandler)

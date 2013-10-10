@@ -23,7 +23,7 @@
 ##
 ##############################################################################
 
-"""helper functions to colors from state"""
+"""Helper functions to colors from state"""
 
 __all__ = ["getQColorFromState",
            "getBgQColorFromState", "getFgQColorFromState"]
