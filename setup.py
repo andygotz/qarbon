@@ -107,6 +107,28 @@ def main():
     if sphinx:
         cmd_class['build_doc'] = build_doc
 
+    packages = [
+        'qarbon',
+        'qarbon.doc',
+        'qarbon.external',
+        'qarbon.external.enum',
+        'qarbon.external.ordereddict',
+        'qarbon.external.qt',
+        'qarbon.qt',
+        'qarbon.qt.gui',
+        'qarbon.qt.gui.style',
+        'qarbon.qt.gui.ui',
+        'qarbon.test'
+    ]
+
+    package_data = {
+        'qarbon': ['resource/icons/controls/*',
+                   'resource/icons/designer/*',
+                   'resource/icons/led/*',
+                   'resource/icons/theme/*', ],
+        'qarbon.qt.gui.ui': ['*.ui'],
+    }
+
     setup(name=Release.name,
           version=Release.version,
           description=Release.description,
@@ -119,9 +141,9 @@ def main():
           author_email=author[2],
           maintainer=author[1],
           maintainer_email=author[2],
-          packages=[package_name],
-          package_dir={package_name: abspath(package_name)},
-          package_data={},
+          packages=packages,
+          package_dir={package_name: package_name},
+          package_data=package_data,
           data_files=[],
           scripts=[],
           provides=[package_name],

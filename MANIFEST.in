@@ -1,13 +1,17 @@
-include *.txt
-recursive-include src *.py
+include LICENSE
+include CHANGES.txt
+include README.md
+recursive-include qarbon *.py *.ui *.png *.svg
 
-graft src
 graft doc
 graft build/sphinx/html
 
-global-exclude *.pyo *.pyc .cvsignore .svnignore .gitignore .git
+global-exclude *.pyc
+global-exclude .gitignore
+
 exclude setup.cfg
 exclude .project
 exclude .pydevproject
 exclude .ropeproject
 exclude build*
+exclude doc/_build
