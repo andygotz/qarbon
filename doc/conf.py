@@ -40,7 +40,7 @@ if __on_rtd:
             else:
                 return Mock()
 
-    MOCK_MODULES = ['sip']
+    MOCK_MODULES = ['sip', 'PyQt4']
     for mod_name in MOCK_MODULES:
         sys.modules[mod_name] = Mock()
 
