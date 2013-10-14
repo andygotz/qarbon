@@ -37,9 +37,16 @@ if __backend == 'PyQt4':
         Slot = __QtCore.pyqtSlot
     if hasattr(__QtCore, "pyqtProperty"):
         Property = __QtCore.pyqtProperty
-    __api_version__ = __QtCore.QT_VERSION_STR
 
-    __QtCore.pyqtRemoveInputHook()
+    try:
+        __api_version__ = __QtCore.QT_VERSION_STR
+    except AttributeError:
+        pass
+
+    try:
+        __QtCore.pyqtRemoveInputHook()
+    except AttributeError:
+        pass
 
     from PyQt4.QtCore import *
 
@@ -53,9 +60,16 @@ elif __backend == 'PyQt5':
         Slot = __QtCore.pyqtSlot
     if hasattr(__QtCore, "pyqtProperty"):
         Property = __QtCore.pyqtProperty
-    __api_version__ = __QtCore.QT_VERSION_STR
 
-    __QtCore.pyqtRemoveInputHook()
+    try:
+        __api_version__ = __QtCore.QT_VERSION_STR
+    except AttributeError:
+        pass
+
+    try:
+        __QtCore.pyqtRemoveInputHook()
+    except AttributeError:
+        pass
 
     from PyQt5.QtCore import *
 
