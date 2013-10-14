@@ -1,0 +1,28 @@
+qarbon.qt.gui.pixmapwidget
+==========================
+
+.. automodule:: qarbon.qt.gui.pixmapwidget
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      PixmapWidget
+   
+   
+
+   
+   
+   
