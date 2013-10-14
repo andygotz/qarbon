@@ -6,3 +6,8 @@ PyQt4
 lxml
 enum
 ordereddict
+
+# PIL is required by "Read The Docs" to scale images in documetation when using
+# virtualenv
+
+PIL
