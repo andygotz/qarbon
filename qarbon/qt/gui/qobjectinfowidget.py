@@ -26,8 +26,6 @@
 
 __all__ = ["QObjectInfoWidget"]
 
-__docformat__ = 'restructuredtext'
-
 from qarbon.external.qt import QtCore, QtGui
 from qarbon.qt.gui.icon import getIcon
 from qarbon.qt.gui.propertyeditor import PropertyEditor

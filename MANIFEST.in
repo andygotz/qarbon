@@ -1,4 +1,4 @@
-include LICENSE
+include LICENSE.txt
 include CHANGES.txt
 include README.md
 recursive-include qarbon *.py *.ui *.png *.svg

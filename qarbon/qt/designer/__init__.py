@@ -8,4 +8,4 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""The qarbon Qt Widgets"""
+"""The qarbon Qt designer infrastructure"""

@@ -1,36 +1,18 @@
-# -*- coding: utf-8 -*-
-
-##############################################################################
-##
-## This file is part of qarbon
-##
-## http://www.qarbon.org/
-##
-## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
-##
-## qarbon is free software: you can redistribute it and/or modify
-## it under the terms of the GNU Lesser General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## qarbon is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU Lesser General Public License for more details.
-##
-## You should have received a copy of the GNU Lesser General Public License
-## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
-##
-##############################################################################
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
+# ----------------------------------------------------------------------------
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
+#
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
 
 """A colapsable container widget with (optional) title"""
 
 __all__ = ["GroupBox"]
 
-__docformat__ = 'restructuredtext'
-
 from qarbon.external.qt import QtCore, QtGui
-
 from qarbon.qt.gui.application import getApplication
 from qarbon.qt.gui.style.templates import GROUPBOX_STYLESHEET_TEMPLATE
 from qarbon.qt.gui.style.nebula import GROUPBOX_NEBULA_STYLESHEET
@@ -50,7 +32,7 @@ class ContentPanel(QtGui.QFrame):
 
 
 class GroupBox(QtGui.QWidget):
-    """An expandable/collapsible composite widget"""
+    """An expandable/collapsible container widget"""
 
     DefaultContentVisible = True
     DefaultTitleBarVisible = True
@@ -251,25 +233,25 @@ class GroupBox(QtGui.QWidget):
     #:
     #: **Access functions:**
     #:
-    #:     * :meth:`qarbon.gt.gui.groupbox.getTitle`
-    #:     * :meth:`qarbon.gt.gui.groupbox.setTitle`
+    #:     * :meth:`getTitle`
+    #:     * :meth:`setTitle`
     title = QtCore.Property(str, getTitle, setTitle)
 
     #: This property contains the widget's title icon
     #:
     #: **Access functions:**
     #:
-    #:     * :meth:`qarbon.gt.gui.groupbox.getTitleIcon`
-    #:     * :meth:`qarbon.gt.gui.groupbox.setTitleIcon`
+    #:     * :meth:`getTitleIcon`
+    #:     * :meth:`setTitleIcon`
     titleIcon = QtCore.Property("QIcon", getTitleIcon, setTitleIcon)
 
     #: This property contains the widget's title height
     #:
     #: **Access functions:**
     #:
-    #:     * :meth:`qarbon.gt.gui.groupbox.getTitleHeight`
-    #:     * :meth:`qarbon.gt.gui.groupbox.setTitleHeight`
-    #:     * :meth:`qarbon.gt.gui.groupbox.resetTitleHeight`
+    #:     * :meth:`getTitleHeight`
+    #:     * :meth:`setTitleHeight`
+    #:     * :meth:`resetTitleHeight`
     titleHeight = QtCore.Property(int, getTitleHeight, setTitleHeight,
                                   resetTitleHeight)
 
@@ -277,34 +259,36 @@ class GroupBox(QtGui.QWidget):
     #:
     #: **Access functions:**
     #:
-    #:     * :meth:`qarbon.gt.gui.groupbox.isTitleVisible`
-    #:     * :meth:`qarbon.gt.gui.groupbox.setTitleVisible`
+    #:     * :meth:`isTitleVisible`
+    #:     * :meth:`setTitleVisible`
     titleVisible = QtCore.Property(bool, isTitleVisible, setTitleVisible)
 
     #: This property contains the widget's style map
     #:
     #: **Access functions:**
     #:
-    #:     * :meth:`qarbon.gt.gui.groupbox.getStyleMap`
-    #:     * :meth:`qarbon.gt.gui.groupbox.setStyleMap`
-    #:     * :meth:`qarbon.gt.gui.groupbox.resetStyleMap`
+    #:     * :meth:`getStyleMap`
+    #:     * :meth:`setStyleMap`
+    #:     * :meth:`resetStyleMap`
     styleMap = QtCore.Property(dict, getStyleMap, setStyleMap, resetStyleMap)
 
     #: This property contains the widget's content's visibility
     #:
     #: **Access functions:**
     #:
-    #:     * :meth:`qarbon.gt.gui.groupbox.isContentVisible`
-    #:     * :meth:`qarbon.gt.gui.groupbox.setContentVisible`
-    #:     * :meth:`qarbon.gt.gui.groupbox.resetContentVisible`
+    #:     * :meth:`isContentVisible`
+    #:     * :meth:`setContentVisible`
+    #:     * :meth:`resetContentVisible`
     contentVisible = QtCore.Property(bool, isContentVisible,
                                      setContentVisible, resetContentVisible)
 
 
-def demo():
-    "QGroup Widget"
-
+def main():
     from qarbon.qt.gui.icon import getIcon
+
+    app = getApplication()
+    app.setStyleSheet(GROUPBOX_NEBULA_STYLESHEET)
+
     w = QtGui.QWidget()
     l = QtGui.QVBoxLayout()
     w.setLayout(l)
@@ -368,16 +352,9 @@ def demo():
 
     w.show()
     w.adjustSize()
-    return w
 
-
-def main():
-    app = getApplication()
-    app.setStyleSheet(GROUPBOX_NEBULA_STYLESHEET)
-
-    w = demo()
-    w.show()
     app.exec_()
+    return w
 
 if __name__ == '__main__':
     main()

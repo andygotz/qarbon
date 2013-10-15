@@ -1,38 +1,24 @@
-# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
+# ----------------------------------------------------------------------------
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
+#
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
+from qarbon.qt.gui.icon import getIcon
 
-##############################################################################
-##
-## This file is part of qarbon
-##
-## http://www.qarbon.org/
-##
-## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
-##
-## qarbon is free software: you can redistribute it and/or modify
-## it under the terms of the GNU Lesser General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## qarbon is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU Lesser General Public License for more details.
-##
-## You should have received a copy of the GNU Lesser General Public License
-## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
-##
-##############################################################################
-
-"""A led (light-emitting diode) widget.
+"""A LED (light-emitting diode) widget.
 
 This widget represents a led. The led has a color, an status (On/Off) and
 blink (No, Slow, Medium Fast).
 
 Here is an example showing how to display all possible combinations of color,
-status and blinking::
+status::
 
     from qarbon.external.qt import QtGui
-    from qarbon.qt.gui.led import Led, LedStatus, LedColor, Blink
+    from qarbon.qt.gui.led import Led, LedStatus, LedColor
 
     app = QtGui.QApplication([])
     panel = QtGui.QWidget()
@@ -49,26 +35,13 @@ status and blinking::
         led.ledColor = color
         led.ledStatus = LedStatus.On
         layout.addWidget(led, i, 1)
-        led = Led()
-        led.ledColor = color
-        led.blink = Blink.Slow
-        layout.addWidget(led, i, 2)
-        led = Led()
-        led.ledColor = color
-        led.blink = Blink.Medium
-        layout.addWidget(led, i, 3)
-        led = Led()
-        led.ledColor = color
-        led.blink = Blink.Fast
-        layout.addWidget(led, i, 4)
     panel.show()
 
     app.exec_()
 """
 
-__all__ = ["LedColor", "LedStatus", "Blink", "Led"]
+__all__ = ["LedColor", "LedStatus", "Led"]
 
-__docformat__ = "restructuredtext"
 
 from qarbon.config import NAMESPACE
 from qarbon.external.enum import Enum
@@ -77,40 +50,39 @@ from qarbon.qt.gui.pixmapwidget import PixmapWidget
 
 
 class LedColor(Enum):
+    """possible led colors"""
+
     Blue, Green, Red, Yellow, Orange, Magenta, Grenoble, Black, White = \
         range(9)
 
 
 class LedStatus(Enum):
-    On, Off = range(2)
+    """possible led status"""
 
-
-class Blink(Enum):
-    No = 0
-    Slow = 1000
-    Medium = 500
-    Fast = 100
+    Off, On = range(2)
 
 
 class Led(PixmapWidget):
-    """A Led like widget"""
+    """A LED (light-emitting diode) like widget"""
 
+    #: constant defining default led image filename pattern
     DefaultLedPattern = NAMESPACE + ":/led/led_{color}_{status}.png"
-    DefaultLedColor = LedColor.Green
-    DefaultLedStatus = LedStatus.On
-    DefaultLedInverted = False
-    DefaultBlink = Blink.No
 
-    BlinkTimer = {}
+    #: constant defining default led color (green)
+    DefaultLedColor = LedColor.Green
+
+    #: constant defining default led status (On)
+    DefaultLedStatus = LedStatus.On
+
+    #: constant defining default led status invertion (False)
+    DefaultLedInverted = False
 
     def __init__(self, parent=None):
-        self._ledStatus = self.DefaultLedStatus
-        self._ledColor = self.DefaultLedColor
-        self._ledPatternName = self.DefaultLedPattern
-        self._ledInverted = self.DefaultLedInverted
-        self._ledName = self.toLedName()
-        self._blink = self.DefaultBlink
-        self._blinkTimer = None
+        self.__ledStatus = self.DefaultLedStatus
+        self.__ledColor = self.DefaultLedColor
+        self.__ledPatternName = self.DefaultLedPattern
+        self.__ledInverted = self.DefaultLedInverted
+        self.__ledName = self.toLedName()
 
         PixmapWidget.__init__(self, parent)
         self._refresh()
@@ -136,16 +108,19 @@ class Led(PixmapWidget):
         :return: string containing the led name
         :rtype: str"""
         if status is None:
-            status = self._ledStatus
+            status = self.__ledStatus
         if color is None:
-            color = self._ledColor
+            color = self.__ledColor
         if inverted is None:
-            inverted = self._ledInverted
+            inverted = self.__ledInverted
         if inverted:
-            status = not status
+            if status is LedStatus.On:
+                status = LedStatus.Off
+            else:
+                status = LedStatus.On
         status = status.name.lower()
         color = color.name.lower()
-        return self._ledPatternName.format(color=color, status=status)
+        return self.__ledPatternName.format(color=color, status=status)
 
     def isLedColorValid(self, name):
         """Determines if the given color name is valid.
@@ -158,9 +133,9 @@ class Led(PixmapWidget):
 
     def _refresh(self):
         """internal usage only"""
-        self._ledName = self.toLedName()
+        self.__ledName = self.toLedName()
 
-        pixmap = QtGui.QPixmap(self._ledName)
+        pixmap = QtGui.QPixmap(self.__ledName)
         self.setPixmap(pixmap)
         return self.update()
 
@@ -172,7 +147,7 @@ class Led(PixmapWidget):
         """Returns the current led pattern name
         :return: led pattern name
         :rtype: str"""
-        return self._ledPatternName
+        return self.__ledPatternName
 
     def setLedPatternName(self, name):
         """Sets the led pattern name. Should be a string containing a path
@@ -187,7 +162,7 @@ class Led(PixmapWidget):
 
         :param name: new pattern
         :type  name: str"""
-        self._ledPatternName = name
+        self.__ledPatternName = name
         self._refresh()
 
     def resetLedPatternName(self):
@@ -199,13 +174,13 @@ class Led(PixmapWidget):
         """Returns the led status
         :return: led status
         :rtype: bool"""
-        return self._ledStatus
+        return self.__ledStatus.value
 
     def setLedStatus(self, status):
         """Sets the led status
         :param status: the new status
         :type  status: bool"""
-        self._ledStatus = status
+        self.__ledStatus = LedStatus(status)
         self._refresh()
 
     def resetLedStatus(self):
@@ -214,7 +189,7 @@ class Led(PixmapWidget):
 
     def toggleLedStatus(self):
         """toggles the current status of the led"""
-        if self.getLedStatus() is LedStatus.On:
+        if self.__ledStatus is LedStatus.On:
             self.setLedStatus(LedStatus.Off)
         else:
             self.setLedStatus(LedStatus.On)
@@ -223,13 +198,13 @@ class Led(PixmapWidget):
         """Returns if the led is inverted.
         :return: inverted mode
         :rtype: bool"""
-        return self._ledInverted
+        return self.__ledInverted
 
     def setLedInverted(self, inverted):
         """Sets the led inverted mode
         :param status: the new inverted mode
         :type  status: bool"""
-        self._ledInverted = bool(inverted)
+        self.__ledInverted = bool(inverted)
         self._refresh()
 
     def resetLedInverted(self):
@@ -240,53 +215,22 @@ class Led(PixmapWidget):
         """Returns the led color
         :return: led color
         :rtype: LedColor"""
-        return self._ledColor
+        return self.__ledColor.value
 
     def setLedColor(self, color):
         """Sets the led color
         :param status: the new color
         :type  status: LedColor"""
-        self._ledColor = color
+        self.__ledColor = LedColor(color)
         self._refresh()
 
     def resetLedColor(self):
         """Resets the led color"""
         self.setLedColor(self.DefaultLedColor)
 
-    def setBlink(self, blink):
-        """sets the blink mode
-        Set to a nonpositive number for disabling blinking
-
-        :param interval: the blinking interval in millisecs. Set to 0 to
-                         disable blinking
-        :type interval: Blink"""
-        old_timer = self.BlinkTimer.get(self._blink)
-        if blink is Blink.No or old_timer is not None:
-            old_timer.timeout.disconnect(self.toggleLedStatus)
-            if not old_timer.receivers("timeout"):
-                del self.BlinkTimer[self._blink]
-        if blink != Blink.No:
-            timer = self.BlinkTimer.get(blink)
-            if timer is None:
-                self.BlinkTimer[blink] = timer = QtCore.QTimer()
-                timer.start(blink.value)
-            timer.timeout.connect(self.toggleLedStatus)
-        self._blink = blink
-
-    def getBlink(self):
-        """returns the blink interval
-
-        :return: blink interval
-        :rtype: Blink
-        """
-        if self._timer is None:
-            return 0
-        else:
-            return self._timer.interval()
-
-    def resetBlink(self):
-        """resets the blink frequency"""
-        self.setBlink(self.DefaultBlink)
+    @classmethod
+    def getQtDesignerPluginInfo(cls):
+        return dict(icon=":/designer/ledred.png",)
 
     #: This property holds the led status: False means OFF, True means ON
     #:
@@ -295,7 +239,7 @@ class Led(PixmapWidget):
     #:     * :meth:`Led.getLedStatus`
     #:     * :meth:`Led.setLedStatus`
     #:     * :meth:`Led.resetLedStatus`
-    ledStatus = QtCore.Property(LedStatus, getLedStatus, setLedStatus,
+    ledStatus = QtCore.Property(int, getLedStatus, setLedStatus,
                                 resetLedStatus, doc="led status")
 
     #: This property holds the led color
@@ -305,7 +249,7 @@ class Led(PixmapWidget):
     #:     * :meth:`Led.getLedColor`
     #:     * :meth:`Led.setLedColor`
     #:     * :meth:`Led.resetLedColor`
-    ledColor = QtCore.Property(LedColor, getLedColor, setLedColor,
+    ledColor = QtCore.Property(int, getLedColor, setLedColor,
                                resetLedColor, doc="led color")
 
     #: This property holds the led inverted: False means do not invert the
@@ -329,16 +273,6 @@ class Led(PixmapWidget):
     ledPattern = QtCore.Property(str, getLedPatternName, setLedPatternName,
                                  resetLedPatternName, doc="led pattern name")
 
-    #: This property holds the blink or not state.
-    #:
-    #: **Access functions:**
-    #:
-    #:     * :meth:`Led.getBlink`
-    #:     * :meth:`Led.setBlink`
-    #:     * :meth:`Led.resetBlink`
-    blink = QtCore.Property(Blink, getBlink, setBlink, resetBlink,
-                            doc="blink or not")
-
 
 def main():
     import sys
@@ -346,6 +280,8 @@ def main():
 
     app = getApplication()
     w = QtGui.QWidget()
+    w.setWindowTitle("Led demo")
+    w.setWindowIcon(getIcon(":/led/led_green_on.png"))
     layout = QtGui.QGridLayout()
     layout.setContentsMargins(2, 2, 2, 2)
     layout.setSpacing(2)
@@ -359,18 +295,6 @@ def main():
         led.ledColor = color
         led.ledStatus = LedStatus.On
         layout.addWidget(led, i, 1)
-        led = Led()
-        led.ledColor = color
-        led.blink = Blink.Slow
-        layout.addWidget(led, i, 2)
-        led = Led()
-        led.ledColor = color
-        led.blink = Blink.Medium
-        layout.addWidget(led, i, 3)
-        led = Led()
-        led.ledColor = color
-        led.blink = Blink.Fast
-        layout.addWidget(led, i, 4)
     w.show()
 
     sys.exit(app.exec_())

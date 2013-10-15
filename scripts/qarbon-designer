@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
 # ----------------------------------------------------------------------------
@@ -8,4 +9,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""The qarbon Qt Widgets"""
+from qarbon.qt.designer.designer import main
+
+if __name__ == "__main__":
+    main()

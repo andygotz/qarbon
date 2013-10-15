@@ -1,32 +1,19 @@
-# -*- coding: utf-8 -*-
-
-##############################################################################
-##
-## This file is part of qarbon
-##
-## http://www.qarbon.org/
-##
-## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
-##
-## qarbon is free software: you can redistribute it and/or modify
-## it under the terms of the GNU Lesser General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## qarbon is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU Lesser General Public License for more details.
-##
-## You should have received a copy of the GNU Lesser General Public License
-## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
-##
-##############################################################################
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
+# ----------------------------------------------------------------------------
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
+#
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
 
 """helper functions"""
 
-__all__ = ['isString', 'isSequence']
+__all__ = ['isString', 'isSequence', 'moduleImport', 'moduleDirectory']
 
+import os
+import sys
 import collections
 
 __str_klasses = [str]
@@ -51,11 +38,47 @@ __seq_klasses = tuple(__seq_klasses)
 
 
 def isString(obj):
+    """Determines if the given object is a string.
+
+    :param obj: the object to be analysed
+    :type obj: object
+    :return: True if the given object is a string or False otherwise
+    :rtype: bool"""
     return isinstance(obj, __str_klasses)
 
 
 def isSequence(obj, inc_string=False):
+    """Determines if the given object is a sequence.
+
+    :param obj: the object to be analysed
+    :type obj: object
+    :param inc_string: if False, exclude str objects from the list of possible
+                       sequence objects
+    :type inc_string: bool
+    :return: True if the given object is a sequence or False otherwise
+    :rtype: bool"""
     if inc_string:
         return isinstance(obj, __seq_klasses)
     else:
         return isinstance(obj, __seq_klasses) and not isString(obj)
+
+
+def moduleImport(name):
+    """Import module, returning the module after the last dot.
+
+    :param name: name of the module to be imported
+    :type name: str
+    :return: the imported module
+    :rtype: module"""
+    __import__(name)
+    return sys.modules[name]
+
+
+def moduleDirectory(module):
+    """Returns the location of a given module.
+
+    :param module: the module object
+    :type module: module
+    :return: the directory where the module is located
+    :rtype: str"""
+    return os.path.dirname(os.path.abspath(module.__file__))

@@ -1,41 +1,28 @@
-# -*- coding: utf-8 -*-
-
-##############################################################################
-##
-## This file is part of qarbon
-##
-## http://www.qarbon.org/
-##
-## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
-##
-## qarbon is free software: you can redistribute it and/or modify
-## it under the terms of the GNU Lesser General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## qarbon is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU Lesser General Public License for more details.
-##
-## You should have received a copy of the GNU Lesser General Public License
-## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
-##
-##############################################################################
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
+# ----------------------------------------------------------------------------
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
+#
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
 
 """This module exposes PyQt4/PyQt5/PySide module"""
+
+__all__ = ['BackendName', 'Backend']
 
 import os
 import imp
 import sys
 import logging
 
+from qarbon.util import moduleImport
 
-backend = ""
+BackendName = ""
+Backend = None
 
 __PREFERED_QT_API = 'PyQt4'
-
-__logger = logging.getLogger('Qt')
 
 
 def __get_gui_backend():
@@ -52,7 +39,7 @@ def __get_gui_backend():
 
 
 def __initialize_logging():
-    from qarbon.external.qt import QtCore
+    QtCore = moduleImport(BackendName + ".QtCore")
     QT_LEVEL_MATCHER = {
         QtCore.QtDebugMsg:     "debug",
         QtCore.QtWarningMsg:   "warning",
@@ -63,14 +50,8 @@ def __initialize_logging():
 
     def qarbonMsgHandler(msg_type, msg):
         fname = QT_LEVEL_MATCHER.get(msg_type)
-
-        if __logger.handlers:
-            logger = __logger
-        else:
-            import logging
-            logger = logging
-        f = getattr(logger, fname)
-        return f(msg)
+        f = getattr(logging, fname)
+        return f("Qt: " + msg)
 
     QtCore.qInstallMsgHandler(qarbonMsgHandler)
 
@@ -80,7 +61,7 @@ def __initialize_resources():
     qarbon_dir = os.path.dirname(os.path.abspath(qarbon.__file__))
     resource = os.path.join(qarbon_dir, 'resource', 'icons')
 
-    from qarbon.external.qt import QtCore
+    QtCore = moduleImport(BackendName + ".QtCore")
     if os.path.isdir(resource):
         search_path = QtCore.QDir.searchPaths(qarbon.config.NAMESPACE)
         if resource not in search_path:
@@ -96,17 +77,20 @@ def __set_pyqt4_api(element, api_version=2):
     try:
         ver = sip.getapi(element)
     except ValueError:
-        ver = 0
+        ver = -1
 
-    if ver < api_version:
+    if ver < 0:
         try:
             sip.setapi(element, api_version)
-            __logger.debug("%s API set to level %d",
-                           element, sip.getapi("QString"))
+            logging.debug("%s API set to version %d",
+                          element, sip.getapi("QString"))
         except ValueError:
-            __logger.warning("Error setting %s API to %d", element,
-                             api_version, exc_info=1)
+            logging.warning("Error setting %s API to version %s", element,
+                            api_version, exc_info=1)
             return False
+    elif ver < api_version:
+        logging.info("%s API set to version %s (advised: version >= %s)",
+                     element, ver, api_version)
     return True
 
 
@@ -124,12 +108,13 @@ def __prepare_pyqt4():
 
     if sip.SIP_VERSION < 0x040900:
         sip_ver = sip.SIP_VERSION_STR
-        __logger.warning("Using old sip %s (advised >= 4.9)", sip_ver)
+        logging.warning("Using old sip %s (advised >= 4.9)", sip_ver)
     else:
         __set_pyqt4_api("QString", 2)
         __set_pyqt4_api("QVariant", 2)
 
-    return True
+    import PyQt4
+    return True, PyQt4
 
 
 #------------------------------------------------------------------------------
@@ -137,7 +122,8 @@ def __prepare_pyqt4():
 #------------------------------------------------------------------------------
 
 def __prepare_pyqt5():
-    return True
+    import PyQt5
+    return True, PyQt5
 
 
 #------------------------------------------------------------------------------
@@ -145,7 +131,8 @@ def __prepare_pyqt5():
 #------------------------------------------------------------------------------
 
 def __prepare_pyside():
-    return True
+    import PySide
+    return True, PySide
 
 
 #------------------------------------------------------------------------------
@@ -163,33 +150,21 @@ def __prepare():
     gui_backend = __get_gui_backend().lower()
 
     if not gui_backend in __KNOWN_QT_APIS:
-        __logger.error("unknown Qt API '%s'", gui_backend)
+        logging.error("unknown Qt API '%s'", gui_backend)
         return
 
     mod_name, prepare_func = __KNOWN_QT_APIS[gui_backend]
 
-    ret = prepare_func()
-    if ret:
-        __logger.info("Successfully initialized %s", mod_name)
+    result, module = prepare_func()
+    if result:
+        logging.info("Successfully initialized %s", mod_name)
     else:
-        __logger.error("%s requested, but not installed", mod_name)
-    return mod_name
+        logging.error("%s requested, but not installed", mod_name)
+    return mod_name, module
 
 # ugly code that has to be exeuted at import level
 
-backend = __prepare()
+BackendName, Backend = __prepare()
 
 __initialize_logging()
 __initialize_resources()
-
-del __prepare_pyqt4, __prepare_pyqt5, __prepare_pyside
-del __prepare
-del __get_gui_backend
-del logging
-del sys
-del imp
-del os
-
-__all__ = [
-    'backend'
-]

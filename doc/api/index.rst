@@ -27,10 +27,11 @@ qarbon.qt.gui
     qarbon.qt.gui.basemodel
     qarbon.qt.gui.basetree
     qarbon.qt.gui.baseview
-    qarbon.qt.gui.icon
     qarbon.qt.gui.color
-    qarbon.qt.gui.pixmapwidget
+    qarbon.qt.gui.groupbox
+    qarbon.qt.gui.icon
     qarbon.qt.gui.led
+    qarbon.qt.gui.pixmapwidget
     qarbon.qt.gui.propertyeditor
     qarbon.qt.gui.qobjectinfowidget
     qarbon.qt.gui.treeqobject

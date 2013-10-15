@@ -8,4 +8,13 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""The qarbon Qt Widgets"""
+"""This module exposes QtDesigner module"""
+
+from qarbon.external.qt import BackendName as __backend
+
+if __backend == 'PyQt4':
+    from PyQt4.QtDesigner import *
+elif __backend == 'PyQt5':
+    from PyQt5.QtDesigner import *
+elif __backend == 'PySide':
+    from PySide.QtDesigner import *

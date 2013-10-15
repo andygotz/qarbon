@@ -4,7 +4,7 @@
 ##
 ## This file is part of qarbon
 ##
-## http://www.qarbon.org/
+## http://qarbon.rtfd.org/
 ##
 ## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
 ##

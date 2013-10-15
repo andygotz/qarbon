@@ -1,27 +1,12 @@
-# -*- coding: utf-8 -*-
-
-##############################################################################
-##
-## This file is part of qarbon
-##
-## http://www.qarbon.org/
-##
-## Copyright 2013 European Synchrotron Radiation Facility, Grenoble, France
-##
-## qarbon is free software: you can redistribute it and/or modify
-## it under the terms of the GNU Lesser General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## qarbon is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU Lesser General Public License for more details.
-##
-## You should have received a copy of the GNU Lesser General Public License
-## along with qarbon.  If not, see <http://www.gnu.org/licenses/>.
-##
-##############################################################################
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
+# ----------------------------------------------------------------------------
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
+#
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
 
 """release data for the qarbon project.
 
@@ -35,10 +20,7 @@ It contains the following members:
     - url : (str) the project url
     - download_url : (str) the project download url
     - keywords : list<str> list of keywords
-    - classifiers : list<str> list of applicable classifiers
-"""
-
-__docformat__ = "restructuredtext"
+    - classifiers : list<str> list of applicable classifiers"""
 
 #: Name of the package for release purposes.  This is the name which labels
 #: the tarballs and RPMs made by distutils, so it's best to lowercase it.
@@ -51,25 +33,33 @@ name = 'qarbon'
 version_info = (0, 1, 0, 'dev', 0)
 version = '.'.join(map(str, version_info[:3]))
 
-#: svn revision number
+#: revision number
 revision = str(version_info[4])
 
+#: package description
 description = \
 """python library for Qt widgets."""
 
+#: long description
 long_description = \
 """qarbon is a python library for Qt widgets."""
 
+#: license
 license = 'GNU Lesser General Public License v3 or later (LGPLv3+)'
 
+#: authors
 authors = [('Tiago', 'Tiago Coutinho', 'coutinho@esrf.fr')]
 
-url = 'http://packages.python.org/' + name
+#: package URL
+url = 'http://%s.rtfd.org/' % name
 
-download_url = 'http://pypi.python.org/packages/source/q/qarbon'
+#: download URL
+download_url = 'http://pypi.python.org/pypi/qarbon/'
 
-keywords = ['Python', 'Qt', ]
+#: keywords
+keywords = ['Python', 'Qt']
 
+#: package classifiers
 classifiers = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Developers',
@@ -87,5 +77,6 @@ classifiers = [
     'Topic :: Software Development :: Libraries',
 ]
 
+#: external requirements
 requirements = [
 ]
