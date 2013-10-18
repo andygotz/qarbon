@@ -9,6 +9,7 @@ qarbon.qt.gui.application
 
    .. autosummary::
    
+      Application
       getApplication
    
    

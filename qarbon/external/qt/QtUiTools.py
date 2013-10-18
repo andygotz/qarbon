@@ -10,7 +10,11 @@
 
 """This module exposes PyQt4/PyQt5/PySide QtUiTools module"""
 
-from qarbon.external.qt import BackendName as __backend
+from qarbon.external.qt import getQt
+
+__backend = getQt().__name__
 
 if __backend == 'PySide':
     from PySide.QtUiTools import *
+
+del getQt

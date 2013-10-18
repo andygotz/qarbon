@@ -11,6 +11,8 @@ qarbon.util
    
       isSequence
       isString
+      moduleDirectory
+      moduleImport
    
    
 

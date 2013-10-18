@@ -16,30 +16,40 @@ import os
 import imp
 import sys
 import logging
+import warnings
 
-from qarbon.util import moduleImport
+import qarbon.config
 
-BackendName = ""
-Backend = None
+__QT = None
+__QT_KNOWN_APIS = 'PyQt4', 'PyQt5', 'PySide'
+__QT_LOG_INIT = False
+__QT_RES_INIT = False
 
-__PREFERED_QT_API = 'PyQt4'
+
+def __assertQt(name, qt=None, strict=True):
+    qt = qt or __QT
+    if name is None or qt is None:
+        return
+    qt_name = qt.__name__
+    if qt_name != name:
+        msg = "Cannot use %s because %s already in use" % (name, qt_name)
+        if strict:
+            raise Exception(msg)
+        else:
+            warnings.warn(msg)
 
 
-def __get_gui_backend():
-    modules = sys.modules
-    if 'PySide' in modules:
-        api = 'PySide'
-    elif 'PyQt5' in modules:
-        api = 'PyQt5'
-    elif 'PyQt4' in modules:
-        api = 'PyQt4'
-    else:
-        api = os.environ.get("QT_API", __PREFERED_QT_API)
-    return api
+def __import(name):
+    __import__(name)
+    return sys.modules[name]
+
+
+def __importQt(name):
+    return __import(getQt().__name__ + "." + name)
 
 
 def __initialize_logging():
-    QtCore = moduleImport(BackendName + ".QtCore")
+    QtCore = __importQt("QtCore")
     QT_LEVEL_MATCHER = {
         QtCore.QtDebugMsg:     "debug",
         QtCore.QtWarningMsg:   "warning",
@@ -57,11 +67,10 @@ def __initialize_logging():
 
 
 def __initialize_resources():
-    import qarbon.config
     qarbon_dir = os.path.dirname(os.path.abspath(qarbon.__file__))
     resource = os.path.join(qarbon_dir, 'resource', 'icons')
 
-    QtCore = moduleImport(BackendName + ".QtCore")
+    QtCore = __importQt("QtCore")
     if os.path.isdir(resource):
         search_path = QtCore.QDir.searchPaths(qarbon.config.NAMESPACE)
         if resource not in search_path:
@@ -72,7 +81,7 @@ def __initialize_resources():
 # PyQt4
 #------------------------------------------------------------------------------
 
-def __set_pyqt4_api(element, api_version=2):
+def __setPyQt4API(element, api_version=2):
     import sip
     try:
         ver = sip.getapi(element)
@@ -94,12 +103,12 @@ def __set_pyqt4_api(element, api_version=2):
     return True
 
 
-def __prepare_pyqt4():
+def __preparePyQt4():
 
     # In python 3 both QString and QVariant API are set to level 2 so
     # nothing to do
     if sys.version_info[0] > 2:
-        return
+        return __import('PyQt4')
 
     # For PySide compatibility, use the new-style string API that
     # automatically converts QStrings to Unicode Python strings. Also,
@@ -110,61 +119,74 @@ def __prepare_pyqt4():
         sip_ver = sip.SIP_VERSION_STR
         logging.warning("Using old sip %s (advised >= 4.9)", sip_ver)
     else:
-        __set_pyqt4_api("QString", 2)
-        __set_pyqt4_api("QVariant", 2)
+        __setPyQt4API("QString", 2)
+        __setPyQt4API("QVariant", 2)
 
-    import PyQt4
-    return True, PyQt4
+    return __import('PyQt4')
 
 
 #------------------------------------------------------------------------------
 # PyQt4
 #------------------------------------------------------------------------------
 
-def __prepare_pyqt5():
-    import PyQt5
-    return True, PyQt5
+def __preparePyQt5():
+    return __import('PyQt5')
 
 
 #------------------------------------------------------------------------------
 # PySide
 #------------------------------------------------------------------------------
 
-def __prepare_pyside():
-    import PySide
-    return True, PySide
+def __preparePySide():
+    return __import('PySide')
 
 
-#------------------------------------------------------------------------------
-# prepare functions
-#------------------------------------------------------------------------------
+def getQt(name=None, strict=True):
+    global __QT
+    if __QT:
+        __assertQt(name, qt=__QT, strict=strict)
+        return __QT
 
-__KNOWN_QT_APIS = dict(
-    pyqt4=('PyQt4', __prepare_pyqt4,),
-    pyqt5=('PyQt5', __prepare_pyqt5,),
-    pyside=('PySide', __prepare_pyside,),
-)
+    modules = sys.modules
+    for api_name in __QT_KNOWN_APIS:
+        api = modules.get(api_name)
+        if api:
+            __assertQt(name, qt=api, strict=strict)
+            __QT = api
+            return __QT
 
-
-def __prepare():
-    gui_backend = __get_gui_backend().lower()
-
-    if not gui_backend in __KNOWN_QT_APIS:
-        logging.error("unknown Qt API '%s'", gui_backend)
-        return
-
-    mod_name, prepare_func = __KNOWN_QT_APIS[gui_backend]
-
-    result, module = prepare_func()
-    if result:
-        logging.info("Successfully initialized %s", mod_name)
+    # no qt imported yet
+    if strict and name:
+        apis = [name]
     else:
-        logging.error("%s requested, but not installed", mod_name)
-    return mod_name, module
+        apis = list(__QT_KNOWN_APIS)
+        if name:
+            apis.remove(name)
+            apis.insert(0, name)
+    for api_name in apis:
+        f = globals()['__prepare' + api_name]
+        try:
+            __QT = f()
+            return __QT
+        except ImportError:
+            continue
+    raise ImportError("No suitable Qt found")
 
-# ugly code that has to be exeuted at import level
 
-BackendName, Backend = __prepare()
+def initialize(name=None, strict=True, logging=True,
+               resources=True, remove_inputhook=True):
+    qt = getQt(name=name, strict=strict)
+    if logging:
+        __initialize_logging()
+    if resources:
+        __initialize_resources()
 
-__initialize_logging()
-__initialize_resources()
+    return qt
+
+
+if qarbon.config.QT_AUTO_INIT:
+    initialize(name=qarbon.config.QT_AUTO_API,
+               strict=qarbon.config.QT_AUTO_STRICT,
+               logging=qarbon.config.QT_AUTO_INIT_LOG,
+               resources=qarbon.config.QT_AUTO_INIT_RES,
+               remove_inputhook=qarbon.config.QT_AUTO_REMOVE_INPUTHOOK)

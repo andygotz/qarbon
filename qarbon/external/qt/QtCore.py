@@ -10,8 +10,9 @@
 
 """This module exposes QtCore module"""
 
-from qarbon.external.qt import BackendName as __backend
+from qarbon.external.qt import getQt
 
+__backend = getQt().__name__
 
 def __to_qvariant_1(pyobj=None):
     """Properly converts a python object into a proper QVariant according to
@@ -173,3 +174,5 @@ elif __backend == 'PySide':
     from_qvariant = __from_qvariant_2
     __QtCore.QString = QString = __QString_2
     __QtCore.QStringList = QStringList = __QStringList_2
+
+del getQt

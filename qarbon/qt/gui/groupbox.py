@@ -13,7 +13,7 @@
 __all__ = ["GroupBox"]
 
 from qarbon.external.qt import QtCore, QtGui
-from qarbon.qt.gui.application import getApplication
+from qarbon.qt.gui.application import Application
 from qarbon.qt.gui.style.templates import GROUPBOX_STYLESHEET_TEMPLATE
 from qarbon.qt.gui.style.nebula import GROUPBOX_NEBULA_STYLESHEET
 from qarbon.qt.gui.style.nebula import GROUPBOX_NEBULA_STYLESHEET_MAP
@@ -42,10 +42,11 @@ class GroupBox(QtGui.QWidget):
 
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self._titleVisible = self.DefaultTitleBarVisible
-        self._contentVisible = self.DefaultContentVisible
-        self._style = self.DefaultStyle
+        self.__titleVisible = self.DefaultTitleBarVisible
+        self.__contentVisible = self.DefaultContentVisible
+        self.__style = self.DefaultStyle
         self.__init()
+        self.resetStyleMap()
         self.resetContentVisible()
         self.resetTitleHeight()
         self.resetTitleVisible()
@@ -68,7 +69,7 @@ class GroupBox(QtGui.QWidget):
         self._titleButton.setStyleSheet("border: 0px")
         styleOption = QtGui.QStyleOption()
         styleOption.initFrom(self._titleButton)
-        style = getApplication().style()
+        style = Application().style()
         icon = style.standardIcon(QtGui.QStyle.SP_DesktopIcon, styleOption,
                                   self._titleButton)
         self._titleButton.setIcon(icon)
@@ -85,7 +86,7 @@ class GroupBox(QtGui.QWidget):
 
     def _updateStyle(self):
         """Internal method that updates the style """
-        style = GROUPBOX_STYLESHEET_TEMPLATE.format(**self._style)
+        style = GROUPBOX_STYLESHEET_TEMPLATE.format(**self.__style)
         self.setStyleSheet(style)
 
     def content(self):
@@ -145,7 +146,7 @@ class GroupBox(QtGui.QWidget):
         """Returns this widget's contents visibility
 
         :return: (bool) this widget's contents visibility"""
-        return self._contentVisible
+        return self.__contentVisible
 
     def resetContentVisible(self):
         """Resets this widget's contents visibility"""
@@ -155,7 +156,7 @@ class GroupBox(QtGui.QWidget):
         """Sets this widget's contents visibility
 
         :param show: (bool) the new widget contents visibility"""
-        self._contentVisible = show
+        self.__contentVisible = show
 
         if show:
             icon_name = QtGui.QStyle.SP_TitleBarShadeButton
@@ -170,7 +171,7 @@ class GroupBox(QtGui.QWidget):
         """Returns this widget's title visibility
 
         :return: (bool) this widget's title visibility"""
-        return self._titleVisible
+        return self.__titleVisible
 
     def resetTitleVisible(self):
         """Resets this widget's title visibility"""
@@ -180,7 +181,7 @@ class GroupBox(QtGui.QWidget):
         """Sets this widget's title visibility
 
         :param icon: (bool) the new widget title visibility"""
-        self._titleVisible = show
+        self.__titleVisible = show
         self._titleBar.setVisible(show)
 
     def getTitleHeight(self):
@@ -222,7 +223,7 @@ class GroupBox(QtGui.QWidget):
         :param style_map: (dict) the new widget title style"""
         style = self.DefaultStyle.copy()
         style.update(style_map)
-        self._style = style
+        self.__style = style
         self._updateStyle()
 
     def resetStyleMap(self):
@@ -286,7 +287,7 @@ class GroupBox(QtGui.QWidget):
 def main():
     from qarbon.qt.gui.icon import getIcon
 
-    app = getApplication()
+    app = Application()
     app.setStyleSheet(GROUPBOX_NEBULA_STYLESHEET)
 
     w = QtGui.QWidget()
@@ -355,6 +356,7 @@ def main():
 
     app.exec_()
     return w
+
 
 if __name__ == '__main__':
     main()

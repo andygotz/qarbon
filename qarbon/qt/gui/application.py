@@ -17,22 +17,24 @@ import logging
 from qarbon.external.qt import QtGui
 
 
-def getApplication(args=None):
+def getApplication(argv=None, **properties):
     """Returns a QApplication.
     If the process has initialized before a QApplication it returns the
     existing instance, otherwise it creates a new one
 
-    :param args: optional arguments to QApplication. If the QApplication is
-                 already initialized, args will have no effect
+    :param argv: optional arguments to QApplication. If the QApplication is
+                 already initialized, argv will have no effect
     :return: the QApplication
     :rtype: QtGui.QApplication"""
 
     app = QtGui.QApplication.instance()
     if app is None:
-        if args is None:
-            args = []
-        app = QtGui.QApplication(args)
-    elif args is not None:
-        logging.info("QApplication already initialized. args will have "
+        if argv is None:
+            from sys import argv
+        app = QtGui.QApplication(argv)
+    elif argv:
+        logging.info("QApplication already initialized. argv will have "
                      "no effect")
     return app
+
+Application = getApplication

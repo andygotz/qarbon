@@ -9,6 +9,7 @@ qarbon.qt.gui.led
 
    .. autosummary::
    
+      getIcon
       main
    
    
@@ -19,7 +20,6 @@ qarbon.qt.gui.led
 
    .. autosummary::
    
-      Blink
       Enum
       Led
       LedColor

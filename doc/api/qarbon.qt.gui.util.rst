@@ -5,6 +5,14 @@ qarbon.qt.gui.util
 
    
    
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      getWidgets
+      isWidget
+      moduleImport
+   
    
 
    

@@ -10,7 +10,9 @@
 
 """This module exposes PyQt4/PSide uic module"""
 
-from qarbon.external.qt import BackendName as __backend
+from qarbon.external.qt import getQt
+
+__backend = getQt().__name__
 
 if __backend == 'PyQt4':
     from PyQt4.uic import *
@@ -49,12 +51,12 @@ elif __backend == 'PyQt5':
         return newWidget
 
 elif __backend == 'PySide':
-    _uiLoader = None
     import logging
-    __logger = logging.getLogger('Qt')
     from PySide import QtCore as __QtCore
     from PySide import QtUiTools as __QtUiTools
 
+    __uiLoader = None
+    __logger = logging.getLogger('Qt')
     class UiLoader(__QtUiTools.QUiLoader):
         def __init__(self):
             super(UiLoader, self).__init__()
@@ -96,9 +98,9 @@ elif __backend == 'PySide':
             return widget
 
     def loadUI(uiFilename, parent=None):
-        global _uiLoader
-        if _uiLoader is None:
-            _uiLoader = UiLoader()
+        global __uiLoader
+        if __uiLoader is None:
+            __uiLoader = UiLoader()
 
         uiFile = __QtCore.QFile(uiFilename, parent)
         if not uiFile.open(__QtCore.QIODevice.ReadOnly):
@@ -106,7 +108,7 @@ elif __backend == 'PySide':
             return None
 
         try:
-            return _uiLoader.load(uiFile, parent)
+            return __uiLoader.load(uiFile, parent)
 
         except:
             __logger.exception("Exception loading UI from %r!", uiFilename)

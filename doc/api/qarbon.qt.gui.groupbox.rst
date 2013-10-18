@@ -9,8 +9,7 @@ qarbon.qt.gui.groupbox
 
    .. autosummary::
    
-      demo
-      getApplication
+      Application
       main
    
    

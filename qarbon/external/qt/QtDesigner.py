@@ -10,7 +10,9 @@
 
 """This module exposes QtDesigner module"""
 
-from qarbon.external.qt import BackendName as __backend
+from qarbon.external.qt import getQt
+
+__backend = getQt().__name__
 
 if __backend == 'PyQt4':
     from PyQt4.QtDesigner import *
@@ -18,3 +20,5 @@ elif __backend == 'PyQt5':
     from PyQt5.QtDesigner import *
 elif __backend == 'PySide':
     from PySide.QtDesigner import *
+
+del getQt
