@@ -18,6 +18,11 @@ import sys
 import logging
 import warnings
 
+try:
+    import sip
+except ImportError:
+    sip = None
+
 import qarbon.config
 
 __QT = None
@@ -82,7 +87,6 @@ def __initialize_resources():
 #------------------------------------------------------------------------------
 
 def __setPyQt4API(element, api_version=2):
-    import sip
     try:
         ver = sip.getapi(element)
     except ValueError:
@@ -113,9 +117,8 @@ def __preparePyQt4():
     # For PySide compatibility, use the new-style string API that
     # automatically converts QStrings to Unicode Python strings. Also,
     # automatically unpack QVariants to their underlying objects.
-    import sip
-
-    if sip.SIP_VERSION < 0x040900:
+ 
+    if sip is None or sip.SIP_VERSION < 0x040900:
         sip_ver = sip.SIP_VERSION_STR
         logging.warning("Using old sip %s (advised >= 4.9)", sip_ver)
     else:
