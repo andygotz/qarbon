@@ -1,6 +1,4 @@
 numpy
-sip
-PyQt4
 
 # PIL is required by "Read The Docs" to scale images in documetation when using
 # virtualenv
