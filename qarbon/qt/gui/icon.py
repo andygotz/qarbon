@@ -293,6 +293,17 @@ __STATE_MAP = {
     State.Unknown: QtGui.QStyle.SP_MessageBoxQuestion,
 }
 
-
 def getStateIcon(state):
     return __STATE_MAP.get(state, QtGui.QStyle.SP_MessageBoxInformation)
+
+
+def Icon(obj):
+    return getIcon(obj)
+
+Icon.__doc__ = getIcon.__doc__
+
+
+def Pixmap(obj):
+    return getPixmap(obj)
+
+Pixmap.__doc__ = getPixmap.__doc__
