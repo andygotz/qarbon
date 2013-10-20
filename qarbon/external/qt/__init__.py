@@ -117,8 +117,9 @@ def __preparePyQt4():
     # For PySide compatibility, use the new-style string API that
     # automatically converts QStrings to Unicode Python strings. Also,
     # automatically unpack QVariants to their underlying objects.
- 
-    if sip is None or sip.SIP_VERSION < 0x040900:
+    if sip is None:
+        logging.warning("Could not find sip")
+    elif sip.SIP_VERSION < 0x040900:
         sip_ver = sip.SIP_VERSION_STR
         logging.warning("Using old sip %s (advised >= 4.9)", sip_ver)
     else:
