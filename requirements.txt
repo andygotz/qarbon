@@ -1,11 +1,6 @@
-argparse==1.2.1
-nose==1.3.0
 numpy
 sip
 PyQt4
-lxml
-enum
-ordereddict
 
 # PIL is required by "Read The Docs" to scale images in documetation when using
 # virtualenv
