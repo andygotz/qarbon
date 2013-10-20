@@ -10,6 +10,6 @@
 
 """Qarbon's main python package."""
 
-from release import version as __version__
+from qarbon.release import version as __version__
 
 __all__ = []
