@@ -1,7 +1,2 @@
 numpy
 PySide
-
-# PIL is required by "Read The Docs" to scale images in documetation when using
-# virtualenv
-
-PIL
