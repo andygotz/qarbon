@@ -40,5 +40,5 @@ class TestGroupBox(QarbonBaseTest):
         self.assert_(content.layout() is None, "content already has a layout!")
 
         size = gb.size()
-        self.assert_(size.width() > 10, "width is suspectingly small!")
-        self.assert_(size.height() > 10, "height is suspectingly small!")
+        self.assert_(size.width() > 10, "width is suspiciously small!")
+        self.assert_(size.height() > 10, "height is suspiciously small!")

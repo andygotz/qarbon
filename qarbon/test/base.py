@@ -11,21 +11,13 @@
 from unittest import TestCase
 
 from qarbon.external.qt import QtGui
-
-__Application = None
-
-
-def _getApplication():
-    global __Application
-    if __Application is None:
-        __Application = QtGui.QApplication([])
-    return __Application
+from qarbon.qt.gui.application import Application
 
 
 class QarbonBaseTest(TestCase):
 
     def setUp(self):
-        self.app = _getApplication()
+        self.app = Application()
 
     def tearDown(self):
         pass
