@@ -21,10 +21,10 @@ from qarbon.external.qt import QtDesigner
 
 class ExtensionType(Enum):
 
-    ContainerExtension = "QarbonDesignerContainerExtension"
-    PropertySheetExtension = "QarbonDesignerPropertySheetExtension"
-    TaskMenuExtension = "QarbonDesignerTaskMenuExtension"
-    MemberSheetExtension = "QarbonDesignerMemberSheetExtension"
+    ContainerExtension = "com.trolltech.Qt.Designer.Container"
+    PropertySheetExtension = "com.trolltech.Qt.Designer.PropertySheet"
+    TaskMenuExtension = "com.trolltech.Qt.Designer.TaskMenu"
+    MemberSheetExtension = "com.trolltech.Qt.Designer.MemberSheet"
 
 
 #: map of registered container extensions

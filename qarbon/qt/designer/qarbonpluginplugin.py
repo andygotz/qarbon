@@ -21,9 +21,7 @@ from qarbon.util import moduleDirectory
 
 
 def __build_qtdesigner_widget_plugin(klass):
-    from qarbon.qt.designer.extension import get_designer_class
-
-    DesignerBaseWidgetPlugin = get_designer_class()
+    from qarbon.qt.designer.plugins.base import DesignerBaseWidgetPlugin
 
     name = klass.__name__
 
@@ -31,6 +29,7 @@ def __build_qtdesigner_widget_plugin(klass):
         WidgetClass = klass
 
     Plugin.__name__ = name + "QtDesignerPlugin"
+
     return Plugin
 
 

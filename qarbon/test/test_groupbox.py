@@ -34,9 +34,12 @@ class TestGroupBox(QarbonBaseTest):
                      "Invisible content is visible!")
 
         content = gb.content()
-        self.assert_(not content is None, "content is None!")
-        self.assert_(isinstance(content, QtGui.QWidget),
-                     "content is not a Qt widget!")
+        self.assert_(content is None, "content is not None!")
+
+        content = QtGui.QFrame()
+        gb.setContent(content)
+        self.assert_(content == gb.content(),
+                     "content is not the given content!")
         self.assert_(content.layout() is None, "content already has a layout!")
 
         size = gb.size()

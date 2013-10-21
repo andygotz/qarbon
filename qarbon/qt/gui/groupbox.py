@@ -28,7 +28,25 @@ class TitleBar(QtGui.QFrame):
 
 
 class ContentPanel(QtGui.QFrame):
-    pass
+
+    def __init__(self, parent=None):
+        super(ContentPanel, self).__init__(parent)
+        self.__content = None
+        layout = QtGui.QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setMargin(0)
+        self.setLayout(layout)
+
+    def setContent(self, qwidget):
+        self.__content = qwidget
+        layout = self.layout()
+        for _ in range(layout.count()):
+            layout.takeAt(0)
+        if qwidget is not None:
+            layout.addWidget(qwidget)
+
+    def content(self):
+        return self.__content
 
 
 class GroupBox(QtGui.QWidget):
@@ -44,6 +62,8 @@ class GroupBox(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
         self.__titleVisible = self.DefaultTitleBarVisible
         self.__contentVisible = self.DefaultContentVisible
+        self.__contentPanel = None
+        self.__content = None
         self.__style = self.DefaultStyle
         self.__init()
         self.resetStyleMap()
@@ -57,86 +77,94 @@ class GroupBox(QtGui.QWidget):
         panelLayout.setMargin(0)
         self.setLayout(panelLayout)
 
-        self._titleBar = titleBar = TitleBar()
+        self.__titleBar = titleBar = TitleBar()
         panelLayout.addWidget(titleBar, 0)
 
         l = QtGui.QHBoxLayout()
         l.setMargin(2)
         l.setSpacing(2)
-        self._titleBar.setLayout(l)
+        self.__titleBar.setLayout(l)
 
-        self._titleButton = QtGui.QToolButton()
-        self._titleButton.setStyleSheet("border: 0px")
+        self.__titleButton = QtGui.QToolButton()
+        self.__titleButton.setStyleSheet("border: 0px")
         styleOption = QtGui.QStyleOption()
-        styleOption.initFrom(self._titleButton)
+        styleOption.initFrom(self.__titleButton)
         style = Application().style()
         icon = style.standardIcon(QtGui.QStyle.SP_DesktopIcon, styleOption,
-                                  self._titleButton)
-        self._titleButton.setIcon(icon)
-        self._titleLabel = TitleLabel()
-        self._upDownButton = QtGui.QToolButton()
-        self._upDownButton.setStyleSheet("border: 0px")
-        self._upDownButton.clicked.connect(self.switchContentVisible)
-        l.addWidget(self._titleButton, 0)
-        l.addWidget(self._titleLabel, 1)
-        l.addWidget(self._upDownButton, 0)
+                                  self.__titleButton)
+        self.__titleButton.setIcon(icon)
+        self.__titleLabel = TitleLabel()
+        self.__upDownButton = QtGui.QToolButton()
+        self.__upDownButton.setStyleSheet("border: 0px")
+        self.__upDownButton.clicked.connect(self.switchContentVisible)
+        l.addWidget(self.__titleButton, 0)
+        l.addWidget(self.__titleLabel, 1)
+        l.addWidget(self.__upDownButton, 0)
 
-        self._content = content = ContentPanel()
-        panelLayout.addWidget(content, 1)
+        self.__contentPanel = contentPanel = ContentPanel()
+        panelLayout.addWidget(contentPanel, 1)
 
     def _updateStyle(self):
-        """Internal method that updates the style """
+        """Internal method that updates the style"""
         style = GROUPBOX_STYLESHEET_TEMPLATE.format(**self.__style)
         self.setStyleSheet(style)
 
     def content(self):
         """Returns the contents widget
 
-        :return: (Qt.QFrame) the content widget"""
-        return self._content
+        :return: the current content widget or None if no content is set
+        :rtype: QWidget"""
+        return self.__contentPanel.content()
+
+    def setContent(self, qwidget):
+        """Sets the content widget
+
+        :param qwidget: (QWidget) the content widget or None
+        :type qwidget: QWidget"""
+        self.__contentPanel.setContent(qwidget)
 
     def titleBar(self):
         """Returns the title bar widget
 
         :return: (Qt.QFrame) the title bar widget"""
-        return self._titleBar
+        return self.__titleBar
 
     def titleButton(self):
         """Returns the title button widget
 
         :return: (Qt.QToolButton) the title button widget"""
-        return self._titleButton
+        return self.__titleButton
 
     def collapseButton(self):
         """Returns the collapse button widget
 
         :return: (Qt.QToolButton) the collapse button widget"""
-        return self._upDownButton
+        return self.__upDownButton
 
     def setTitle(self, title):
         """Sets this widget's title
 
         :param title: (str) the new widget title"""
-        self._titleLabel.setText(title)
+        self.__titleLabel.setText(title)
         self.setToolTip("<html>The <b>{0}</b>".format(title))
 
     def getTitle(self):
         """Returns this widget's title
 
         :return: (str) this widget's title"""
-        return self._titleLabel.text()
+        return self.__titleLabel.text()
 
     def setTitleIcon(self, icon):
         """Sets this widget's title icon
 
         :param icon: (Qt.QIcon) the new widget title icon"""
-        self._titleButton.setIcon(icon)
+        self.__titleButton.setIcon(icon)
 
     def getTitleIcon(self):
         """Returns this widget's title icon
 
         :return: (Qt.QIcon) this widget's title icon"""
-        return self._titleButton.icon()
+        return self.__titleButton.icon()
 
     def switchContentVisible(self):
         """Switches this widget's contents visibility"""
@@ -163,8 +191,8 @@ class GroupBox(QtGui.QWidget):
         else:
             icon_name = QtGui.QStyle.SP_TitleBarUnshadeButton
         icon = self.style().standardIcon(icon_name)
-        self._upDownButton.setIcon(icon)
-        self._content.setVisible(show)
+        self.__upDownButton.setIcon(icon)
+        self.__contentPanel.setVisible(show)
         self.adjustSize()
 
     def isTitleVisible(self):
@@ -182,7 +210,7 @@ class GroupBox(QtGui.QWidget):
 
         :param icon: (bool) the new widget title visibility"""
         self.__titleVisible = show
-        self._titleBar.setVisible(show)
+        self.__titleBar.setVisible(show)
 
     def getTitleHeight(self):
         """Returns this widget's title height
@@ -206,7 +234,7 @@ class GroupBox(QtGui.QWidget):
         """Returns this widget's style
 
         :return: (dict) this widget's style"""
-        return self._titleBarStyle
+        return self.__style
 
     def setStyleMap(self, style_map):
         """Sets this widget's title style
@@ -229,6 +257,13 @@ class GroupBox(QtGui.QWidget):
     def resetStyleMap(self):
         """Resets this widget's title style"""
         self.setStyleMap({})
+
+    @classmethod
+    def getQtDesignerPluginInfo(cls):
+        from qarbon.qt.designer.plugins.base import DesignerBaseSingleContainerExtension
+        return dict(icon=":/designer/groupwidget.png",
+                    container=True,
+                    container_extension=DesignerBaseSingleContainerExtension)
 
     #: This property contains the widget's title
     #:
@@ -271,7 +306,8 @@ class GroupBox(QtGui.QWidget):
     #:     * :meth:`getStyleMap`
     #:     * :meth:`setStyleMap`
     #:     * :meth:`resetStyleMap`
-    styleMap = QtCore.Property(dict, getStyleMap, setStyleMap, resetStyleMap)
+    styleMap = QtCore.Property(dict, getStyleMap, setStyleMap, resetStyleMap,
+                               designable=False)
 
     #: This property contains the widget's content's visibility
     #:
@@ -296,8 +332,10 @@ def main():
 
     panel = GroupBox()
     panel.title = "Database"
+    content = QtGui.QWidget()
     contentLayout = QtGui.QFormLayout()
-    panel.content().setLayout(contentLayout)
+    content.setLayout(contentLayout)
+    panel.setContent(content)
     contentLayout.addRow("&Host", QtGui.QLineEdit())
     contentLayout.addRow("&Port", QtGui.QLineEdit())
     l.addWidget(panel, 0)
@@ -313,8 +351,10 @@ def main():
         'content_border_radius': '0px',
     }
 
+    content = QtGui.QWidget()
     contentLayout = QtGui.QFormLayout()
-    panel.content().setLayout(contentLayout)
+    content.setLayout(contentLayout)
+    panel.setContent(content)
     contentLayout.addRow("State", QtGui.QPushButton("Press here"))
     contentLayout.addRow("Status", QtGui.QLineEdit())
     contentLayout.addRow("Coment", QtGui.QLineEdit())
@@ -327,8 +367,10 @@ def main():
     panel.title = "Hello world 2"
     panel.titleIcon = getIcon("network-server")
     panel.titleVisible = False
+    content = QtGui.QWidget()
     contentLayout = QtGui.QFormLayout()
-    panel.content().setLayout(contentLayout)
+    content.setLayout(contentLayout)
+    panel.setContent(content)
     contentLayout.addRow("Something", QtGui.QLineEdit())
     contentLayout.addRow("More", QtGui.QLineEdit())
     l.addWidget(panel, 0)
@@ -336,14 +378,19 @@ def main():
     panel = GroupBox()
     panel.title = "5"
     panel.titleIcon = getIcon("folder")
+    content = QtGui.QWidget()
     contentLayout = QtGui.QVBoxLayout()
-    panel.content().setLayout(contentLayout)
+    content.setLayout(contentLayout)
+    panel.setContent(content)
     panel2 = GroupBox()
     panel2.title = "5.1"
     panel2.titleIcon = getIcon("folder")
     panel2.titleHeight = 48
+
+    content2 = QtGui.QWidget()
     contentLayout2 = QtGui.QFormLayout()
-    panel2.content().setLayout(contentLayout2)
+    content2.setLayout(contentLayout2)
+    panel2.setContent(content2)
     contentLayout2.addRow("Something", QtGui.QLineEdit())
     contentLayout2.addRow("More", QtGui.QLineEdit())
     contentLayout.addWidget(panel2, 0)
