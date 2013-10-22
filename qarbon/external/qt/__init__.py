@@ -51,7 +51,7 @@ def __import(name):
 
 
 def __importQt(name):
-    return __import(getQt().__name__ + "." + name)
+    return __import(getQtName() + "." + name)
 
 
 def __initialize_logging():
@@ -79,7 +79,7 @@ def __initialize_resources():
     QtCore = __importQt("QtCore")
     if os.path.isdir(resource):
         search_path = QtCore.QDir.searchPaths(qarbon.config.NAMESPACE)
-        if resource not in search_path:
+        if search_path is None or resource not in search_path:
             QtCore.QDir.addSearchPath(qarbon.config.NAMESPACE, resource)
 
 
