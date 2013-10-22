@@ -9,7 +9,6 @@ qarbon.qt.gui.led
 
    .. autosummary::
    
-      getIcon
       main
    
    

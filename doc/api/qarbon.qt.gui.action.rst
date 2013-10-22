@@ -9,8 +9,9 @@ qarbon.qt.gui.action
 
    .. autosummary::
    
+      Action
+      Icon
       getAction
-      getIcon
    
    
 

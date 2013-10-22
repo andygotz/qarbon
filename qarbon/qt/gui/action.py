@@ -71,6 +71,7 @@ def Action(text, parent=None, shortcut=None, icon=None, tip=None,
     """Create a new QAction.
 
     Example::
+
         from qarbon.external.qt import QtGui
         from qarbon.qt.gui.application import Application
         from qarbon.qt.gui.action import Action

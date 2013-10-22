@@ -22,6 +22,10 @@
 # along with Framework.  If not, see <http://www.gnu.org/licenses/>.
 #------------------------------------------------------------------------------
 
+"""Multiple axis (axes) widget."""
+
+__all__ = ["Axis", "AxesWidget"]
+
 import weakref
 
 from qarbon.meta import State
@@ -846,19 +850,9 @@ class AxesWidget(GroupBox):
                                       setUpdateStatusBar, resetUpdateStatusBar)
 
 
-def buildBrickGui(brick, klass=AxesWidget, *args, **kwargs):
-    layout = QtGui.QVBoxLayout()
-    layout.setSpacing(0)
-    layout.setMargin(0)
-    brick.brick_widget.setLayout(layout)
-    mw = klass(*args, **kwargs)
-    layout.insertWidget(0, mw)
-    return mw
-
-
 def main():
-    from Framework4.GUI.Qt.Application import initializeQApplication
-    app = initializeQApplication()
+    from qarbon.qt.gui.application import Application
+    app = Application()
 
     class Axes(object):
         axes = {}
@@ -916,5 +910,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-__all__ = ["Axis", "AxesWidget", "buildBrickGui"]
