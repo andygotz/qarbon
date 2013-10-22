@@ -8,7 +8,42 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""A colapsable container widget with (optional) title"""
+"""A colapsable container widget with (optional) title.
+
+Here is a simple example that shows how to create a :class:`GroupBox` with
+some content inside::
+
+    from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.application import Application
+    from qarbon.qt.gui.icon import Icon
+    from qarbon.qt.gui.groupbox import GroupBox
+
+    app = Application()
+    panel = QtGui.QWidget()
+    layout = QtGui.QVBoxLayout()
+    panel.setLayout(layout)
+    gb = GroupBox()
+    layout.addWidget(gb)
+
+    gb.title = "Configuration"
+    gb.icon = Icon("applications-accessories")
+
+    content = QtGui.QWidget()
+    gb.setContent(content)
+    contentLayout = QtGui.QHBoxLayout()
+    content.setLayout(contentLayout)
+    label = QtGui.QLabel("File:")
+    edit = QtGui.QLineEdit()
+    button = QtGui.QPushButton(Icon("folder-open"), "Open a file...")
+    contentLayout.addWidget(label)
+    contentLayout.addWidget(edit)
+    contentLayout.addWidget(button)
+
+    panel.show()
+
+    app.exec_()
+
+"""
 
 __all__ = ["GroupBox"]
 

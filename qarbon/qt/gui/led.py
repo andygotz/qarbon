@@ -7,7 +7,6 @@
 # either version 3 of the License, or (at your option) any later version.
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
-from qarbon.qt.gui.icon import getIcon
 
 """A LED (light-emitting diode) widget.
 
@@ -18,13 +17,12 @@ Here is an example showing how to display all possible combinations of color,
 status::
 
     from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.application import Application
     from qarbon.qt.gui.led import Led, LedStatus, LedColor
 
-    app = QtGui.QApplication([])
+    app = Application()
     panel = QtGui.QWidget()
     layout = QtGui.QGridLayout()
-    layout.setContentsMargins(2, 2, 2, 2)
-    layout.setSpacing(2)
     panel.setLayout(layout)
     for i, color in enumerate(LedColor):
         led = Led()
@@ -41,7 +39,6 @@ status::
 """
 
 __all__ = ["LedColor", "LedStatus", "Led"]
-
 
 from qarbon.config import NAMESPACE
 from qarbon.external.enum import Enum
@@ -276,12 +273,13 @@ class Led(PixmapWidget):
 
 def main():
     import sys
-    from qarbon.qt.gui.application import getApplication
+    from qarbon.qt.gui.icon import Icon
+    from qarbon.qt.gui.application import Application
 
-    app = getApplication()
+    app = Application()
     w = QtGui.QWidget()
     w.setWindowTitle("Led demo")
-    w.setWindowIcon(getIcon(":/led/led_green_on.png"))
+    w.setWindowIcon(Icon(":/led/led_green_on.png"))
     layout = QtGui.QGridLayout()
     layout.setContentsMargins(2, 2, 2, 2)
     layout.setSpacing(2)

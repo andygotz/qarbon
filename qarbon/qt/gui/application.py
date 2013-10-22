@@ -8,9 +8,24 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""Helper functions to manage QApplication"""
+"""Helper functions to manage QApplication.
 
-__all__ = ["getApplication"]
+Most common use case::
+
+
+    from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.application import Application
+
+    app = Application()
+    label = QtGui.QLabel("Hello, world!")
+    label.show()
+    app.exec_()
+
+The advantage here is you can call :func:`Application` anywhere on your
+program.
+"""
+
+__all__ = ["Application", "getApplication"]
 
 import logging
 
@@ -19,11 +34,32 @@ from qarbon.external.qt import QtGui
 
 def getApplication(argv=None, **properties):
     """Returns a QApplication.
+
     If the process has initialized before a QApplication it returns the
-    existing instance, otherwise it creates a new one
+    existing instance, otherwise it creates a new one.
+
+    When a QApplication is created it takes argv into account. If argv is
+    None (default), it take arguments from :attr:`sys.argv`.
+
+    If argv is given and a QApplication already exists, argv will have no
+    effect.
+
+    This is function as the same effect as :func:`Application`. Please use
+    :func:`Application` instead.
+
+    Example::
+
+        from qarbon.external.qt import QtGui
+        from qarbon.qt.gui.application import getApplication
+
+        app = getApplication()
+        label = QtGui.QLabel("Hello, world!")
+        label.show()
+        app.exec_()
 
     :param argv: optional arguments to QApplication. If the QApplication is
                  already initialized, argv will have no effect
+    :param properties: currently unused
     :return: the QApplication
     :rtype: QtGui.QApplication"""
 
@@ -33,8 +69,38 @@ def getApplication(argv=None, **properties):
             from sys import argv
         app = QtGui.QApplication(argv)
     elif argv:
-        logging.info("QApplication already initialized. argv will have "
-                     "no effect")
+        logging.info("QApplication already initialized. argv will have no "
+                     "effect")
     return app
 
-Application = getApplication
+
+def Application(argv=None, **properties):
+    """Returns a QApplication.
+
+    If the process has initialized before a QApplication it returns the
+    existing instance, otherwise it creates a new one.
+
+    When a QApplication is created it takes argv into account. If argv is
+    None (default), it take arguments from :attr:`sys.argv`.
+
+    If argv is given and a QApplication already exists, argv will have no
+    effect.
+
+    :param argv: optional arguments to QApplication. If the QApplication is
+                 already initialized, argv will have no effect.
+
+    Example::
+
+        from qarbon.external.qt import QtGui
+        from qarbon.qt.gui.application import Application
+
+        app = Application()
+        label = QtGui.QLabel("Hello, world!")
+        label.show()
+        app.exec_()
+
+    :param properties: currently unused
+    :return: the QApplication
+    :rtype: QtGui.QApplication"""
+
+    return getApplication(argv=argv, **properties)

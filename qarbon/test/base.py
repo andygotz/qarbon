@@ -10,7 +10,6 @@
 
 from unittest import TestCase
 
-from qarbon.external.qt import QtGui
 from qarbon.qt.gui.application import Application
 
 

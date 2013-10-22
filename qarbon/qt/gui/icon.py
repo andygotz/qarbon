@@ -8,12 +8,45 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""Helper functions to handle icons and pixmaps"""
+"""Helper functions to handle icons and pixmaps
+
+Most common use cases are::
+
+        from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
+        from qarbon.qt.gui.icon import Icon
+
+        app = Application()
+
+        # get a theme icon
+        icon = Icon("folder-open")
+
+        button = QtGui.QPushButton(icon, "Open file...")
+        button.show()
+        app.exec_()
+
+or in a label::
+
+        from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
+        from qarbon.qt.gui.icon import Icon
+
+        app = Application()
+
+        # get a theme pixmap
+        pixmap = Pixmap("folder-open")
+
+        label = QtGui.QLabel()
+        label.setPixmap(pixmap)
+        label.show()
+        app.exec_()
+
+"""
 
 __all__ = ["getThemeIcon", "getThemePixmap",
            "getStandardIcon", "getStandardPixmap",
            "getQarbonIcon", "getQarbonPixmap",
-           "getIcon", "getPixmap"]
+           "getIcon", "getPixmap", "Icon", "Pixmap"]
 
 import os
 
@@ -35,9 +68,10 @@ def getThemeIcon(icon_name):
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getThemeIcon
 
-        app = QtGui.QApplication([])
+        app = Application()
         icon = getThemeIcon("folder-open")
         button = QtGui.QPushButton(icon, "Open folder")
         button.show()
@@ -65,10 +99,11 @@ def getThemePixmap(pixmap_name, width, height=None, mode=QtGui.QIcon.Normal,
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getThemePixmap
 
-        app = QtGui.QApplication([])
-        pixmap = getThemePixmap("folder-open")
+        app = Application()
+        pixmap = getThemePixmap("folder-open", 32)
         label = QtGui.QLabel()
         label.setPixmap(pixmap)
         label.show()
@@ -94,14 +129,15 @@ def getThemePixmap(pixmap_name, width, height=None, mode=QtGui.QIcon.Normal,
 
 
 def getStandardIcon(icon_id):
-    """Returns a QIcon for the given icon ID (QtGui.QStyle.SP_*)
+    """Returns a QIcon for the given icon ID (QtGui.QStyle.SP_*).
 
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getStandardIcon
 
-        app = QtGui.QApplication([])
+        app = Application()
         icon = getStandardIcon(QtGui.QStyle.SP_MessageBoxWarning)
         button = QtGui.QPushButton(icon, "Open hutch")
         button.show()
@@ -118,15 +154,16 @@ def getStandardIcon(icon_id):
 
 def getStandardPixmap(pixmap_id, width, height=None, mode=QtGui.QIcon.Normal,
                       state=QtGui.QIcon.Off):
-    """Returns a QPixmap for the given icon ID (QtGui.QStyle.SP_*)
+    """Returns a QPixmap for the given icon ID (QtGui.QStyle.SP_*).
 
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getStandardPixmap
 
-        app = QtGui.QApplication([])
-        icon = getStandardPixmap(QtGui.QStyle.SP_MessageBoxWarning)
+        app = Application()
+        pixmap = getStandardPixmap(QtGui.QStyle.SP_MessageBoxWarning, 32)
         label = QtGui.QLabel()
         label.setPixmap(pixmap)
         label.show()
@@ -157,9 +194,10 @@ def getQarbonIcon(icon_name):
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getQarbonIcon
 
-        app = QtGui.QApplication([])
+        app = Application()
         icon = getQarbonIcon(":/controls/collapse.png")
         button = QtGui.QPushButton(icon, "Collapse")
         button.show()
@@ -176,15 +214,16 @@ def getQarbonIcon(icon_name):
 
 def getQarbonPixmap(pixmap_name, width, height=None, mode=QtGui.QIcon.Normal,
                     state=QtGui.QIcon.Off):
-    """Returns a QPixmap for the given pixmap name
+    """Returns a QPixmap for the given pixmap name.
 
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getQarbonPixmap
 
-        app = QtGui.QApplication([])
-        icon = getQarbonPixmap(":/controls/collapse.png")
+        app = Application()
+        pixmap = getQarbonPixmap(":/controls/collapse.png", 32)
         label = QtGui.QLabel()
         label.setPixmap(pixmap)
         label.show()
@@ -215,13 +254,23 @@ def getIcon(icon):
     Example::
 
         from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
         from qarbon.qt.gui.icon import getIcon
 
-        app = QtGui.QApplication([])
-        icon = getIcon("folder-open") # == getThemeIcon("folder-open")
-        icon = getIcon(":/controls/collapse.png") # == getQarbonIcon(":/controls/collapse.png")
-        icon = getIcon("MyResource:/bla.png") # == Qt.QIcon("MyResource:/bla.png")
-        icon = getIcon(QtGui.QStyle.SP_MessageBoxWarning) # == getStandardIcon(QtGui.QStyle.SP_MessageBoxWarning)
+        app = Application()
+
+        # == getThemeIcon("folder-open")
+        icon = getIcon("folder-open")
+
+        # == getQarbonIcon(":/controls/collapse.png")
+        icon = getIcon(":/controls/collapse.png")
+
+        # == Qt.QIcon("MyResource:/bla.png")
+        icon = getIcon("MyResource:/bla.png")
+
+        # == getStandardIcon(QtGui.QStyle.SP_MessageBoxWarning)
+        icon = getIcon(QtGui.QStyle.SP_MessageBoxWarning)
+
         button = QtGui.QPushButton(icon, "Something")
         button.show()
         app.exec_()
@@ -256,15 +305,23 @@ def getPixmap(pixmap, width, height=None, mode=QtGui.QIcon.Normal,
     Example::
 
         from qarbon.external.qt import QtGui
-        from qarbon.qt.gui.icon import getIcon
+        from qarbon.qt.qui.application import Application
+        from qarbon.qt.gui.icon import getPixmap
 
-        app = QtGui.QApplication([])
-        icon = getIcon("folder-open") # == getThemeIcon("folder-open")
-        icon = getIcon(":/controls/collapse.png") # == getQarbonIcon(":/controls/collapse.png")
-        icon = getIcon("MyResource:/bla.png") # == Qt.QIcon("MyResource:/bla.png")
-        icon = getIcon(QtGui.QStyle.SP_MessageBoxWarning) # == getStandardIcon(QtGui.QStyle.SP_MessageBoxWarning)
-        button = QtGui.QPushButton(icon, "Something")
-        button.show()
+        app = Application()
+
+        # == getThemePixmap("folder-open", 32)
+        pixmap = getPixmap("folder-open", 32)
+
+        # == getQarbonPixmap(":/controls/collapse.png", 32)
+        pixmap = getPixmap(":/controls/collapse.png", 32)
+
+        # == QtGui.QPixmap("MyResource:/bla.png")
+        pixmap = getPixmap("MyResource:/bla.png", 32)
+
+        label = QtGui.QLabel()
+        label.setPixmap(pixmap)
+        label.show()
         app.exec_()
 
     :param pixmap: pixmap name or ID
@@ -293,17 +350,94 @@ __STATE_MAP = {
     State.Unknown: QtGui.QStyle.SP_MessageBoxQuestion,
 }
 
+
 def getStateIcon(state):
+    """Returns a QIcon for the given :class:`~qarbon.meta.State`.
+
+    :param state: the state
+    :type state: :class:`~qarbon.meta.State`
+    :return: the QIcon corresponding to the given state. If the state doesn't
+             have a corresponding QIcon, a QStyle.SP_MessageBoxInformation
+             QIcon is returned
+    :rtype: QtGui.QIcon
+    """
     return __STATE_MAP.get(state, QtGui.QStyle.SP_MessageBoxInformation)
 
 
 def Icon(obj):
+    """Returns a QIcon for the given icon.
+
+    Example::
+
+        from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
+        from qarbon.qt.gui.icon import Icon
+
+        app = Application()
+
+        # == getThemeIcon("folder-open")
+        icon = Icon("folder-open")
+
+        # == getQarbonIcon(":/controls/collapse.png")
+        icon = Icon(":/controls/collapse.png")
+
+        # == Qt.QIcon("MyResource:/bla.png")
+        icon = Icon("MyResource:/bla.png")
+
+        # == getStandardIcon(QtGui.QStyle.SP_MessageBoxWarning)
+        icon = Icon(QtGui.QStyle.SP_MessageBoxWarning)
+
+        button = QtGui.QPushButton(icon, "Something")
+        button.show()
+        app.exec_()
+
+    :param icon: icon name or ID
+    :type icon: str or int
+    :return: the QIcon corresponding to the given icon. If the icon
+             doesn't exist it returns a Null icon
+    :rtype: QtGui.QIcon
+    """
     return getIcon(obj)
 
-Icon.__doc__ = getIcon.__doc__
 
+def Pixmap(obj, width, height=None, mode=QtGui.QIcon.Normal,
+           state=QtGui.QIcon.Off):
+    """Returns a QPixmap for the given pixmap.
 
-def Pixmap(obj):
-    return getPixmap(obj)
+    Example::
 
-Pixmap.__doc__ = getPixmap.__doc__
+        from qarbon.external.qt import QtGui
+        from qarbon.qt.qui.application import Application
+        from qarbon.qt.gui.icon import Pixmap
+
+        app = Application()
+
+        # == getThemePixmap("folder-open", 32)
+        pixmap = Pixmap("folder-open", 32)
+
+        # == getQarbonPixmap(":/controls/collapse.png", 32)
+        pixmap = Pixmap(":/controls/collapse.png", 32)
+
+        # == QtGui.QPixmap("MyResource:/bla.png")
+        pixmap = Pixmap("MyResource:/bla.png", 32)
+
+        label = QtGui.QLabel()
+        label.setPixmap(pixmap)
+        label.show()
+        app.exec_()
+
+    :param pixmap: pixmap name or ID
+    :type pixmap: str or int
+    :param width: pixmap width
+    :type width: int
+    :param height: pixmap height [default: None meaning use given width]
+    :type height: int
+    :param mode: icon mode
+    :type mode: QtGui.QIcon.Mode
+    :param state: icon state
+    :type state: QtGui.QIcon.State
+    :return: the QPixmap corresponding to the given pixmap. If the pixmap
+             doesn't exist it returns a Null QPixmap
+    :rtype: QtGui.QPixmap
+    """
+    return getPixmap(obj, width, height=height, mode=mode, state=state)

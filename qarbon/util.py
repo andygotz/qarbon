@@ -8,7 +8,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""helper functions"""
+"""Helper functions."""
 
 __all__ = ['isString', 'isSequence', 'moduleImport', 'moduleDirectory']
 

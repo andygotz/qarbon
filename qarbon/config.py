@@ -8,14 +8,25 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""global configuration constants"""
+"""Global configuration."""
 
 #: qarbon namespace
 NAMESPACE = "qarbon"
 
+#: Auto initialize Qt
 QT_AUTO_INIT = True
+
+#: Set preffered API if not is already loaded
 QT_AUTO_API = 'PyQt4'
+
+#: Whether or not should be strict in choosing Qt API
 QT_AUTO_STRICT = False
+
+#: Auto initialize Qt logging to python logging
 QT_AUTO_INIT_LOG = True
+
+#: Auto initialize Qarbon resources (icons)
 QT_AUTO_INIT_RES = True
+
+#: Remove input hook (only valid for PyQt4)
 QT_AUTO_REMOVE_INPUTHOOK = True

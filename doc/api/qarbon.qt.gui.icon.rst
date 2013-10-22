@@ -9,6 +9,8 @@ qarbon.qt.gui.icon
 
    .. autosummary::
    
+      Icon
+      Pixmap
       getIcon
       getPixmap
       getQarbonIcon

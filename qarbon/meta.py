@@ -8,7 +8,9 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""meta information for qarbon 4"""
+"""Meta information for qarbon 4."""
+
+__all__ = ["DataAccess", "DataType", "State"]
 
 from qarbon.external.enum import Enum
 
@@ -39,6 +41,3 @@ class State(Enum):
 
     On, Off, Close, Open, Insert, Extract, Moving, Standby, Fault, Init, \
     Running, Alarm, Disable, Unknown, Disconnected, _Invalid = range(16)
-
-
-__all__ = ["DataAccess", "DataType", "State"]
