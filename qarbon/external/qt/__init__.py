@@ -10,7 +10,7 @@
 
 """This module exposes PyQt4/PyQt5/PySide module"""
 
-__all__ = ['BackendName', 'Backend']
+__all__ = ["initialize", "getQtName", "getQt"]
 
 import os
 import imp
@@ -26,7 +26,8 @@ except ImportError:
 import qarbon.config
 
 __QT = None
-__QT_KNOWN_APIS = 'PyQt4', 'PyQt5', 'PySide'
+__QT_NAME = None
+__QT_KNOWN_APIS = "PyQt4", "PyQt5", "PySide"
 __QT_LOG_INIT = False
 __QT_RES_INIT = False
 
@@ -73,7 +74,7 @@ def __initialize_logging():
 
 def __initialize_resources():
     qarbon_dir = os.path.dirname(os.path.abspath(qarbon.__file__))
-    resource = os.path.join(qarbon_dir, 'resource', 'icons')
+    resource = os.path.join(qarbon_dir, "resource", "icons")
 
     QtCore = __importQt("QtCore")
     if os.path.isdir(resource):
@@ -112,7 +113,7 @@ def __preparePyQt4():
     # In python 3 both QString and QVariant API are set to level 2 so
     # nothing to do
     if sys.version_info[0] > 2:
-        return __import('PyQt4')
+        return __import("PyQt4")
 
     # For PySide compatibility, use the new-style string API that
     # automatically converts QStrings to Unicode Python strings. Also,
@@ -126,7 +127,7 @@ def __preparePyQt4():
         __setPyQt4API("QString", 2)
         __setPyQt4API("QVariant", 2)
 
-    return __import('PyQt4')
+    return __import("PyQt4")
 
 
 #------------------------------------------------------------------------------
@@ -134,7 +135,7 @@ def __preparePyQt4():
 #------------------------------------------------------------------------------
 
 def __preparePyQt5():
-    return __import('PyQt5')
+    return __import("PyQt5")
 
 
 #------------------------------------------------------------------------------
@@ -142,11 +143,11 @@ def __preparePyQt5():
 #------------------------------------------------------------------------------
 
 def __preparePySide():
-    return __import('PySide')
+    return __import("PySide")
 
 
 def getQt(name=None, strict=True):
-    global __QT
+    global __QT, __QT_NAME
     if __QT:
         __assertQt(name, qt=__QT, strict=strict)
         return __QT
@@ -157,6 +158,7 @@ def getQt(name=None, strict=True):
         if api:
             __assertQt(name, qt=api, strict=strict)
             __QT = api
+            __QT_NAME = name
             return __QT
 
     # no qt imported yet
@@ -168,13 +170,20 @@ def getQt(name=None, strict=True):
             apis.remove(name)
             apis.insert(0, name)
     for api_name in apis:
-        f = globals()['__prepare' + api_name]
+        f = globals()["__prepare" + api_name]
         try:
             __QT = f()
+            __QT_NAME = api_name
             return __QT
         except ImportError:
             continue
     raise ImportError("No suitable Qt found")
+
+
+def getQtName(name=None, strict=True):
+    # force initialization of Qt
+    getQt(name=name, strict=strict)
+    return __QT_NAME
 
 
 def initialize(name=None, strict=True, logging=True,
