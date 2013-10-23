@@ -20,10 +20,8 @@ qarbon.qt.gui.led
    .. autosummary::
    
       Enum
-      Led
       LedColor
       LedStatus
-      PixmapWidget
    
    
 

@@ -83,6 +83,13 @@ def __initialize_resources():
             QtCore.QDir.addSearchPath(qarbon.config.NAMESPACE, resource)
 
 
+def __remove_inputhook():
+    try:
+        __importQt("QtCore").pyqtRemoveInputHook()
+    except AttributeError:
+        pass
+
+
 #------------------------------------------------------------------------------
 # PyQt4
 #------------------------------------------------------------------------------
@@ -193,7 +200,8 @@ def initialize(name=None, strict=True, logging=True,
         __initialize_logging()
     if resources:
         __initialize_resources()
-
+    if remove_inputhook:
+        __remove_inputhook()
     return qt
 
 

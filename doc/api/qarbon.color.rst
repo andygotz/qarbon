@@ -2,8 +2,6 @@ qarbon.color
 ============
 
 .. automodule:: qarbon.color
-
-   
    
    .. rubric:: Functions
 
@@ -14,19 +12,3 @@ qarbon.color
       getColorFromState
       getFgColorFromState
       getStateColorMap
-   
-   
-
-   
-   
-   .. rubric:: Classes
-
-   .. autosummary::
-   
-      State
-   
-   
-
-   
-   
-   

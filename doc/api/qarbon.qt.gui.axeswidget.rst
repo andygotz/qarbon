@@ -10,7 +10,6 @@ qarbon.qt.gui.axeswidget
    .. autosummary::
    
       Icon
-      buildBrickGui
       getCSSColorFromState
       getStatusBar
       get_height_hint
@@ -25,22 +24,10 @@ qarbon.qt.gui.axeswidget
 
    .. autosummary::
    
-      AxesWidget
-      Axis
       Column
-      DisplayLabel
       Enum
-      GroupBox
-      IconButton
       PositionColumn
-      SquareButton
       State
-      StepLeftButton
-      StepRightButton
-      StepSize
-      StopButton
-      ValueLabel
-      ValueSpinBox
    
    
 

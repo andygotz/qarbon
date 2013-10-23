@@ -13,8 +13,6 @@ qarbon.qt.gui.basemodel
 
    .. autosummary::
    
-      BaseModel
-      BaseProxyModel
       BaseTreeItem
    
    

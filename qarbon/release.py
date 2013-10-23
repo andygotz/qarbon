@@ -38,11 +38,11 @@ revision = str(version_info[4])
 
 #: package description
 description = \
-"""python library for Qt widgets."""
+"""python library of Qt widgets."""
 
 #: long description
 long_description = \
-"""qarbon is a python library for Qt widgets."""
+"""Qarbon is a python library of Qt widgets."""
 
 #: license
 license = 'GNU Lesser General Public License v3 or later (LGPLv3+)'

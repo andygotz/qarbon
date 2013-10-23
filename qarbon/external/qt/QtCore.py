@@ -103,18 +103,13 @@ if __backend == 'PyQt4':
         pass
 
     try:
-        __QtCore.pyqtRemoveInputHook()
-    except AttributeError:
-        pass
-    
-    try:
         import sip
         PYQT_QVARIANT_API_1 = sip.getapi('QVariant') < 2
         PYQT_QSTRING_API_1 = sip.getapi('QString') < 2
     except (ImportError, AttributeError):
         PYQT_QVARIANT_API_1 = True
         PYQT_QSTRING_API_1 = True
-        
+
     if PYQT_QVARIANT_API_1:
         to_qvariant = __to_qvariant_1
         from_qvariant = __from_qvariant_1
@@ -123,7 +118,7 @@ if __backend == 'PyQt4':
         to_qvariant = __to_qvariant_2
         from_qvariant = __from_qvariant_2
 
- 
+
     if not PYQT_QSTRING_API_1:
         __QtCore.QString = QString = __QString_2
         __QtCore.QStringList = QStringList = __QStringList_2
@@ -143,11 +138,6 @@ elif __backend == 'PyQt5':
 
     try:
         __api_version__ = __QtCore.QT_VERSION_STR
-    except AttributeError:
-        pass
-
-    try:
-        __QtCore.pyqtRemoveInputHook()
     except AttributeError:
         pass
 

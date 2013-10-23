@@ -21,7 +21,6 @@ qarbon.qt.gui.propertyeditor
 
    .. autosummary::
    
-      PropertyEditor
       Ui_propertyEditor
    
    

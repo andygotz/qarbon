@@ -16,18 +16,6 @@ qarbon.qt.gui.baseview
 
    
    
-   .. rubric:: Classes
-
-   .. autosummary::
-   
-      BaseModelWidget
-      BaseToolBar
-      EditorToolBar
-      FilterToolBar
-      PerspectiveToolBar
-      RefreshToolBar
-      SelectionToolBar
-   
    
 
    

@@ -15,12 +15,6 @@ qarbon.qt.gui.pixmapwidget
 
    
    
-   .. rubric:: Classes
-
-   .. autosummary::
-   
-      PixmapWidget
-   
    
 
    

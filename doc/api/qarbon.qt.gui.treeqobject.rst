@@ -27,14 +27,10 @@ qarbon.qt.gui.treeqobject
 
    .. autosummary::
    
-      BaseModel
       BaseTreeItem
-      BaseTreeWidget
       Enum
       QObjectRepresentation
       QR
-      TreeQObjectInfoModel
-      TreeQObjectWidget
       TreeQObjecttInfoItem
    
    

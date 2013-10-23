@@ -17,14 +17,6 @@ qarbon.qt.gui.qobjectinfowidget
 
    
    
-   .. rubric:: Classes
-
-   .. autosummary::
-   
-      PropertyEditor
-      QObjectInfoWidget
-      TreeQObjectWidget
-   
    
 
    

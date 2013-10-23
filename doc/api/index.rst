@@ -3,18 +3,22 @@
 API
 ===
 
+.. toctree::
+    :hidden:
+    :glob:
+
+    qarbon.*
+    
 qarbon
 ------
 
 .. autosummary::
-    :toctree:
 
     qarbon.color
     qarbon.config
     qarbon.meta
     qarbon.release
     qarbon.util
-
 
 qarbon.qt.gui
 -------------
@@ -23,7 +27,6 @@ Helpers
 ~~~~~~~
 
 .. autosummary::
-    :toctree:
 
     qarbon.qt.gui.action
     qarbon.qt.gui.application
@@ -35,12 +38,11 @@ Widgets
 ~~~~~~~
 
 .. autosummary::
-    :toctree:
 
-    qarbon.qt.gui.axeswidget
+    qarbon.qt.gui.baseview
     qarbon.qt.gui.basemodel
     qarbon.qt.gui.basetree
-    qarbon.qt.gui.baseview
+    qarbon.qt.gui.axeswidget
     qarbon.qt.gui.groupbox
     qarbon.qt.gui.led
     qarbon.qt.gui.pixmapwidget

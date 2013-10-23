@@ -16,16 +16,6 @@ qarbon.qt.gui.basetree
 
    
    
-   .. rubric:: Classes
-
-   .. autosummary::
-   
-      BaseModelWidget
-      BaseToolBar
-      BaseTreeWidget
-      ExpansionBar
-      NavigationToolBar
-   
    
 
    

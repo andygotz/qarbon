@@ -11,39 +11,7 @@
 import sys
 import os
 
-__package_name__ = 'qarbon'
-
-# prepare environment for Read The Docs
-
-__on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
-if __on_rtd:
-
-    class Mock(object):
-
-        def __init__(self, name, *args, **kwargs):
-            self.__name__ = name
-            pass
-
-        def __call__(self, *args, **kwargs):
-            return
-
-        @classmethod
-        def __getattr__(cls, name):
-            if name in ('__file__', '__path__'):
-                return '/dev/null'
-            else:
-                return Mock(__name__ + "." + name)
-
-    MOCK_MODULES = ['sip', 'PyQt4', 'PyQt4.QtCore', 'PyQt4.QtGui']
-    for mod_name in MOCK_MODULES:
-        sys.modules[mod_name] = Mock(mod_name)
-
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+__package_name__ = "qarbon"
 
 
 def _abspath(*path):
@@ -54,32 +22,42 @@ def _abspath(*path):
 
 
 def _get_package_dir():
-    return os.path.abspath(_abspath(os.path.pardir))
+    return _abspath(os.path.pardir)
 
 
 def _set_package_source():
     """make sure that we build the documentation for the package which
     is in this source tree and not from a possibly different installed
     version"""
-    sys.path.insert(0, os.path.abspath(_get_package_dir()))
+    #sys.path.insert(0, _abspath())
+    sys.path.insert(0, _get_package_dir())
 
 _PACKAGE = None
 
 
-def _import_package(name=__package_name__):
+def _import_package(name):
     global _PACKAGE
     if _PACKAGE is None:
-        _PACKAGE = __import__(name)
-        #globals()[name] = _PACKAGE
+        __import__(name)
+        _PACKAGE = sys.modules[name]
     return _PACKAGE
 
 # first thing: try to use code from src distribution
+
 _set_package_source()
 
-_package = _import_package()
-_release = _package.release
-_name = _release.name
-_Name = _name.capitalize()
+# prepare environment for Read The Docs
+
+__on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+
+if True:  #__on_rtd:
+    sys.path.insert(0, _abspath('mock'))
+    import qarbon.config
+    qarbon.config.QT_AUTO_INIT = False
+
+import qarbon.release
+__name = qarbon.release.name
+__Name = __name.capitalize()
 
 _as_pdf_extension = True
 try:
@@ -87,53 +65,53 @@ try:
 except ImportError:
     _as_pdf_extension = False
 
-# -- General configuration -----------------------------------------------------
+# -- General configuration ----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = '1.0'
+needs_sphinx = "1.1"
 
-# Add any Sphinx extension module names here, as strings. They can be extensions
-# coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.autosummary',
-              'sphinx.ext.intersphinx',
-              'sphinx.ext.todo',
-              'sphinx.ext.pngmath',
-              'sphinx.ext.mathjax',
-              'sphinx.ext.viewcode',
-              'sphinx.ext.graphviz',
-              'sphinx.ext.inheritance_diagram',
+# Add any Sphinx extension module names here, as strings. They can be
+# extensions coming with Sphinx (named "sphinx.ext.*") or your custom ones.
+extensions = ["sphinx.ext.autodoc",
+              "sphinx.ext.autosummary",
+              "sphinx.ext.intersphinx",
+              "sphinx.ext.todo",
+              "sphinx.ext.pngmath",
+              "sphinx.ext.mathjax",
+              "sphinx.ext.viewcode",
+              "sphinx.ext.graphviz",
+              "sphinx.ext.inheritance_diagram",
               ]
 
 if _as_pdf_extension:
-    extensions.append('rst2pdf.pdfbuilder')
+    extensions.append("rst2pdf.pdfbuilder")
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The encoding of source files.
-#source_encoding = 'utf-8-sig'
+#source_encoding = "utf-8-sig"
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = _name
+project = __name
 
 copyright = u"""Except where otherwise noted, content on this site is
 licensed under a Creative Commons Attribution 3.0 License"""
 
-# The version info for the project you're documenting, acts as replacement for
+# The version info for the project you"re documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = _release.version
+version = qarbon.release.version
 # The full version, including alpha/beta/rc tags.
-release = _release.version
+release = qarbon.release.version
 
 # The language for content autogenerated by Sphinx. Refer to documentation
 # for a list of supported languages.
@@ -141,18 +119,19 @@ release = _release.version
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
-#today = ''
+#today = ""
 # Else, today_fmt is used as the format for a strftime call.
-#today_fmt = '%B %d, %Y'
+#today_fmt = "%B %d, %Y"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ["_build"]
 
-# The reST default role (used for this markup: `text`) to use for all documents.
+# The reST default role (used for this markup: `text`) to use for all
+# documents.
 #default_role = None
 
-# If true, '()' will be appended to :func: etc. cross-reference text.
+# If true, "()" will be appended to :func: etc. cross-reference text.
 #add_function_parentheses = True
 
 # If true, the current module name will be prepended to all description
@@ -164,18 +143,18 @@ exclude_patterns = ['_build']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 
 
-# -- Options for HTML output ---------------------------------------------------
+# -- Options for HTML output --------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#html_theme = 'default'
-html_theme = 'sphinxdoc'
+#html_theme = "default"
+html_theme = "sphinxdoc"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -204,11 +183,11 @@ html_logo = "logo.png"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
-# If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
+# If not "", a "Last updated on:" timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+#html_last_updated_fmt = "%b %d, %Y"
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -242,33 +221,34 @@ html_static_path = ['_static']
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
 # base URL from which the finished HTML is served.
-#html_use_opensearch = ''
+#html_use_opensearch = ""
 
 # This is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = _name + 'doc'
+htmlhelp_basename = __name + "doc"
 
 
-# -- Options for LaTeX output --------------------------------------------------
+# -- Options for LaTeX output -------------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-'papersize': 'a4paper',
+# The paper size ("letterpaper" or "a4paper").
+"papersize": "a4paper",
 
-# The font size ('10pt', '11pt' or '12pt').
-'pointsize': '10pt',
+# The font size ("10pt", "11pt" or "12pt").
+"pointsize": "10pt",
 
 # Additional stuff for the LaTeX preamble.
-#'preamble': '',
+#"preamble": "",
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto/manual]).
+# (source start file, target name, title, author,
+#  documentclass [howto/manual]).
 latex_documents = [
-  ('index', '{0}.tex'.format(_name), '{0} Documentation'.format(_Name),
-   '{0} team'.format(_Name), 'manual'),
+  ("index", "{0}.tex".format(__name), "{0} Documentation".format(__Name),
+   "{0} team".format(__Name), "manual"),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -292,28 +272,28 @@ latex_documents = [
 #latex_domain_indices = True
 
 
-# -- Options for manual page output --------------------------------------------
+# -- Options for manual page output -------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'qarbon', u'qarbon Documentation',
-     [u'Tiago Coutinho'], 1)
+    ("index", "qarbon", u"qarbon Documentation",
+     [u"Tiago Coutinho"], 1)
 ]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
 
 
-# -- Options for Texinfo output ------------------------------------------------
+# -- Options for Texinfo output -----------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'qarbon', u'qarbon Documentation',
-   u'Tiago Coutinho', 'qarbon', 'One line description of project.',
-   'Miscellaneous'),
+  ("index", "qarbon", u"qarbon Documentation",
+   u"Tiago Coutinho", "qarbon", qarbon.release.description,
+   "Miscellaneous"),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -322,33 +302,35 @@ texinfo_documents = [
 # If false, no module index is generated.
 #texinfo_domain_indices = True
 
-# How to display URL addresses: 'footnote', 'no', or 'inline'.
-#texinfo_show_urls = 'footnote'
+# How to display URL addresses: "footnote", "no", or "inline".
+#texinfo_show_urls = "footnote"
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {"http://docs.python.org/": None}
 
 # -- Options for Graphviz  ----------------------------------------------------
 
-inheritance_node_attrs = dict(shape='box', fontcolor='black',
+inheritance_node_attrs = dict(shape="box", fontcolor="black",
                               height=0.4,
-                              color='brown', style='rounded')
+                              color="brown", style="rounded")
 
-inheritance_graph_attrs = dict(rankdir="UD", ratio='compress')
+inheritance_graph_attrs = dict(rankdir="UD", ratio="compress")
 
-graphviz_output_format = 'png'  # 'svg'
+graphviz_output_format = "png"  # "svg"
 
-#inheritance_graph_attrs = dict(rankdir="LR", size='"6.0, 8.0"',
-#                               fontsize=14, ratio='compress')
+inheritance_graph_attrs = dict(rankdir="LR", size="\"6.0, 8.0\"",
+                               fontsize=14, ratio="compress")
 
 
 todo_include_todos = True
 
 autodoc_member_order = "bysource"
 
-autodoc_default_flags = ['members', 'undoc-members', 'show-inheritance']
+autodoc_default_flags = ["members",
+                         "undoc-members",
+                         "show-inheritance"]
 
 autoclass_content = "class"
 
-autosummary_generate = True
+# autosummary_generate = True
