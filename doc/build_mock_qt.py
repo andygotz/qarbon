@@ -99,14 +99,14 @@ def build_class(k):
                                                   value=klass_element))
     members = "\n".join(members)
     methods = "\n".join(methods)
-    
+
     if super_k_full_name.startswith("sip."):
         super_name = "object"
     klass_str = klass_template.format(klass=k_name,
                                       super_klass=super_name,
                                       methods=methods,
                                       members=members)
- 
+
     if k is PyQt4.QtCore.QObject or not issubclass(k, PyQt4.QtCore.QObject):
         klass_str += "\n  def __init__(self, *args, **kwargs): pass\n"
 
@@ -115,13 +115,18 @@ def build_class(k):
 
 def classes(m):
     klasses = set()
+    extra = set()
     for i in dir(m):
         if i in FILTER_CLASSES:
             continue
         ie = getattr(m, i)
         if inspect.isclass(ie):
-            klasses.add(ie)
-    return sorted(klasses, key=lambda k: k.mro()[::-1])
+            try:
+                ie.mro()
+                klasses.add(ie)
+            except TypeError:
+                extra.add(ie)
+    return sorted(klasses, key=lambda k: k.mro()[::-1]) + list(extra)
 
 
 def build_module(module_name, imports):
@@ -172,7 +177,8 @@ def build_module(module_name, imports):
 
 def main():
     shutil.rmtree(abspath("mock"), ignore_errors=True)
-    module_names = [("PyQt4", ("sip",)),
+    module_names = [("sip", ()),
+                    ("PyQt4", ("sip",)),
                     ("PyQt4.QtCore", ("sip",)),
                     ("PyQt4.QtGui", ("sip", "PyQt4.QtCore",))]
     for module_name, imports in module_names:

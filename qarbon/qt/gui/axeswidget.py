@@ -793,6 +793,7 @@ class AxesWidget(GroupBox):
 
     def onAxisCurrentStepChanged(self, name, step):
         """Steps changed from the Axis model:
+        
         - change the current step value on the combo box
         - change the step size on the position spin box
         - update (enable/disable the stepLeft and stepRight buttons according
