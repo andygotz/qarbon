@@ -8,7 +8,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""A base view widget and toolbar"""
+"""A base view widget and toolbar."""
 
 __all__ = ["BaseModelWidget",
            "BaseToolBar", "FilterToolBar", "EditorToolBar", "SelectionToolBar",

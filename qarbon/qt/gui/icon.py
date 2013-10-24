@@ -39,9 +39,7 @@ or in a label::
         label = QtGui.QLabel()
         label.setPixmap(pixmap)
         label.show()
-        app.exec_()
-
-"""
+        app.exec_()"""
 
 __all__ = ["getThemeIcon", "getThemePixmap",
            "getStandardIcon", "getStandardPixmap",
@@ -284,7 +282,7 @@ def getIcon(icon):
     if icon is None:
         return QtGui.QIcon()
     elif isinstance(icon, QtGui.QIcon):
-        return icon
+        return QtGui.QIcon(icon)
     elif isString(icon):
         if icon.startswith(":"):
             return getQarbonIcon(icon)

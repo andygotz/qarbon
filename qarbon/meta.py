@@ -8,7 +8,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""Meta information for qarbon 4."""
+"""Meta information for qarbon."""
 
 __all__ = ["DataAccess", "DataType", "State"]
 

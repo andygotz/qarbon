@@ -3,21 +3,15 @@ qarbon.qt.gui.baseview
 
 .. automodule:: qarbon.qt.gui.baseview
 
-   
-   
-   .. rubric:: Functions
+   .. rubric:: Classes
 
    .. autosummary::
+      :nosignatures:
    
-      getAction
-      getIcon
-   
-   
-
-   
-   
-   
-
-   
-   
-   
+      BaseModelWidget
+      BaseToolBar
+      FilterToolBar
+      EditorToolBar
+      SelectionToolBar
+      RefreshToolBar
+      PerspectiveToolBar

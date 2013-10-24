@@ -8,7 +8,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""release data for the qarbon project.
+"""Release data for the qarbon project.
 
 It contains the following members:
 

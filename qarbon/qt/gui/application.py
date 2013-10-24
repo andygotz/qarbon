@@ -25,7 +25,7 @@ The advantage here is you can call :func:`Application` anywhere on your
 program.
 """
 
-__all__ = ["Application", "getApplication"]
+__all__ = ["Application"]
 
 import logging
 

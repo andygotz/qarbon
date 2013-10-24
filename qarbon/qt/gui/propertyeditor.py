@@ -8,7 +8,22 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""A widget dedicated view/edit the properties of any QObject"""
+"""A widget dedicated view/edit the properties of any QObject.
+
+Example::
+
+    from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.application import Application
+    from qarbon.qt.gui.propertyeditor import PropertyEditor
+
+    app = Application()
+    inspector = PropertyEditor(qobject=None)
+
+    # watch myself... weard
+    inspector.setQObject(inspector)
+    inspector.show()
+    app.exec_()
+"""
 
 __all__ = ["PropertyEditor"]
 
@@ -41,6 +56,7 @@ def getPropertyValueToolTip(qMetaProperty, value):
 
 
 class PropertyEditor(QtGui.QWidget):
+    """A widget dedicated view/edit the properties of any QObject."""
 
     def __init__(self, parent=None, qobject=None):
         super(PropertyEditor, self).__init__(parent)
@@ -53,11 +69,22 @@ class PropertyEditor(QtGui.QWidget):
 
     @property
     def qobject(self):
+        """returns the current QObject being edited or None if no QObject is
+        associated with the editor.
+
+        :return: the current QObject being edited or None if no QObject is
+                 associated with the editor
+        """
         if self.__qobject is None:
             return
         return self.__qobject()
 
     def setQObject(self, qobject):
+        """Sets the current QObject whose properties are to been seen by the
+        editor.
+
+        :param qobject: the new QObject (can be None)
+        """
         ui = self.__ui
         superClassName = ""
         _class = ""
@@ -149,10 +176,9 @@ class PropertyEditor(QtGui.QWidget):
         #TODO: animate somehow
 
 
-
 def main():
-    from qarbon.qt.gui.application import getApplication
-    app = getApplication()
+    from qarbon.qt.gui.application import Application
+    app = Application()
     inspector = PropertyEditor(qobject=None)
     # watch myself... weard
     inspector.setQObject(inspector)

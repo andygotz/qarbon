@@ -49,5 +49,3 @@ Widgets
     qarbon.qt.gui.propertyeditor
     qarbon.qt.gui.qobjectinfowidget
     qarbon.qt.gui.treeqobject
-    
-

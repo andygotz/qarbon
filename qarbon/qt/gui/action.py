@@ -8,9 +8,9 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""Helper functions to access QAction"""
+"""Helper functions to access QAction."""
 
-__all__ = ["getAction", "Action"]
+__all__ = ["Action"]
 
 from qarbon.external.qt import QtCore, QtGui
 from qarbon.qt.gui.icon import Icon

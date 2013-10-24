@@ -6,7 +6,8 @@ qarbon.color
    .. rubric:: Functions
 
    .. autosummary::
-   
+      :nosignatures:
+      
       getBgColorFromState
       getCSSColorFromState
       getColorFromState

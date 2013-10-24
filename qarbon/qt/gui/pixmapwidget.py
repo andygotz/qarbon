@@ -13,22 +13,21 @@
 You can adjust properties like the aligment inside the widget space, aspect
 ratio and transformation mode (quality).
 
-Example usage::
+Example::
 
-    import qarbon
     from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.application import Application
+    from qarbon.qt.gui.icon import Pixmap
     from qarbon.qt.gui.pixmapwidget import PixmapWidget
 
-    app = QtGui.QApplication([])
+    app = Application()
     panel = QtGui.QWidget()
     layout = QtGui.QGridLayout()
-    layout.setContentsMargins(2, 2, 2, 2)
-    layout.setSpacing(2)
     panel.setLayout(layout)
     img = PixmapWidget()
     layout.addWidget(img)
 
-    img.setPixmap(QtGui.QPixmap(qarbon.NAMESPACE + ":/led/led_red_on.png")
+    img.setPixmap(Pixmap(":/led/led_red_on.png"))
     img.show()
     app.exec_()
 """
@@ -245,8 +244,8 @@ class PixmapWidget(QtGui.QWidget):
 def main():
     import sys
     import qarbon.config
-
-    app = QtGui.QApplication([])
+    from qarbon.qt.gui.application import Application
+    app = Application()
 
     M = 2
 

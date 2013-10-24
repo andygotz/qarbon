@@ -2,22 +2,10 @@ qarbon.qt.gui.basetree
 ======================
 
 .. automodule:: qarbon.qt.gui.basetree
-
+    
+   .. rubric:: Classes 
    
-   
-   .. rubric:: Functions
-
    .. autosummary::
-   
-      getAction
-      getIcon
-   
-   
-
-   
-   
-   
-
-   
-   
-   
+      :nosignatures:
+      
+      BaseTreeWidget

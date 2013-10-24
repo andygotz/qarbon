@@ -2,39 +2,21 @@ qarbon.qt.gui.treeqobject
 =========================
 
 .. automodule:: qarbon.qt.gui.treeqobject
-
-   
    
    .. rubric:: Functions
 
    .. autosummary::
-   
-      buildGUI
-      getApplication
-      getIcon
+      :nosignatures:
+      
       getQObjectIcon
       getQObjectTree
+      getQObjectTreeStr
       getQObjectTreeAsDict
       getQObjectTreeAsList
-      getQObjectTreeStr
-      main
-   
-   
-
-   
    
    .. rubric:: Classes
 
    .. autosummary::
+      :nosignatures:
    
-      BaseTreeItem
-      Enum
-      QObjectRepresentation
-      QR
-      TreeQObjecttInfoItem
-   
-   
-
-   
-   
-   
+      TreeQObjectWidget

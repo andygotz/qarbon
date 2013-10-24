@@ -40,10 +40,7 @@ some content inside::
     contentLayout.addWidget(button)
 
     panel.show()
-
-    app.exec_()
-
-"""
+    app.exec_()"""
 
 __all__ = ["GroupBox"]
 
@@ -154,39 +151,44 @@ class GroupBox(QtGui.QWidget):
     def setContent(self, qwidget):
         """Sets the content widget
 
-        :param qwidget: (QWidget) the content widget or None
+        :param qwidget: the content widget or None
         :type qwidget: QWidget"""
         self.__contentPanel.setContent(qwidget)
 
     def titleBar(self):
         """Returns the title bar widget
 
-        :return: (Qt.QFrame) the title bar widget"""
+        :return: the title bar widget
+        :rtype: QFrame"""
         return self.__titleBar
 
     def titleButton(self):
         """Returns the title button widget
 
-        :return: (Qt.QToolButton) the title button widget"""
+        :return: the title button widget
+        :rtype: QToolButton"""
         return self.__titleButton
 
     def collapseButton(self):
         """Returns the collapse button widget
 
-        :return: (Qt.QToolButton) the collapse button widget"""
+        :return: the collapse button widget
+        :rtype: QToolButton"""
         return self.__upDownButton
 
     def setTitle(self, title):
         """Sets this widget's title
 
-        :param title: (str) the new widget title"""
+        :param title:the new widget title
+        :type title: str"""
         self.__titleLabel.setText(title)
         self.setToolTip("<html>The <b>{0}</b>".format(title))
 
     def getTitle(self):
         """Returns this widget's title
 
-        :return: (str) this widget's title"""
+        :return: this widget's title
+        :rtype: str"""
         return self.__titleLabel.text()
 
     def setTitleIcon(self, icon):
@@ -198,7 +200,8 @@ class GroupBox(QtGui.QWidget):
     def getTitleIcon(self):
         """Returns this widget's title icon
 
-        :return: (Qt.QIcon) this widget's title icon"""
+        :return: this widget's title icon
+        :rtype: QIcon"""
         return self.__titleButton.icon()
 
     def switchContentVisible(self):
@@ -208,7 +211,8 @@ class GroupBox(QtGui.QWidget):
     def isContentVisible(self):
         """Returns this widget's contents visibility
 
-        :return: (bool) this widget's contents visibility"""
+        :return: this widget's contents visibility
+        :rtype: bool"""
         return self.__contentVisible
 
     def resetContentVisible(self):
@@ -218,7 +222,8 @@ class GroupBox(QtGui.QWidget):
     def setContentVisible(self, show):
         """Sets this widget's contents visibility
 
-        :param show: (bool) the new widget contents visibility"""
+        :param show: the new widget contents visibility
+        :type show: bool"""
         self.__contentVisible = show
 
         if show:
@@ -233,7 +238,8 @@ class GroupBox(QtGui.QWidget):
     def isTitleVisible(self):
         """Returns this widget's title visibility
 
-        :return: (bool) this widget's title visibility"""
+        :return: this widget's title visibility
+        :rtype: bool"""
         return self.__titleVisible
 
     def resetTitleVisible(self):
@@ -243,21 +249,24 @@ class GroupBox(QtGui.QWidget):
     def setTitleVisible(self, show):
         """Sets this widget's title visibility
 
-        :param icon: (bool) the new widget title visibility"""
+        :param show: the new widget title visibility
+        :type show: bool"""
         self.__titleVisible = show
         self.__titleBar.setVisible(show)
 
     def getTitleHeight(self):
         """Returns this widget's title height
 
-        :return: (bool) this widget's title height"""
+        :return: this widget's title height
+        :rtype: int"""
         return self.titleButton().iconSize().height()
 
-    def setTitleHeight(self, h):
+    def setTitleHeight(self, height):
         """Sets this widget's title height
 
-        :param icon: (bool) the new widget title height"""
-        s = QtCore.QSize(h, h)
+        :param height: the new widget title height
+        :type height: int"""
+        s = QtCore.QSize(height, height)
         self.titleButton().setIconSize(s)
         self.collapseButton().setIconSize(s)
 
@@ -268,7 +277,8 @@ class GroupBox(QtGui.QWidget):
     def getStyleMap(self):
         """Returns this widget's style
 
-        :return: (dict) this widget's style"""
+        :return: this widget's style
+        :rtype: dict"""
         return self.__style
 
     def setStyleMap(self, style_map):
@@ -283,7 +293,8 @@ class GroupBox(QtGui.QWidget):
             - 'content_stop_color'   : brush (Ex.: '#E0E0E0')
             - 'content_border_radius': radius (Ex.: '5px')
 
-        :param style_map: (dict) the new widget title style"""
+        :param style_map: the new widget title style
+        :type style_map: dict"""
         style = self.DefaultStyle.copy()
         style.update(style_map)
         self.__style = style
@@ -296,8 +307,7 @@ class GroupBox(QtGui.QWidget):
     @classmethod
     def getQtDesignerPluginInfo(cls):
         from qarbon.qt.designer.plugins.base import DesignerBaseSingleContainerExtension
-        return dict(icon=":/designer/groupwidget.png",
-                    container=True,
+        return dict(icon=":/designer/groupwidget.png", container=True,
                     container_extension=DesignerBaseSingleContainerExtension)
 
     #: This property contains the widget's title

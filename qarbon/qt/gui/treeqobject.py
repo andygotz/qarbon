@@ -8,8 +8,43 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""A tree widget which represents QObject hierarchy (used for development \
-purposes)"""
+"""A tree widget representing QObject hierarchy (for development purposes).
+
+The most common use case of this widget is to debug applications which may have
+"zombie" widgets lying around when some widget is removed, reparented in
+a dynammic GUI.
+
+Example::
+
+    from qarbon.external.qt import QtCore, QtGui
+    from qarbon.qt.gui.application import Application
+    from qarbon.qt.gui.treeqobject import TreeQObjectWidget
+
+    app = Application()
+
+    # mw will be the QObject to be "seen" in the Tree (along with all its
+    # childs, of course)
+
+    mw = QtGui.QMainWindow()
+    mw.setObjectName("main window")
+    w = QtGui.QWidget()
+    w.setObjectName("central widget")
+    mw.setCentralWidget(w)
+    l = QtGui.QVBoxLayout()
+    w.setLayout(l)
+    l1 = QtGui.QLabel("H1")
+    l1.setObjectName("label 1")
+    l.addWidget(l1)
+    l2 = QtGui.QLabel("H2")
+    l2.setObjectName("label 2")
+    l.addWidget(l2)
+    mw.show()
+
+    inspector = TreeQObjectWidget(qobject=w)
+    inspector.setAttribute(QtCore.Qt.WA_QuitOnClose, False)
+    inspector.show()
+    app.exec_()
+"""
 
 __all__ = ["QObjectRepresentation", "getQObjectTree", "getQObjectTreeStr",
            "TreeQObjectInfoModel", "TreeQObjectWidget"]
@@ -20,8 +55,8 @@ import weakref
 from qarbon.external.enum import Enum
 from qarbon.external.qt import QtCore, QtGui
 
-from qarbon.qt.gui.icon import getIcon
-from qarbon.qt.gui.application import getApplication
+from qarbon.qt.gui.icon import Icon
+from qarbon.qt.gui.application import Application
 from qarbon.qt.gui.basetree import BaseTreeWidget
 from qarbon.qt.gui.basemodel import BaseModel, BaseTreeItem
 
@@ -55,7 +90,7 @@ def _buildQObjectsAsDict(qobject, container, ffilter=_filter):
 def getQObjectTreeAsDict(qobject=None, ffilter=_filter):
 
     if qobject is None:
-        app = getApplication()
+        app = Application()
         qobjects = [app] + app.topLevelWidgets()
     else:
         qobjects = [qobject]
@@ -81,7 +116,7 @@ def _buildQObjectsAsList(qobject, container, ffilter=_filter):
 def getQObjectTreeAsList(qobject=None, ffilter=_filter):
 
     if qobject is None:
-        app = getApplication()
+        app = Application()
         qobjects = [app] + app.topLevelWidgets()
     else:
         qobjects = [qobject]
@@ -219,7 +254,7 @@ def getQObjectIcon(qo):
             name = "pushbutton"
         elif isinstance(qo, QtGui.QAbstractSlider):
             name = "hslider"
-        return getIcon(":/designer/" + name + ".png")
+        return Icon(":/designer/" + name + ".png")
     elif isinstance(qo, QtGui.QLayout):
         name = "editform"
         if isinstance(qo, QtGui.QVBoxLayout):
@@ -231,8 +266,8 @@ def getQObjectIcon(qo):
         elif isinstance(qo, QtGui.QFormLayout):
             name = "editform"
     elif isinstance(qo, QtCore.QCoreApplication):
-        return getIcon("applications-development")
-    return getIcon("emblem-system")
+        return Icon("applications-development")
+    return Icon("emblem-system")
 
 
 class TreeQObjecttInfoItem(BaseTreeItem):
@@ -295,7 +330,11 @@ class TreeQObjectInfoModel(BaseModel):
 
 
 class TreeQObjectWidget(BaseTreeWidget):
-    """A tree representation of the selected QObject childs"""
+    """A tree representation of the selected QObject childs.
+
+    The use case of this widget is to debug applications which may have
+    "zombie" widgets lying around when some widget is removed, reparented in
+    a dynammic GUI."""
 
     KnownPerspectives = {
         "Default": {
@@ -316,7 +355,6 @@ class TreeQObjectWidget(BaseTreeWidget):
                                 with_filter_widget=with_filter_widget,
                                 perspective=perspective, proxy=proxy)
         qmodel = self.getQModel()
-        #getQObjectTree(qobject=qobject)
         qmodel.setDataSource(qobject)
 
 
@@ -339,7 +377,7 @@ def buildGUI():
 
 
 def main():
-    app = getApplication()
+    app = Application()
 
     w = buildGUI()
     w.show()

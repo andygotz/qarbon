@@ -3,22 +3,9 @@ qarbon.qt.gui.qobjectinfowidget
 
 .. automodule:: qarbon.qt.gui.qobjectinfowidget
 
-   
-   
-   .. rubric:: Functions
+   .. rubric:: Classes
 
    .. autosummary::
-   
-      buildGUI
-      getIcon
-      main
-   
-   
-
-   
-   
-   
-
-   
-   
-   
+      :nosignatures:
+      
+      QObjectInfoWidget

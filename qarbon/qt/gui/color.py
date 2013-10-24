@@ -29,12 +29,34 @@ def __getQstateColorMap():
 
 
 def getQColorFromState(state):
+    """Returns a tuple<background color (QColor), foreground color (QColor)>
+    from the given :class:`~qarbon.meta.State`.
+
+    :param state: the state
+    :type state: State
+    :return: a tuple of background a foreground color for the given state
+    :rtype: tuple<QColor, QColor>
+    """
     return __getQstateColorMap()[state]
 
 
 def getBgQColorFromState(state):
+    """Returns a background QColor from the given :class:`~qarbon.meta.State`.
+
+    :param state: the state
+    :type state: State
+    :return: a background QColor for the given state
+    :rtype: QColor
+    """
     return getQColorFromState()[0]
 
 
 def getFgQColorFromState(state):
+    """Returns a foreground QColor from the given :class:`~qarbon.meta.State`.
+
+    :param state: the state
+    :type state: State
+    :return: a foreground QColor for the given state
+    :rtype: QColor
+    """
     return getQColorFromState()[1]

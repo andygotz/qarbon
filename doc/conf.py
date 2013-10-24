@@ -50,7 +50,7 @@ _set_package_source()
 
 __on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 
-if True:  #__on_rtd:
+if __on_rtd:
     sys.path.insert(0, _abspath('mock'))
     import qarbon.config
     qarbon.config.QT_AUTO_INIT = False

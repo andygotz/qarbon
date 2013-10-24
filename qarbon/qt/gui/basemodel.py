@@ -8,7 +8,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""A base model and a base tree item"""
+"""A base model and a base tree item."""
 
 __all__ = ["BaseTreeItem", "BaseModel", "BaseProxyModel"]
 

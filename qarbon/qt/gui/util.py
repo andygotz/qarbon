@@ -10,17 +10,33 @@
 
 """Helper functions to deal with Qt GUI related stuff"""
 
+__all__ = ["isWidget", "getWidgets"]
+
 import inspect
 
 from qarbon.util import moduleImport
 from qarbon.external.qt import QtGui
 
 
-def isWidget(symbol):
-    return inspect.isclass(symbol) and issubclass(symbol, QtGui.QWidget)
+def isWidget(obj):
+    """Determines if the given object is a Qt Widget.
+
+    :param obj: object
+    :return: True if the given object is a Qt Widget or False otherwise
+    :rtype: bool
+    """
+    return inspect.isclass(obj) and issubclass(obj, QtGui.QWidget)
 
 
 def getWidgets(module_name):
+    """Returns the widgets defined in a given module.
+
+    :param module_name: name of the module in the format "a.b.c"
+    :type module_name: str
+    :return: a map with the widgets for the given module
+    :rtype: dict<widget full name(str): dict<"klass": widget class(class),
+            "name": widget name(str), "full_name": widget full name(str)>>
+    """
     widgets = {}
     module = moduleImport(module_name)
 

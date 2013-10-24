@@ -8,7 +8,7 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""helper functions to translate state to color"""
+"""Helper functions to translate state to color."""
 
 __all__ = ["getStateColorMap", "getColorFromState",
            "getCSSColorFromState",
@@ -69,21 +69,48 @@ __STATE_COLOR_MAP = {
 
 
 def getStateColorMap():
+    """Returns the map used for color states.
+
+    dict<State, tuple<bg color(tuple<R (int), G (int), B (int)>, A (int)>),
+    fg color(tuple<R (int), G (int), B (int), A (int)>)>>
+
+    :return: map of the state colors
+    :rtype: dict"""
     return __STATE_COLOR_MAP
 
 
 def getColorFromState(state):
+    """Returns the background a foreground color for the given state:
+
+    tuple<bg color(tuple<R (int), G (int), B (int)>, A (int)>),
+    fg color(tuple<R (int), G (int), B (int), A (int)>)>
+    :return: background a foreground color for the given state
+    :rtype: tuple"""
     return getStateColorMap()[state]
 
 
 def getCSSColorFromState(state):
+    """Returns a CSS string representing the color for the given state.
+
+    :return: a CSS string representing the color for the given state
+    :rtype: str"""
     bg, fg = getColorFromState(state)
     return "background-color: rgba{0}; color: rgba{1};".format(bg, fg)
 
 
 def getBgColorFromState(state):
+    """Returns the background color for the given state:
+    tuple<R (int), G (int), B (int)>, A (int)>
+
+    :return: the background color for the given state
+    :rtype: tuple"""
     return getColorFromState(state)[0]
 
 
 def getFgColorFromState(state):
+    """Returns the foreground color for the given state:
+    tuple<R (int), G (int), B (int)>, A (int)>
+
+    :return: the foreground color for the given state
+    :rtype: tuple"""
     return getColorFromState(state)[1]
