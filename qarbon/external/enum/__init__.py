@@ -11,12 +11,10 @@
 
 try:
     # enum from python 3.4 or from enum34 installed package?
-    import enum as __enum
     from enum import *
 except ImportError:
     # enum from local import
     import warnings
     warnings.warn("enum not available. Using local enum", ImportWarning)
-    import _enum as __enum
     from ._enum import *
     del warnings
