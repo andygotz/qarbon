@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -136,14 +136,14 @@ class PixmapWidget(QtGui.QWidget):
         """Returns the aspect ratio to apply when drawing the pixmap.
 
         :return: the current aspect ratio
-        :rtype: QtCore.AspectRatioMode"""
+        :rtype: QtCore.Qt.AspectRatioMode"""
         return self._pixmapAspectRatioMode
 
     def setAspectRatioMode(self, aspect):
         """Sets the aspect ratio mode to apply when drawing the pixmap.
 
         :param pixmap: the new aspect ratio mode
-        :type  pixmap: QtCore.AspectRatioMode"""
+        :type  pixmap: QtCore.Qt.AspectRatioMode"""
         self._pixmapAspectRatioMode = aspect
         self._setDirty()
         self.update()
@@ -156,14 +156,14 @@ class PixmapWidget(QtGui.QWidget):
         """Returns the transformation mode to apply when drawing the pixmap.
 
         :return: the current transformation mode
-        :rtype: QtCore.TransformationMode"""
+        :rtype: QtCore.Qt.TransformationMode"""
         return self._pixmapTransformationMode
 
     def setTransformationMode(self, transformation):
         """Sets the transformation mode to apply when drawing the pixmap.
 
         :param pixmap: the new transformation mode
-        :type  pixmap: QtCore.TransformationMode"""
+        :type  pixmap: QtCore.Qt.TransformationMode"""
         self._pixmapTransformationMode = transformation
         self._setDirty()
         self.update()
@@ -176,14 +176,14 @@ class PixmapWidget(QtGui.QWidget):
         """Returns the alignment to apply when drawing the pixmap.
 
         :return: the current alignment
-        :rtype: QtCore.Alignment"""
+        :rtype: QtCore.Qt.Alignment"""
         return self._alignment
 
     def setAlignment(self, alignment):
         """Sets the alignment to apply when drawing the pixmap.
 
         :param pixmap: the new alignment
-        :type  pixmap: QtCore.Alignment"""
+        :type  pixmap: QtCore.Qt.Alignment"""
         self._alignment = alignment
         self.update()
 
@@ -286,7 +286,8 @@ def main():
             panel_l.addWidget(control_panel, 0)
 
             ratio_widget.addItems(["Ignore", "Keep", "Keep by expanding"])
-            transformation_widget.addItems(["Fast", "Smooth"])
+            transformation_widget.addItem("Fast", QtCore.Qt.FastTransformation)
+            transformation_widget.addItem("Smooth", QtCore.Qt.SmoothTransformation)
             halign_widget.addItem("Left", QtCore.Qt.AlignLeft)
             halign_widget.addItem("Center", QtCore.Qt.AlignHCenter)
             halign_widget.addItem("Right", QtCore.Qt.AlignRight)

@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -44,14 +44,14 @@ def getPropertyValueDisplay(qMetaProperty, value):
 def getPropertyValueToolTip(qMetaProperty, value):
     if qMetaProperty.isEnumType():
         enu = qMetaProperty.enumerator()
-        tip = "<html>A {0}<br/>".format(enu.name())
+        tooltip = "<html>A {0}<br/>".format(enu.name())
         for i in range(enu.keyCount()):
             k, v = enu.key(i), enu.value(i)
             text = "{0}: {1}<br/>".format(k, v)
             if v == value:
                 text = "<b>" + text + "</b>"
-            tip += text
-        return tip
+            tooltip += text
+        return tooltip
     return str(value)
 
 

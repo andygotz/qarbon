@@ -13,6 +13,9 @@ qarbon.qt.gui.treeqobject
       getQObjectTreeStr
       getQObjectTreeAsDict
       getQObjectTreeAsList
+
+   .. inheritance-diagram:: TreeQObjectWidget
+      :parts: 1
    
    .. rubric:: Classes
 

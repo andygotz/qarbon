@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -8,7 +8,35 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-"""Helper functions to access QAction."""
+"""Helper functions to access QAction.
+
+Example::
+
+    from qarbon.external.qt import QtGui
+    from qarbon.qt.gui.application import Application
+    from qarbon.qt.gui.action import Action
+    from qarbon.qt.gui.icon import Icon
+    
+    def onImageFileOpen():
+        fileName = QtGui.QFileDialog.getOpenFileName(None,
+            "Open Image", "/home/homer",
+            "Image Files (*.png *.jpg *.bmp)")
+        print (fileName)
+
+    app = Application()
+    window = QtGui.QMainWindow()
+    openImageAction = Action("Open &image...", parent=window,
+                             icon=Icon("folder-open"),
+                             shortcut=QtGui.QKeySequence.Open,
+                             tooltip="open an existing image file",
+                             triggered=onImageFileOpen)
+
+    menuBar = window.menuBar()
+    fileMenu = menuBar.addMenu("&File")
+    fileMenu.addAction(openImageAction)
+    window.show()
+    app.exec_()
+"""
 
 __all__ = ["Action"]
 
@@ -16,7 +44,7 @@ from qarbon.external.qt import QtCore, QtGui
 from qarbon.qt.gui.icon import Icon
 
 
-def getAction(text, parent=None, shortcut=None, icon=None, tip=None,
+def getAction(text, parent=None, shortcut=None, icon=None, tooltip=None,
               toggled=None, triggered=None, data=None,
               context=QtCore.Qt.WindowShortcut):
     """Create a new QAction.
@@ -32,8 +60,8 @@ def getAction(text, parent=None, shortcut=None, icon=None, tip=None,
     :type shortcut: QtGui.QKeySequence
     :param icon: optional icon. Can be a QIcon or a string
     :type icon: QIcon or str
-    :param tip: optional tool tip
-    :type tip: str
+    :param tooltip: optional tool tip
+    :type tooltip: str
     :param toggled: optional toggled slot
     :type toggled: callable
     :param data: optional data
@@ -53,9 +81,9 @@ def getAction(text, parent=None, shortcut=None, icon=None, tip=None,
     action.setIcon(Icon(icon))
     if shortcut is not None:
         action.setShortcut(shortcut)
-    if tip is not None:
-        action.setToolTip(tip)
-        action.setStatusTip(tip)
+    if tooltip is not None:
+        action.setToolTip(tooltip)
+        action.setStatusTip(tooltip)
     if data is not None:
         action.setData(data)
     #TODO: Hard-code all shortcuts and choose context=Qt.WidgetShortcut
@@ -65,7 +93,7 @@ def getAction(text, parent=None, shortcut=None, icon=None, tip=None,
     return action
 
 
-def Action(text, parent=None, shortcut=None, icon=None, tip=None,
+def Action(text, parent=None, shortcut=None, icon=None, tooltip=None,
            toggled=None, triggered=None, data=None,
            context=QtCore.Qt.WindowShortcut):
     """Create a new QAction.
@@ -77,23 +105,23 @@ def Action(text, parent=None, shortcut=None, icon=None, tip=None,
         from qarbon.qt.gui.action import Action
         from qarbon.qt.gui.icon import Icon
 
-        def onFileOpen():
+        def onImageFileOpen():
             fileName = QtGui.QFileDialog.getOpenFileName(None,
                 "Open Image", "/home/homer",
-                "Image Files (*.png *.jpg *.bmp)");
+                "Image Files (*.png *.jpg *.bmp)")
             print (fileName)
 
         app = Application()
         window = QtGui.QMainWindow()
-        openAction = Action("&Open", parent=window,
-                            icon=Icon("folder-open"),
-                            shortcut=QtGui.QKeySequence.Open,
-                            tip="open an existing file",
-                            triggered=onFileOpen)
+        openImageAction = Action("Open &image...", parent=window,
+                                 icon=Icon("folder-open"),
+                                 shortcut=QtGui.QKeySequence.Open,
+                                 tooltip="open an existing image file",
+                                 triggered=onImageFileOpen)
 
         menuBar = window.menuBar()
         fileMenu = menuBar.addMenu("&File")
-        fileMenu.addAction(openAction)
+        fileMenu.addAction(openImageAction)
         window.show()
         app.exec_()
 
@@ -105,8 +133,8 @@ def Action(text, parent=None, shortcut=None, icon=None, tip=None,
     :type shortcut:
     :param icon: optional icon. Can be a QIcon or a string
     :type icon: QIcon or str
-    :param tip: optional tool tip
-    :type tip: str
+    :param tooltip: optional tool tip
+    :type tooltip: str
     :param toggled: optional toggled slot
     :type toggled: callable
     :param data: optional data
@@ -118,5 +146,5 @@ def Action(text, parent=None, shortcut=None, icon=None, tip=None,
     :rtype: QAction
     """
     return getAction(text, parent=parent, shortcut=shortcut, icon=icon,
-                     tip=tip, toggled=toggled, triggered=triggered, data=data,
-                     context=context)
+                     tooltip=tooltip, toggled=toggled, triggered=triggered,
+                     data=data, context=context)

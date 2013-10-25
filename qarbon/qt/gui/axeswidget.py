@@ -1,26 +1,12 @@
-#------------------------------------------------------------------------------
-# This file is part of Framework4, a graphical toolkit to build beamline
-# applications
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
 #
-# http://forge.epn-campus.eu/projects/framework4
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
-# Copyright 2013
-#           European Synchrotron Radiation Facility,
-#           BP 220, Grenoble 38043, FRANCE
-#
-# Framework4 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Framework is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with Framework.  If not, see <http://www.gnu.org/licenses/>.
-#------------------------------------------------------------------------------
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
 
 """Multiple axis (axes) widget."""
 
@@ -119,7 +105,7 @@ class DisplayLabel(QtGui.QLabel):
 class ValueLabel(QtGui.QLabel):
 
     def __init__(self, axis, parent=None):
-        super(DisplayLabel, self).__init__(parent)
+        super(ValueLabel, self).__init__(parent)
         self.axis = axis
 
     def setValue(self, value):
@@ -839,6 +825,11 @@ class AxesWidget(GroupBox):
 
     def resetUpdateStatusBar(self):
         self.setUpdateStatusBar(self.DefaultUpdateStatusBar)
+
+    @classmethod
+    def getQtDesignerPluginInfo(cls):
+        return dict(icon=":/designer/motor.png",
+                    tooltip="a multiple axis (axes) widget")
 
     #: This property sets if the widget should update stauts bar with messages
     #:

@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -8,19 +8,25 @@
 # See LICENSE.txt for more info.
 # ----------------------------------------------------------------------------
 
-""""""
+"""Helper module for Qt Designer.
+
+It is supposed to be imported by Qt Designer python plugin. At that time it 
+will generate plugin classes, one for each *Qt Designer enabled* qarbon
+widget."""
 
 import os
 import logging
 import collections
 
-
 import qarbon
-from qarbon.qt.gui.util import getWidgets
 from qarbon.util import moduleDirectory
+from qarbon.qt.gui.util import getWidgetClasses
 
 
 def __build_qtdesigner_widget_plugin(klass):
+    """Helper method that will generate a QtDesigner custom widget plugin
+    class for the given widget"""
+
     from qarbon.qt.designer.plugins.base import DesignerBaseWidgetPlugin
 
     name = klass.__name__
@@ -34,6 +40,8 @@ def __build_qtdesigner_widget_plugin(klass):
 
 
 def getPlugins():
+    """Returns a map with all custom widget plugins."""
+
     widgets = {}
     plugins = {}
     qarbon_dir = moduleDirectory(qarbon)
@@ -49,7 +57,7 @@ def getPlugins():
             continue
         modulename = base_package + os.path.splitext(filename)[0]
         try:
-            widgets.update(getWidgets(modulename))
+            widgets.update(getWidgetClasses(modulename))
         except ImportError:
             logging.warning("Error importing %s", modulename)
 
@@ -69,8 +77,14 @@ def getPlugins():
             plugins[plugin_klass_name] = plugin_klass
     return plugins
 
-
 def main():
+    try:
+        level = os.environ["QARBON_DESIGNER_LOG_LEVEL"]
+        level = getattr(logging, level.upper())
+    except:
+        level = logging.WARNING
+    logging.getLogger().setLevel(level)
+
     plugins = getPlugins()
     globals().update(plugins)
 
