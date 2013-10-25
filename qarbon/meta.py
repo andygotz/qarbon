@@ -12,9 +12,12 @@
 
 __all__ = ["DataAccess", "DataType", "State"]
 
+import sys
+
 from qarbon.external.enum import Enum
 from qarbon.util import isString
 
+_PY3 = sys.version_info[0] > 2
 
 class DataAccess(Enum):
     """Data access enum"""
@@ -33,7 +36,6 @@ class DataType(Enum):
         'int':         Integer,
         'integer':     Integer,
         int:           Integer,
-        long:          Integer,
         'long':        Integer,
         Integer:       Integer,
         'float':       Float,
@@ -58,6 +60,11 @@ class DataType(Enum):
         'bytes':       Binary,
         Binary:        Binary,
     }
+    
+    if _PY3:
+        __DTYPE_MAP[bytes] = Binary
+    else:
+        __DTYPE_MAP[long] = Integer
     
     __PYTYPE_MAP = {
         Integer:     int,

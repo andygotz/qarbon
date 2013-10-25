@@ -18,6 +18,7 @@ if __backend == 'PyQt4':
     from PyQt4.QtGui import *
 elif __backend == 'PyQt5':
     from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 elif __backend == 'PySide':
     from PySide.QtGui import *
 

@@ -66,7 +66,7 @@ class ContentPanel(QtGui.QFrame):
         self.__content = None
         layout = QtGui.QVBoxLayout()
         layout.setSpacing(0)
-        layout.setMargin(0)
+        layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
     def setContent(self, qwidget):
@@ -106,14 +106,14 @@ class GroupBox(QtGui.QWidget):
     def __init(self):
         panelLayout = QtGui.QVBoxLayout()
         panelLayout.setSpacing(0)
-        panelLayout.setMargin(0)
+        panelLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(panelLayout)
 
         self.__titleBar = titleBar = TitleBar()
         panelLayout.addWidget(titleBar, 0)
 
         l = QtGui.QHBoxLayout()
-        l.setMargin(2)
+        l.setContentsMargins(2, 2, 2, 2)
         l.setSpacing(2)
         self.__titleBar.setLayout(l)
 
