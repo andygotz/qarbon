@@ -47,6 +47,6 @@ Widgets
     qarbon.qt.gui.led
     qarbon.qt.gui.pixmapwidget
     qarbon.qt.gui.propertyeditor
-    qarbon.qt.gui.qobjectinfowidget
+    qarbon.qt.gui.objectinfowidget
     qarbon.qt.gui.treeqobject
-    qarbon.qt.gui.x11
+    qarbon.qt.gui.x11	

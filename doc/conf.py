@@ -32,16 +32,6 @@ def _set_package_source():
     #sys.path.insert(0, _abspath())
     sys.path.insert(0, _get_package_dir())
 
-_PACKAGE = None
-
-
-def _import_package(name):
-    global _PACKAGE
-    if _PACKAGE is None:
-        __import__(name)
-        _PACKAGE = sys.modules[name]
-    return _PACKAGE
-
 # first thing: try to use code from src distribution
 
 _set_package_source()
@@ -77,11 +67,10 @@ extensions = ["sphinx.ext.autodoc",
               "sphinx.ext.intersphinx",
               "sphinx.ext.todo",
               "sphinx.ext.pngmath",
-              "sphinx.ext.mathjax",
               "sphinx.ext.viewcode",
               "sphinx.ext.graphviz",
               "sphinx.ext.inheritance_diagram",
-              ]
+]
 
 if _as_pdf_extension:
     extensions.append("rst2pdf.pdfbuilder")
@@ -101,7 +90,7 @@ master_doc = "index"
 # General information about the project.
 project = __name
 
-copyright = u"""Except where otherwise noted, content on this site is
+copyright = u"""Except where otherwise noted, content on this site is \
 licensed under a Creative Commons Attribution 3.0 License"""
 
 # The version info for the project you"re documenting, acts as replacement for
@@ -318,10 +307,6 @@ inheritance_node_attrs = dict(shape="box", fontcolor="black",
 inheritance_graph_attrs = dict(rankdir="UD", ratio="compress")
 
 graphviz_output_format = "png"  # "svg"
-
-inheritance_graph_attrs = dict(rankdir="LR", size="\"6.0, 8.0\"",
-                               fontsize=14, ratio="compress")
-
 
 todo_include_todos = True
 

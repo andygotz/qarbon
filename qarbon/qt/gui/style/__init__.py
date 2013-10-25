@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -10,7 +10,9 @@
 
 """Helper classes to manage Qt styles and stylesheets"""
 
-from qarbon.qt.gui.application import getApplication
+__all_ = ["getStyle"]
+
+from qarbon.qt.gui.application import Application
 
 
 def getStyle():
@@ -18,4 +20,4 @@ def getStyle():
 
     :return: the current active application style
     :rtype: QtGui.QStyle"""
-    return getApplication().style()
+    return Application().style()

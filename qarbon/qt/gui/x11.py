@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -196,7 +196,7 @@ class XEmbedCommandWidget(QtGui.QX11EmbedContainer):
 
 
 class XEmbedCommandWindow(QtGui.QMainWindow):
-    """QMainWindow version of X11EmbedCommandWidget.
+    """The QMainWindow version of :class:`XEmbedCommandWidget`.
 
     Example::
 
@@ -224,7 +224,7 @@ class XEmbedCommandWindow(QtGui.QMainWindow):
         self.__actionsToolBar = weakref.ref(toolBar)
         self.__restartAction = Action("Restart", parent=self,
                                       icon=Icon("view-refresh"),
-                                      tip="restart the current command",
+                                      tooltip="restart the current command",
                                       triggered=self.restart)
         toolBar.addAction(self.__restartAction)
 

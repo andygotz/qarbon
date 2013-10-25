@@ -5,10 +5,13 @@ qarbon.qt.gui.groupbox
 
 .. automodule:: qarbon.qt.gui.groupbox
 
-    .. rubric:: Classes
+   .. inheritance-diagram:: GroupBox
+      :parts: 1
+
+   .. rubric:: Classes
     
-    .. autosummary::
-       :nosignatures:
+   .. autosummary::
+      :nosignatures:
        
-       GroupBox
+      GroupBox
    

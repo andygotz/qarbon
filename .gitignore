@@ -1,4 +1,9 @@
+# Python
+MANIFEST
 *.py[cod]
+
+# local sandbox
+sandbox
 
 # C extensions
 *.so
@@ -26,6 +31,7 @@ pip-log.txt
 .tox
 nosetests.xml
 
+
 # Translations
 *.mo
 
@@ -34,3 +40,4 @@ nosetests.xml
 .project
 .pydevproject
 .settings
+*~

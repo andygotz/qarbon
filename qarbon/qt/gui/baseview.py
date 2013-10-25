@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -16,7 +16,7 @@ __all__ = ["BaseModelWidget",
 
 from qarbon.external.qt import QtCore, QtGui
 from qarbon.qt.gui.icon import getIcon
-from qarbon.qt.gui.action import getAction
+from qarbon.qt.gui.action import Action
 
 
 class BaseToolBar(QtGui.QToolBar):
@@ -53,10 +53,10 @@ class FilterToolBar(BaseToolBar):
         filterLineEdit.textEdited.connect(self.onFilterEdited)
         self.addWidget(filterLineEdit)
 
-        self._clearFilterAction = getAction("Clear", parent=self,
-                                            icon=getIcon("edit-clear"),
-                                            tip="Clears the filter",
-                                            triggered=self.onClearFilter)
+        self._clearFilterAction = Action("Clear", parent=self,
+                                         icon=getIcon("edit-clear"),
+                                         tooltip="Clears the filter",
+                                         triggered=self.onClearFilter)
         self.addAction(self._clearFilterAction)
 
     def getFilterLineEdit(self):
@@ -93,30 +93,30 @@ class EditorToolBar(BaseToolBar):
         BaseToolBar.__init__(self, name="Editor toolbar", view=view,
                              parent=parent, designMode=designMode)
 
-        self._addAction = getAction("New item", parent=self,
-                                    icon=getIcon("list-add"),
-                                    tip="Add new item",
-                                    triggered=self.onAdd)
-        self._removeAction = getAction("Remove item", parent=self,
-                                    icon=getIcon("list-remove"),
-                                    tip="Remove item",
-                                    triggered=self.onRemove)
-        self._moveTopAction = getAction("To top", parent=self,
-                                    icon=getIcon("go-top"),
-                                    tip="Move selected item to top",
-                                    triggered=self.onMoveTop)
-        self._moveUpAction = getAction("Move up", parent=self,
-                                    icon=getIcon("go-up"),
-                                    tip="Move selected item up one level",
-                                    triggered=self.onMoveUp)
-        self._moveDownAction = getAction("Move down", parent=self,
-                                    icon=getIcon("go-down"),
-                                    tip="Move selected item down one level",
-                                    triggered=self.onMoveDown)
-        self._moveBottomAction = getAction("To bottom", parent=self,
-                                    icon=getIcon("go-bottom"),
-                                    tip="Move selected item to bottom",
-                                    triggered=self.onMoveBottom)
+        self._addAction = Action("New item", parent=self,
+                                 icon=getIcon("list-add"),
+                                 tooltip="Add new item",
+                                 triggered=self.onAdd)
+        self._removeAction = Action("Remove item", parent=self,
+                                 icon=getIcon("list-remove"),
+                                 tooltip="Remove item",
+                                 triggered=self.onRemove)
+        self._moveTopAction = Action("To top", parent=self,
+                                 icon=getIcon("go-top"),
+                                 tooltip="Move selected item to top",
+                                 triggered=self.onMoveTop)
+        self._moveUpAction = Action("Move up", parent=self,
+                                 icon=getIcon("go-up"),
+                                 tooltip="Move selected item up one level",
+                                 triggered=self.onMoveUp)
+        self._moveDownAction = Action("Move down", parent=self,
+                                 icon=getIcon("go-down"),
+                                 tooltip="Move selected item down one level",
+                                 triggered=self.onMoveDown)
+        self._moveBottomAction = Action("To bottom", parent=self,
+                                 icon=getIcon("go-bottom"),
+                                 tooltip="Move selected item to bottom",
+                                 triggered=self.onMoveBottom)
         self.addAction(self._addAction)
         self.addAction(self._removeAction)
         self.addAction(self._moveTopAction)
@@ -152,14 +152,14 @@ class SelectionToolBar(BaseToolBar):
         BaseToolBar.__init__(self, name="Selection toolbar", view=view,
                              parent=parent, designMode=designMode)
 
-        self._selectAllAction = getAction("Select All", parent=self,
-                                          icon=getIcon("edit-select-all"),
-                                          tip="Select all items",
-                                          triggered=self.onSelectAll)
-        self._clearSelectionAction = getAction("Clear selection", parent=self,
-                                          icon=getIcon("edit-clear"),
-                                          tip="Clears current selection",
-                                          triggered=self.onclearSelection)
+        self._selectAllAction = Action("Select All", parent=self,
+                                       icon=getIcon("edit-select-all"),
+                                       tooltip="Select all items",
+                                       triggered=self.onSelectAll)
+        self._clearSelectionAction = Action("Clear selection", parent=self,
+                                            icon=getIcon("edit-clear"),
+                                            tooltip="Clears current selection",
+                                             triggered=self.onclearSelection)
 
         self.addAction(self._selectAllAction)
         self.addAction(self._clearSelectionAction)
@@ -179,10 +179,10 @@ class RefreshToolBar(BaseToolBar):
         BaseToolBar.__init__(self, name="Refresh toolbar", view=view,
                              parent=parent, designMode=designMode)
 
-        self._refreshAction = getAction("Refresh", parent=self,
-                                        icon=getIcon("view-refresh"),
-                                        tip="Refresh view",
-                                        triggered=self.onRefresh)
+        self._refreshAction = Action("Refresh", parent=self,
+                                     icon=getIcon("view-refresh"),
+                                     tooltip="Refresh view",
+                                     triggered=self.onRefresh)
         self.addAction(self._refreshAction)
 
     def onRefresh(self):
@@ -209,8 +209,8 @@ class PerspectiveToolBar(BaseToolBar):
             label = persp_data["label"]
             icon = QtGui.QIcon(persp_data["icon"])
             tip = persp_data["tooltip"]
-            action = getAction(label, parent=self, icon=icon, tip=tip,
-                               triggered=self.onSwitchPerspective)
+            action = Action(label, parent=self, icon=icon, tooltip=tooltip,
+                            triggered=self.onSwitchPerspective)
             action.perspective = persp
             menu.addAction(action)
             if persp == perspective:

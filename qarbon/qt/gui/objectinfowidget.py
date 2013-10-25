@@ -1,26 +1,12 @@
-#------------------------------------------------------------------------------
-# This file is part of Framework4, a graphical toolkit to build beamline
-# applications
+# ----------------------------------------------------------------------------
+# This file is part of qarbon (http://qarbon.rtfd.org/)
 #
-# http://forge.epn-campus.eu/projects/framework4
+# Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
-# Copyright 2013
-#           European Synchrotron Radiation Facility,
-#           BP 220, Grenoble 38043, FRANCE
-#
-# Framework4 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Framework is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with Framework.  If not, see <http://www.gnu.org/licenses/>.
-#------------------------------------------------------------------------------
+# Distributed under the terms of the GNU Lesser General Public License,
+# either version 3 of the License, or (at your option) any later version.
+# See LICENSE.txt for more info.
+# ----------------------------------------------------------------------------
 
 """A widget which displays/edits information about a QObject.
 
@@ -28,7 +14,7 @@ Example::
 
     from qarbon.external.qt import QtCore, QtGui
     from qarbon.qt.gui.application import Application
-    from qarbon.qt.gui.qobjectinfowidget import QObjectInfoWidget
+    from qarbon.qt.gui.qobjectinfowidget import ObjectInfoWidget
 
     app = Application()
 
@@ -48,12 +34,12 @@ Example::
     l.addWidget(l2)
     mw.show()
 
-    inspector = QObjectInfoWidget(qobject=mw)
+    inspector = ObjectInfoWidget(qobject=mw)
     inspector.setAttribute(QtCore.Qt.WA_QuitOnClose, False)
     inspector.show()
     app.exec_()"""
 
-__all__ = ["QObjectInfoWidget"]
+__all__ = ["ObjectInfoWidget"]
 
 from qarbon.external.qt import QtCore, QtGui
 from qarbon.qt.gui.icon import Icon
@@ -61,11 +47,11 @@ from qarbon.qt.gui.propertyeditor import PropertyEditor
 from qarbon.qt.gui.treeqobject import TreeQObjectWidget
 
 
-class QObjectInfoWidget(QtGui.QWidget):
+class ObjectInfoWidget(QtGui.QWidget):
     """A widget which displays/edits information about a QObject."""
 
     def __init__(self, parent=None, qobject=None):
-        super(QObjectInfoWidget, self).__init__(parent)
+        super(ObjectInfoWidget, self).__init__(parent)
         self.setWindowIcon(Icon("applications-development"))
         self.setWindowTitle("QObject Inspector")
         layout = QtGui.QHBoxLayout()
@@ -124,7 +110,7 @@ def main():
     app = Application()
     w = buildGUI()
     w.show()
-    inspector = QObjectInfoWidget(qobject=w)
+    inspector = ObjectInfoWidget(qobject=w)
     inspector.setAttribute(QtCore.Qt.WA_QuitOnClose, False)
     inspector.show()
     app.exec_()

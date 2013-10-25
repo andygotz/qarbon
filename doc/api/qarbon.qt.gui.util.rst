@@ -7,6 +7,8 @@ qarbon.qt.gui.util
 
    .. autosummary::
       :nosignatures:
-      
-      getWidgets
-      isWidget
+
+      isWidget      
+      isWidgetClass
+      getWidgetClasses
+      grabWidget

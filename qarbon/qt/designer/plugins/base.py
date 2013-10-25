@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -39,7 +39,8 @@ class DesignerBaseWidgetPlugin(QtDesigner.QPyDesignerCustomWidgetPlugin):
             return
 
         if self.isContainer():
-            print "registering extension for", self.name()
+            logging.debug("[start] registering container extension for %s...",
+                          self.name())
             container_extension = self.getContainerExtensionClass()
             registerExtension(ExtensionType.ContainerExtension,
                               self.getWidgetClass(),
@@ -49,7 +50,8 @@ class DesignerBaseWidgetPlugin(QtDesigner.QPyDesignerCustomWidgetPlugin):
             self.__extension_factory = QarbonWidgetExtensionFactory(manager)
             manager.registerExtensions(self.__extension_factory,
                                        ExtensionType.ContainerExtension.value)
-            print "Done registering extension for", self.name()
+            logging.debug("[ done] registering container extension for %s",
+                          self.name())
 
         self.__initialized = True
 
@@ -64,7 +66,7 @@ class DesignerBaseWidgetPlugin(QtDesigner.QPyDesignerCustomWidgetPlugin):
 
     def createWidget(self, parent):
         try:
-            w = self.getWidgetClass()(parent)
+            w = self.getWidgetClass()(parent=parent)
         except Exception:
             logging.error("Designer plugin error creating %s " \
                           "(see debug stream for details)", self.name())

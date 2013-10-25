@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -13,6 +13,7 @@
 __all__ = ["DataAccess", "DataType", "State"]
 
 from qarbon.external.enum import Enum
+from qarbon.util import isString
 
 
 class DataAccess(Enum):
@@ -24,15 +25,62 @@ class DataAccess(Enum):
 class DataType(Enum):
     """Data type enum"""
 
-    Integer, Float, String, Boolean, State, Binary, _Invalid = range(7)
+    Integer, Float, String, Boolean, State, Enumeration, \
+      Binary, _Invalid = range(8)
 
-    _type_map = {Integer: int, Float: float, String: str, Boolean: bool,
-                 State: int, Binary: bytes}
+    #: dictionary dict<data type, :class:`DataType`>
+    __DTYPE_MAP = { 
+        'int':         Integer,
+        'integer':     Integer,
+        int:           Integer,
+        long:          Integer,
+        'long':        Integer,
+        Integer:       Integer,
+        'float':       Float,
+        'double':      Float,
+        float:         Float,
+        Float:         Float,
+        'str':         String,
+        'string':      String,
+        str:           String,
+        String:        String,
+        'bool':        Boolean,
+        'boolean':     Boolean,
+        bool:          Boolean,
+        Boolean:       Boolean,
+        'state':       State,
+        State:         State,
+        'enum':        Enumeration,
+        'enumeration': Enumeration,
+        Enumeration:   Enumeration,
+        'bin':         Binary,
+        'binary':      Binary,
+        'bytes':       Binary,
+        Binary:        Binary,
+    }
+    
+    __PYTYPE_MAP = {
+        Integer:     int,
+        Float:       float,
+        String:      str,
+        Boolean:     bool,
+        State:       State,
+        Enumeration: Enum,
+        Binary:      bytes
+    }
 
     @staticmethod
-    def to_python_type(py_type):
-        """Convert from python type to DataType"""
-        return DataType._type_map[py_type]
+    def toPythonType(dtype):
+        """Convert from DataType to python type"""
+        dtype = DataType.toDataType(dtype)
+        return DataType.__PYTYPE_MAP[dtype]
+
+    @staticmethod
+    def toDataType(dtype):
+        """Convert from type to DataType"""
+        if isString(dtype):
+            dtype = dtype.lower()
+        return DataType.__DTYPE_MAP[dtype]
 
 
 class State(Enum):

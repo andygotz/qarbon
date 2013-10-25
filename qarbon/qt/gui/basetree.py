@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # This file is part of qarbon (http://qarbon.rtfd.org/)
-# ----------------------------------------------------------------------------
+#
 # Copyright (c) 2013 European Synchrotron Radiation Facility, Grenoble, France
 #
 # Distributed under the terms of the GNU Lesser General Public License,
@@ -76,15 +76,15 @@ class NavigationToolBar(BaseToolBar):
 
         self._goIntoAction = getAction("Go Into", parent=self,
                                        icon=getIcon("go-down"),
-                                       tip="Go into the selected item",
+                                       tooltip="Go into the selected item",
                                        triggered=self.goInto)
         self._goUpAction = getAction("Go Up", parent=self,
                                      icon=getIcon("go-up"),
-                                     tip="Go up one level",
+                                     tooltip="Go up one level",
                                      triggered=self.goUp)
         self._goTopAction = getAction("Go Top", parent=self,
                                       icon=getIcon("go-top"),
-                                      tip="Go to top level",
+                                      tooltip="Go to top level",
                                       triggered=self.goTop)
         self.addAction(self._goIntoAction)
         self.addAction(self._goUpAction)
@@ -124,20 +124,20 @@ class ExpansionBar(BaseToolBar):
 
         self._expandAllAction = getAction("Expand All", parent=self,
             icon=getIcon(":/controls/expand.png"),
-            tip="Expand all items",
+            tooltip="Expand all items",
             triggered=self.onExpandAll)
         self._collapseAllAction = getAction("Collapse All", parent=self,
             icon=getIcon(":/controls/collapse.png"),
-            tip="Collapse all items",
+            tooltip="Collapse all items",
             triggered=self.onCollapseAll)
         self._expandSelectionAction = getAction("Expand selection",
             parent=self,
             icon=getIcon(":/controls/expand-selection.png"),
-            tip="Expand selection",
+            tooltip="Expand selection",
             triggered=self.onExpandSelection)
         self._collapseSelectionAction = getAction("Collapse All", parent=self,
             icon=getIcon(":/controls/collapse-selection.png"),
-            tip="Collapse selection",
+            tooltip="Collapse selection",
             triggered=self.onCollapseSelection)
         self.addAction(self._expandAllAction)
         self.addAction(self._collapseAllAction)
