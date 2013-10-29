@@ -865,7 +865,10 @@ def main():
 
         def move(self, name, v):
             self.get(name)[1] = v
-
+        
+        def abort(self, name):
+            pass
+            
     p = QtGui.QWidget()
     layout = QtGui.QVBoxLayout()
     p.setLayout(layout)
