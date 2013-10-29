@@ -56,13 +56,7 @@ def __importQt(name):
 
 def __initialize_logging():
     QtCore = __importQt("QtCore")
- 
-    qInstallMessageHandler = getattr(QtCore, "qInstallMessageHandler",
-                                     getattr(QtCore, "qInstallMsgHandler", 
-                                             None))
-    if qInstallMessageHandler is None:
-        return
- 
+
     QT_LEVEL_MATCHER = {
         QtCore.QtDebugMsg:     "debug",
         QtCore.QtWarningMsg:   "warning",
@@ -75,15 +69,16 @@ def __initialize_logging():
         def qarbonMessageHandler(msg_type, log_ctx, msg):
             fname = QT_LEVEL_MATCHER.get(msg_type)
             f = getattr(logging, fname)
-            return f("Qt%s %s.%s[%s]: %a", log_ctx.category, log_ctx.file, log_ctx.function, log_ctx.line, msg)
-        qInstallMessageHandler(qarbonMessageHandler)
+            return f("Qt%s %s.%s[%s]: %a", log_ctx.category, log_ctx.file,
+                     log_ctx.function, log_ctx.line, msg)
+        QtCore.qInstallMessageHandler(qarbonMessageHandler)
     elif hasattr(QtCore, "qInstallMsgHandler"):
         def qarbonMsgHandler(msg_type, msg):
             fname = QT_LEVEL_MATCHER.get(msg_type)
             f = getattr(logging, fname)
             return f("Qt: " + msg)
-        qInstallMsgHandler(qarbonMsgHandler)
-        
+        QtCore.qInstallMsgHandler(qarbonMsgHandler)
+
 
 def __initialize_resources():
     qarbon_dir = os.path.dirname(os.path.abspath(qarbon.__file__))
