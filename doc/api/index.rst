@@ -42,6 +42,7 @@ Widgets
     qarbon.qt.gui.baseview
     qarbon.qt.gui.basemodel
     qarbon.qt.gui.basetree
+    qarbon.qt.gui.input
     qarbon.qt.gui.axeswidget
     qarbon.qt.gui.groupbox
     qarbon.qt.gui.led
